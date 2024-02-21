@@ -1,6 +1,7 @@
-# DifferenceMania
-![alt text](https://app.zeplin.io/project/60ab81a682aeac27983074d4/screen/659bccd1e0c007002a8827ba)
+# Difference Mania
+<img src="https://github.com/MatusValko/DifferenceMania/blob/main/Assets/GitImage/02.Difference%20mania%20loading%20v2.jpg" width="300">
 
-## Unity verzia: 2022.3.19f1 LTS 
+# Info
+### Unity verzia: 2022.3.19f1 LTS 
 
 
