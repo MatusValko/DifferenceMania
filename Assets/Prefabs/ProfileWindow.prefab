@@ -422,7 +422,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
   m_FillRect: {fileID: 7953025223787268056}
   m_HandleRect: {fileID: 0}
@@ -1972,7 +1972,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3990759435063704839, guid: 480c778483b9d9b45bed51be7888a557, type: 3}
       propertyPath: m_Name
-      value: PopUpWindowBig Variant
+      value: ProfileWindow
       objectReference: {fileID: 0}
     - target: {fileID: 8909099928203139938, guid: 480c778483b9d9b45bed51be7888a557, type: 3}
       propertyPath: m_Pivot.x
