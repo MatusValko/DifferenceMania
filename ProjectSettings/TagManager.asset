@@ -47,3 +47,6 @@ TagManager:
   - name: ScaledCanvas
     uniqueID: 1476022301
     locked: 0
+  - name: PopUpWindow
+    uniqueID: 100181293
+    locked: 0
