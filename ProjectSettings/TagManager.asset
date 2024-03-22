@@ -41,10 +41,16 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: New Layer 2
+  - name: MainMenu
+    uniqueID: 1969670769
+    locked: 0
+  - name: FooterBar
     uniqueID: 3102058863
     locked: 0
-  - name: ScaledCanvas
+  - name: LevelSelect
+    uniqueID: 2745274159
+    locked: 0
+  - name: TopBar
     uniqueID: 1476022301
     locked: 0
   - name: PopUpWindow
