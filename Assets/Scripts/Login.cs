@@ -6,6 +6,10 @@ using UnityEngine.SceneManagement;
 public class Login : MonoBehaviour
 {
     // Start is called before the first frame update
+    void Awake()
+    {
+
+    }
 
     void Start()
     {
@@ -17,7 +21,6 @@ public class Login : MonoBehaviour
     {
 
     }
-
     public void GoToMainMenu()
     {
         SceneManager.LoadScene("MainMenu");
@@ -25,6 +28,10 @@ public class Login : MonoBehaviour
     public void GoToLoginMenu()
     {
         SceneManager.LoadScene("Login");
+    }
+    public void GoToLoading()
+    {
+        SceneManager.LoadScene("Loading");
     }
 
 }

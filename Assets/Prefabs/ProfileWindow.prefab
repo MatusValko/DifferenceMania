@@ -1970,6 +1970,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2001795278462272871, guid: 480c778483b9d9b45bed51be7888a557, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 4096
+      objectReference: {fileID: 0}
     - target: {fileID: 3990759435063704839, guid: 480c778483b9d9b45bed51be7888a557, type: 3}
       propertyPath: m_Name
       value: ProfileWindow
@@ -2055,7 +2059,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 693492053092697774, guid: 480c778483b9d9b45bed51be7888a557, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 8489599805956281534, guid: 480c778483b9d9b45bed51be7888a557, type: 3}
       insertIndex: -1

@@ -53,6 +53,9 @@ TagManager:
   - name: TopBar
     uniqueID: 1476022301
     locked: 0
+  - name: Premium
+    uniqueID: 3181550479
+    locked: 0
   - name: PopUpWindow
     uniqueID: 100181293
     locked: 0
