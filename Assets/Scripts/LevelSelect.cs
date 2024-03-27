@@ -66,8 +66,6 @@ public class LevelSelect : MonoBehaviour
             //GET CHILDREN OBJECT TO RESIZE WINDOW
             GetChildrenAsArray();
             GetHeight();
-
-
         }
     }
 

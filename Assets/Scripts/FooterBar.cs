@@ -24,6 +24,7 @@ public class FooterBar : MonoBehaviour
     public GameObject premiumWindow;
     public GameObject questsWindow;
 
+    public GameObject topCanvas;
     void Start()
     {
         buttons[0] = premium;
@@ -64,16 +65,21 @@ public class FooterBar : MonoBehaviour
         {
             premiumWindow.SetActive(true);
             questsWindow.SetActive(false);
+            topCanvas.SetActive(false);
         }
         else if (index == 1)
         {
             premiumWindow.SetActive(false);
             questsWindow.SetActive(false);
+            topCanvas.SetActive(true);
+
         }
         else
         {
             premiumWindow.SetActive(false);
             questsWindow.SetActive(true);
+            topCanvas.SetActive(false);
+
         }
 
     }
