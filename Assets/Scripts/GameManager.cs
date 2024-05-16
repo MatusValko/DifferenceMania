@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     public const int MAX_LIVES = 3;
     public static GameManager Instance { get; private set; }//RENAME
 
+    [Header("Currencies")]
     [SerializeField]
     private int _coins;
     [SerializeField]

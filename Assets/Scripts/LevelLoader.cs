@@ -9,7 +9,10 @@ public class LevelLoader : MonoBehaviour
 {
 
     // public GameObject loadingScreen;
-    public Slider slider;
+    [SerializeField]
+    private Slider _leftSlider;
+    [SerializeField]
+    private Slider _rightSlider;
     public TextMeshProUGUI loadingText;
     public void LoadLevel(int sceneIndex)
     {
@@ -41,8 +44,10 @@ public class LevelLoader : MonoBehaviour
 
     private void ChangeLoading(float value)
     {
-        slider.value = value;
-        loadingText.text = "Loading " + Math.Round(slider.value * 100) + "%";
+        _leftSlider.value = value;
+        _rightSlider.value = value;
+
+        loadingText.text = "Loading " + Math.Round(value * 100) + "%";
 
 
     }
