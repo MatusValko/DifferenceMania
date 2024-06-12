@@ -3621,6 +3621,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e9ccf3723b0eac4d8fa26fc3bf420f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _changeNickNameButton: {fileID: 0}
+  _newNickNameText: {fileID: 0}
+  _popUpNewNickNameText: {fileID: 0}
 --- !u!114 &1398386126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4428,6 +4431,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e9ccf3723b0eac4d8fa26fc3bf420f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _changeNickNameButton: {fileID: 0}
+  _newNickNameText: {fileID: 0}
+  _popUpNewNickNameText: {fileID: 0}
 --- !u!114 &1789252402
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6174,7 +6180,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2431096636721534664, guid: 0c278cadf781ca64c827fec978472d8c, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 697.13696
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5252235402759794642, guid: 0c278cadf781ca64c827fec978472d8c, type: 3}
       propertyPath: m_Camera
