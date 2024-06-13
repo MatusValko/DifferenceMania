@@ -26,13 +26,13 @@ public class Login : MonoBehaviour
         {
             _popUpNewNickNameText.text = text;
             _changeNickNameButton.interactable = true;
-            _changeNickNameButtonText.alpha = 255;
+            _changeNickNameButtonText.color = new Color32(255, 255, 255, 255);
         }
         else
         {
             // Debug.Log("TUUU");
+            _changeNickNameButtonText.color = new Color32(255, 255, 255, 100);
             _changeNickNameButton.interactable = false;
-            _changeNickNameButtonText.alpha = 100;
 
         }
 
