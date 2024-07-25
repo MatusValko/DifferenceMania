@@ -13,6 +13,19 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private int _lives;
 
+    [Header("Account details")]
+    [SerializeField]
+    private string _token;
+    [SerializeField]
+    private string _nickname;
+    [SerializeField]
+    private string _email;
+    [SerializeField]
+    private string _device_name;
+    [SerializeField]
+    private string _password;
+    [SerializeField]
+    private string _experience;
     // Start is called before the first frame update
 
     // public static GameManager Instance
@@ -35,10 +48,13 @@ public class GameManager : MonoBehaviour
         if (Instance != null && Instance != this)
         {
             Destroy(this);
+            Debug.LogWarning("GAME MANAGER IS INSTANTIATED");
+
         }
         else
         {
             Instance = this;
+            DontDestroyOnLoad(Instance);
         }
 
     }

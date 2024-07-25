@@ -17,20 +17,37 @@ public class LevelLoader : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI _loadingText;
 
-    public void LoadLevel(int sceneIndex)
+    [SerializeField]
+    private bool SERVER_ERROR = false;
+
+    public void LoadGame()
     {
-        StartCoroutine(LoadAsynchronously(sceneIndex));
+        //LOGIN - 1
+        //MAIN MENU - 2
+        StartCoroutine(LoadAsynchronously(1));
     }
 
     IEnumerator LoadAsynchronously(int sceneIndex)
     {
+
+
         //CHECK INTERNET CONNECTION
-        StartCoroutine(CheckInternetConnection());
-
-
+        StartCoroutine(CheckServerConnection());
+        // if (SERVER_ERROR)
+        // {
+        //     Debug.LogWarning("ERRRRRORRR");
+        //     StartCoroutine(CheckInternetConnection());
+        //     yield break;
+        // }
+        // else
+        // {
         int MAX = 1000;
         for (int i = 0; i < MAX; i++)
         {
+            if (SERVER_ERROR)
+            {
+                yield break;
+            }
             // slider.value =  i % MAX;
             float value = (float)i / MAX;
             ChangeLoading(value);
@@ -48,27 +65,60 @@ public class LevelLoader : MonoBehaviour
             ChangeLoading(progress);
             yield return null;
         }
-    }
-    // WHY STATIC ublic static IEnumerator CheckInternetConnection()
-    public IEnumerator CheckInternetConnection()
-    {
-        const string echoServer = "https://google.com";
 
+        // }
+
+
+    }
+    // WHY STATIC public static IEnumerator CheckInternetConnection()
+    public IEnumerator CheckServerConnection()
+    {
+        const string echoServer = "https://diff.nconnect.sk";
         UnityWebRequest request = new UnityWebRequest(echoServer);
         using (request)
         {
             request.timeout = 5;
             yield return request.SendWebRequest();
 
+            // NO CONNECTION TO SERVER, CHECK IF INTERNET IS AVAIBLE
             if (request.error != null)
             {
-                string text = "No connection to internet";
+                string text = "Can't connect to the game servers, please wait.";
                 Debug.LogError(text);
                 _loadingText.text = text;
+                SERVER_ERROR = true;
+                StartCoroutine(CheckInternetConnection());
+
             }
             else
             {
                 Debug.Log("Success");
+            }
+        }
+    }
+    public IEnumerator CheckInternetConnection()
+    {
+        const string echoServer = "https://google.com";
+        UnityWebRequest request = new UnityWebRequest(echoServer);
+        using (request)
+        {
+            request.timeout = 5;
+            yield return request.SendWebRequest();
+
+            // NO CONNECTION TO SERVER, CHECK IF INTERNET IS AVAIBLE
+            if (request.error != null)
+            {
+                string text = "No internet connection";
+                Debug.LogError(text);
+                _loadingText.text = text;
+                // SERVER_ERROR = true;
+
+            }
+            else
+            {
+                string text = "Can't connect to the game servers, please wait.";
+                Debug.LogError("INTERNET CONNECTION " + text);
+                _loadingText.text = text;
             }
         }
     }
