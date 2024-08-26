@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1381537402892885345}
   - component: {fileID: 5979254421539927061}
   m_Layer: 5
-  m_Name: Image
+  m_Name: CoinsImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -235,6 +235,7 @@ GameObject:
   - component: {fileID: 6590115787520999016}
   - component: {fileID: 2264885659164766882}
   - component: {fileID: 3330038370442417489}
+  - component: {fileID: 5423757952783843245}
   m_Layer: 5
   m_Name: OneBuyCoins
   m_TagString: Untagged
@@ -302,6 +303,27 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!95 &5423757952783843245
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 753030880004860420}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: cc595ee0178091a46bb41fba8930c229, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &3344941780996519791
 GameObject:
   m_ObjectHideFlags: 0
