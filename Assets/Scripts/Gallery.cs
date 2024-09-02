@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Gallery : MonoBehaviour
@@ -17,23 +18,27 @@ public class Gallery : MonoBehaviour
     {
 
     }
-
-
-    public void ShowHideWindow()
+    void OnEnable()
     {
-        if (GalleryWindow.activeSelf)
-        {
-            GalleryWindow.SetActive(false);
-        }
-        else
-        {
-            GalleryWindow.SetActive(true);
-            //GO TO TOP OF WINDOW
-            Content.transform.position = new Vector3(transform.position.x, 0f, transform.position.z);
+        Content.transform.position = new Vector3(transform.position.x, 0f, transform.position.z);
 
-            //GET CHILDREN OBJECT TO RESIZE WINDOW
-            //GetChildrenAsArray();
-            //GetHeight();
-        }
     }
+
+    // public void ShowHideWindow()
+    // {
+    //     if (GalleryWindow.activeSelf)
+    //     {
+    //         GalleryWindow.SetActive(false);
+    //     }
+    //     else
+    //     {
+    //         GalleryWindow.SetActive(true);
+    //         //GO TO TOP OF WINDOW
+    //         Content.transform.position = new Vector3(transform.position.x, 0f, transform.position.z);
+
+    //         //GET CHILDREN OBJECT TO RESIZE WINDOW
+    //         //GetChildrenAsArray();
+    //         //GetHeight();
+    //     }
+    // }
 }

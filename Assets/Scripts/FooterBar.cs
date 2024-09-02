@@ -9,7 +9,7 @@ public class FooterBar : MonoBehaviour
 
     public Image premium;
     public Image home;
-    public Image quests;
+    public Image gallery;
 
     private Image[] buttons = new Image[3];
 
@@ -22,14 +22,14 @@ public class FooterBar : MonoBehaviour
     public int selected;
 
     public GameObject premiumWindow;
-    public GameObject questsWindow;
+    public GameObject galleryWindow;
 
     public GameObject topCanvas;
     void Start()
     {
         buttons[0] = premium;
         buttons[1] = home;
-        buttons[2] = quests;
+        buttons[2] = gallery;
         selected = 0;
         // SELECT HOME
         SelectButton(1);
@@ -64,20 +64,20 @@ public class FooterBar : MonoBehaviour
         if (index == 0)
         {
             premiumWindow.SetActive(true);
-            questsWindow.SetActive(false);
+            galleryWindow.SetActive(false);
             topCanvas.SetActive(false);
         }
         else if (index == 1)
         {
             premiumWindow.SetActive(false);
-            questsWindow.SetActive(false);
+            galleryWindow.SetActive(false);
             topCanvas.SetActive(true);
 
         }
         else
         {
             premiumWindow.SetActive(false);
-            questsWindow.SetActive(true);
+            galleryWindow.SetActive(true);
             topCanvas.SetActive(false);
 
         }

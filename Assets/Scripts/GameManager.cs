@@ -26,6 +26,8 @@ public class GameManager : MonoBehaviour
     private string _password;
     [SerializeField]
     private string _experience;
+    [SerializeField]
+    private int _unlockedLevels;
     // Start is called before the first frame update
 
     // public static GameManager Instance

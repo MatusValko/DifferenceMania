@@ -57,14 +57,7 @@ public class Login : MonoBehaviour
     {
         SceneManager.LoadScene("MainMenu");
     }
-    public void GoToLoginMenu()
-    {
-        SceneManager.LoadScene("Login");
-    }
-    public void GoToLoading()
-    {
-        SceneManager.LoadScene("Loading");
-    }
+
 
     public void ShowNicknameButton()
     {
