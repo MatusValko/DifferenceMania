@@ -37,7 +37,7 @@ public class Premium : MonoBehaviour
 
         for (int i = 0; i < selectedElements.Count; i++)
         {
-            Debug.Log("Shine" + i);
+            // Debug.Log("Shine" + i);
 
             StartCoroutine(PlayAnimation(selectedElements[i]));
 
@@ -54,28 +54,19 @@ public class Premium : MonoBehaviour
 
 
                 spriteMaterial.SetFloat("_ShineLocation", shinePositon);
-                //DOES NOT REMOVE, SHINE WILL NOT RENDER!
+                //DO NOT REMOVE, SHINE WILL NOT RENDER!
                 SelectedCoinImage.enabled = false;
                 SelectedCoinImage.enabled = true;
 
-                // SelectedCoinImage.material = spriteMaterial;
-
-                // selectedElements[i].gameObject.transform.Find("CoinsImage").GetComponent<Image>().material = spriteMaterial;
-                // selectedElements[i].gameObject.transform.Find("CoinsImage").GetComponent<Image>().material.SetFloat("_ShineLocation", shinePositon);
-                // SelectedCoinMaterial.SetColor("_Tint", Color.red);
-
-
                 // SelectedCoinImage.material = emptyMaterial;
                 yield return new WaitForEndOfFrame();
-
             }
 
             SelectedCoinImage.material = emptyMaterial;
 
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(1.5f);
         }
 
-        // animator.Play("YourAnimationName");
     }
 
     IEnumerator PlayAnimation(Animator animator)
@@ -85,18 +76,19 @@ public class Premium : MonoBehaviour
     }
     void OnEnable()
     {
-        // Debug.Log("GameObject enabled!");
-        //GO TO TOP OF WINDOW
-        //content.transform.position = new Vector3(transform.position.x, 0f, transform.position.z);
-
         //GO TO TOP OF WINDOW
         Content.transform.position = new Vector3(transform.position.x, 0f, transform.position.z);
 
         StartCoroutine(PlayAnimationAfterDelay());
-
     }
 
+    void OnDisable()
+    {
+        // Debug.Log("PrintOnDisable: script was disabled");
+        spriteMaterial.SetFloat("_ShineLocation", 0f);
+        SelectedCoinImage.material = emptyMaterial;
 
+    }
     private float ShineCurve(float lerpProgress)
     {
         float newValue = lerpProgress * lerpProgress * lerpProgress * (lerpProgress * (6f * lerpProgress - 15f) + 10f);

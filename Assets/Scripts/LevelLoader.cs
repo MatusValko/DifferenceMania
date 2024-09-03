@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -16,58 +18,88 @@ public class LevelLoader : MonoBehaviour
     private Slider _rightSlider;
     [SerializeField]
     private TextMeshProUGUI _loadingText;
+    [SerializeField]
+    private string _errorText = "ERROR";
+
 
     [SerializeField]
     private bool SERVER_ERROR = false;
 
     public void LoadGame()
     {
-        //LOGIN - 1
-        //MAIN MENU - 2
+        //MAIN MENU - 1
+        //LOGIN - 2
         StartCoroutine(LoadAsynchronously(1));
     }
 
     IEnumerator LoadAsynchronously(int sceneIndex)
     {
+        yield return StartCoroutine(CheckServerConnection());
 
-
+        float progress = 0f;
         //CHECK INTERNET CONNECTION
-        StartCoroutine(CheckServerConnection());
-        // if (SERVER_ERROR)
-        // {
-        //     Debug.LogWarning("ERRRRRORRR");
-        //     StartCoroutine(CheckInternetConnection());
-        //     yield break;
-        // }
-        // else
-        // {
         int MAX = 1000;
         for (int i = 0; i < MAX; i++)
         {
-            if (SERVER_ERROR)
-            {
-                yield break;
-            }
-            // slider.value =  i % MAX;
-            float value = (float)i / MAX;
-            ChangeLoading(value);
+            progress = (float)i / MAX;
+            ChangeLoading(progress);
             // Debug.Log(value);
-
+            if (progress >= 0.2)
+            {
+                progress = 0.2f;
+                break;
+            }
             yield return null; // Pause the coroutine until the next frame
         }
 
+        if (SERVER_ERROR)
+        {
+            _loadingText.text = _errorText;
+            yield break;
+        }
+
+        //IF CONNECTED TO SERVER THEN LOAD SAVED DATA
+        //IF ACCOUNT IS LOGGED IN THEN GET GAMED DATA FROM SERVER
+        //OTHERWISE GET DATA FROM LOCAL STORAGE
+
+
+        DataPersistenceManager.Instance.LoadGame();
+
+
+
+        //TESTING MAYBE UNCOMMENT IF ERROR IS NOT SHOWING
+        // MAX = 1000;
+        // for (int i = 0; i < MAX; i++)
+        // {
+        //     if (SERVER_ERROR)
+        //     {
+        //         yield break;
+        //     }
+        //     // slider.value =  i % MAX;
+        //     float value = (float)i / MAX;
+        //     ChangeLoading(value);
+        //     // Debug.Log(value);
+        //     yield return null; // Pause the coroutine until the next frame
+        // }
+
+
+
         //LOAD LEVEL 
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneIndex);
+        // operation.allowSceneActivation = false;
+        float oldProgress = progress;
+
         while (!operation.isDone)
         {
-            float progress = Mathf.Clamp01(operation.progress / .9f);
-            Debug.Log(progress);
+            float value = Mathf.Clamp01(operation.progress / .9f);
+            value += oldProgress;
+            value = value >= 1 ? 1 : value;
+
+            progress = value;
+            // Debug.Log(progress);
             ChangeLoading(progress);
             yield return null;
         }
-
-        // }
-
 
     }
     // WHY STATIC public static IEnumerator CheckInternetConnection()
@@ -83,16 +115,15 @@ public class LevelLoader : MonoBehaviour
             // NO CONNECTION TO SERVER, CHECK IF INTERNET IS AVAIBLE
             if (request.error != null)
             {
-                string text = "Can't connect to the game servers, please wait.";
-                Debug.LogError(text);
-                _loadingText.text = text;
+                _errorText = "Can't connect to the game server, please wait.";
+                Debug.LogError(_errorText);
                 SERVER_ERROR = true;
-                StartCoroutine(CheckInternetConnection());
+                yield return StartCoroutine(CheckInternetConnection());
 
             }
             else
             {
-                Debug.Log("Success");
+                Debug.Log("Successfully connected to game server");
             }
         }
     }
@@ -108,22 +139,21 @@ public class LevelLoader : MonoBehaviour
             // NO CONNECTION TO SERVER, CHECK IF INTERNET IS AVAIBLE
             if (request.error != null)
             {
-                string text = "No internet connection";
-                Debug.LogError(text);
-                _loadingText.text = text;
+                _errorText = "No internet connection";
+                Debug.LogError(_errorText);
+                // _loadingText.text = text;
                 // SERVER_ERROR = true;
 
             }
             else
             {
-                string text = "Can't connect to the game servers, please wait.";
-                Debug.LogError("INTERNET CONNECTION " + text);
-                _loadingText.text = text;
+                string text = "No internet connection";
+                Debug.LogError(text);
             }
         }
     }
 
-    private void ChangeLoading(float value, string text = null)
+    private void ChangeLoading(float value)
     {
         _leftSlider.value = value;
         _rightSlider.value = value;

@@ -9,11 +9,11 @@ EditorBuildSettings:
     path: Assets/Scenes/Loading.unity
     guid: be0eb7701824e5247bdee08235f3fe4a
   - enabled: 1
-    path: Assets/Scenes/Login.unity
-    guid: febe56274aefc674eb31290afb0980cd
-  - enabled: 1
     path: Assets/Scenes/MainMenu.unity
     guid: 3fc8acdd13e6c734bafef6554d6fdbcd
+  - enabled: 1
+    path: Assets/Scenes/Login.unity
+    guid: febe56274aefc674eb31290afb0980cd
   m_configObjects:
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 21956684aad848e43a9f333099c0d13a, type: 2}
     com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: 2e1f9a43713ae56458857ddc3922d6d8, type: 2}

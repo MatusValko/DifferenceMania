@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviour, IDataPersistenceManager
 {
     public const int MAX_LIVES = 3;
+
+    public bool ISLOGGEDIN = false;
     public static GameManager Instance { get; private set; }//RENAME
 
     [Header("Currencies")]
@@ -28,37 +30,23 @@ public class GameManager : MonoBehaviour
     private string _experience;
     [SerializeField]
     private int _unlockedLevels;
-    // Start is called before the first frame update
+    [SerializeField]
+    private int _selectedPFP;
+    [SerializeField]
+    private int _unlockedPFP;
 
-    // public static GameManager Instance
-    // {
-    //     get
-    //     {
-    //         if (_instance is null)
-    //         {
-    //             Debug.LogWarning("GAME MANAGER IS NULL");
-    //         }
-    //         else
-    //         {
-    //             Debug.LogWarning("GAME MANAGER IS INSTANTIATED");
-    //         }
-    //         return _instance;
-    //     }
-    // }
     private void Awake()
     {
         if (Instance != null && Instance != this)
         {
             Destroy(this);
             Debug.LogWarning("GAME MANAGER IS INSTANTIATED");
-
         }
         else
         {
             Instance = this;
             DontDestroyOnLoad(Instance);
         }
-
     }
 
     public void AddLive(int live = 1)
@@ -84,6 +72,17 @@ public class GameManager : MonoBehaviour
         return _coins;
     }
 
+    public void LoadData(GameData gameData)
+    {
+        _coins = gameData.Coins;
+        _lives = gameData.Lives;
+    }
 
+    public void SaveData(ref GameData gameData)
+    {
+        gameData.Coins = _coins;
+        gameData.Lives = _lives;
+
+    }
 
 }
