@@ -7439,8 +7439,24 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4130360034047241211, guid: 2c4ec499b85401846ab4d0de6da90c0b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 188092700}
+    - target: {fileID: 4130360034047241211, guid: 2c4ec499b85401846ab4d0de6da90c0b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4130360034047241211, guid: 2c4ec499b85401846ab4d0de6da90c0b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: LoadLogin
+      objectReference: {fileID: 0}
+    - target: {fileID: 4130360034047241211, guid: 2c4ec499b85401846ab4d0de6da90c0b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Profile, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4130360034047241211, guid: 2c4ec499b85401846ab4d0de6da90c0b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 6436872120533876449, guid: 2c4ec499b85401846ab4d0de6da90c0b, type: 3}
       propertyPath: m_Pivot.x

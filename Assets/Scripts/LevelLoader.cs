@@ -105,8 +105,7 @@ public class LevelLoader : MonoBehaviour
     // WHY STATIC public static IEnumerator CheckInternetConnection()
     public IEnumerator CheckServerConnection()
     {
-        const string echoServer = "https://diff.nconnect.sk";
-        UnityWebRequest request = new UnityWebRequest(echoServer);
+        UnityWebRequest request = new UnityWebRequest(GameManager.GAMESERVER);
         using (request)
         {
             request.timeout = 5;

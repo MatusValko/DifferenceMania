@@ -1,13 +1,22 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Login : MonoBehaviour
 {
+    [Header("Main Menu Canvas")]
+    [SerializeField]
+    private GameObject _mainMenuCanvas;
+
     [Header("Create Account Canvas")]
+    [SerializeField]
+    private GameObject _createAccountCanvas;
     [SerializeField]
     private TMP_InputField _email;
     [SerializeField]
@@ -21,7 +30,33 @@ public class Login : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI _createAccountButtonText;
 
+
+    [Header("Error Window")]
+    [SerializeField]
+    private GameObject _errorWindow;
+
+    [SerializeField]
+    private TextMeshProUGUI _errorResponseText;
+
+    [Header("Profile Canvas")]
+    [SerializeField]
+    private GameObject _profileCanvas;
+    [SerializeField]
+    private TextMeshProUGUI _nicknameText;
+    [SerializeField]
+    private TextMeshProUGUI _emailText;
+    [SerializeField]
+    private Image _profilePicture;
+
     [Header("Edit Nickname Canvas")]
+    [SerializeField]
+    private GameObject _freeText;
+    [SerializeField]
+    private GameObject _cost50Text;
+    [SerializeField]
+    private Button _freeButton;
+    [SerializeField]
+    private Button _refillWithCoinsButton;
     [SerializeField]
     private Button _changeNickNameButton;
     [SerializeField]
@@ -32,6 +67,17 @@ public class Login : MonoBehaviour
     private TextMeshProUGUI _popUpNewNickNameText;
 
 
+    [Serializable]
+    struct CreateAccountResponse
+    {
+        public bool succes;
+        public string message;
+        public string token;
+        // public string nickname;
+        // public bool checkbox;
+
+    }
+
     public void CheckInputField()
     {
         string text = _newNickNameText.text;  // here "TextMeshProText" is 'TMP_InputField'
@@ -40,15 +86,10 @@ public class Login : MonoBehaviour
         {
             _popUpNewNickNameText.text = text;
             ChangeButtonInteractibility(_changeNickNameButton, _changeNickNameButtonText, true);
-            // _changeNickNameButton.interactable = true;
-            // _changeNickNameButtonText.color = new Color32(255, 255, 255, 255);
         }
         else
         {
             ChangeButtonInteractibility(_changeNickNameButton, _changeNickNameButtonText, false);
-            // Debug.Log("TUUU");
-            // _changeNickNameButtonText.color = new Color32(255, 255, 255, 100);
-            // _changeNickNameButton.interactable = false;
         }
     }
     //MAKES BUTON INTERACTABLE AND CHANGES BUTTON TEXT ACCORDINGLY
@@ -68,13 +109,16 @@ public class Login : MonoBehaviour
 
     public void CreateAccountValidation()
     {
-        Debug.Log("VALIDUJEM");
-        string text = _email.text;
+        if (GameManager.Instance.ISLOGGEDIN)
+        {
+            Debug.Log("NEVALIDUJEM");
+            return;
+        }
+        Debug.Log("VALIDUJEM, Logged in...");
 
-        Debug.Log(text);
 
         bool error = false;
-        if (string.IsNullOrEmpty(text))
+        if (string.IsNullOrEmpty(_email.text))
         {
             Debug.LogWarning("email.text is empty!");
             error = true;
@@ -98,25 +142,162 @@ public class Login : MonoBehaviour
         {
             ChangeButtonInteractibility(_createAccountButton, _createAccountButtonText, !error);
         }
-        // VALIDATE INPUTS
-        // Debug.Log(_email);
-        // Debug.Log(_password);
-        // Debug.Log(_nickname);
-        // Debug.Log(_checkbox);
+    }
+    //CLICK NA BUTTON
+    public void CreateAccount()
+    {
+        _createAccountButton.interactable = false;
+        StartCoroutine(Upload());
+    }
+
+    IEnumerator ShowError(string errorText)
+    {
+        _errorWindow.SetActive(true);
+        _errorResponseText.text = errorText;
+        yield return new WaitForSeconds(3);
+        _errorWindow.SetActive(false);
+        yield return null;
+    }
+
+    public void CheckIfFreeOrCost()
+    {
+        if (GameManager.Instance.GetFreeNickName())
+        {
+            _freeText.SetActive(true);
+            _cost50Text.SetActive(false);
+            _freeButton.gameObject.SetActive(true);
+            _refillWithCoinsButton.gameObject.SetActive(false);
+        }
+        else
+        {
+            _freeText.SetActive(false);
+            _cost50Text.SetActive(true);
+            _freeButton.gameObject.SetActive(false);
+            _refillWithCoinsButton.gameObject.SetActive(true);
+        }
+    }
+    public void CheckIfFreeOrCostNew()
+    {
+        bool free = GameManager.Instance.GetFreeNickName();
+        _freeText.SetActive(free);
+        _cost50Text.SetActive(!free);
+        _freeButton.gameObject.SetActive(free);
+        _refillWithCoinsButton.gameObject.SetActive(!free);
+    }
+
+    public void ShowErrorWindow(string errorText)
+    {
+        _errorWindow.SetActive(true);
+        _errorResponseText.text = errorText;
+    }
+    public void ChangeNickname()
+    {
+        //poslat poziadavku na server
+        GameManager.Instance.SetNickname(_newNickNameText.text);
+        GameManager.Instance.SetFreeNickNameToFalse();
+        DataPersistenceManager.Instance.SaveGame();
+        UpdateProfileMenu();
+    }
+    public void ChangeNicknameForCoins()
+    {
+        //najskor pozri na clientovi ci ma 50 coins
+        if (GameManager.Instance.GetCoins() < 50)
+        {
+            _errorWindow.SetActive(true);
+            _errorResponseText.text = $"Not Enough Coins! ({GameManager.Instance.GetCoins()})";
+            return;
+        }
+        // TODO: hore 
+        // poslat poziadavku na server ci ma 50 coins
 
 
+        //AK ma poslat na server poziadavku na zmenenie nickaname
+        GameManager.Instance.AddCoins(-50);
+        ChangeNickname();
 
     }
+    IEnumerator Upload()
+    {
+        Debug.Log(SystemInfo.deviceModel);
+
+        List<IMultipartFormSection> form = new()
+        {
+            new MultipartFormDataSection("email", _email.text),
+            new MultipartFormDataSection("password", _password.text),
+            new MultipartFormDataSection("device_name", SystemInfo.deviceModel),
+
+            // new MultipartFormDataSection("nickname", _nickname.text),
+            // new MultipartFormDataSection("checkbox", _checkbox.isOn.ToString())
+        };
+
+        Debug.Log(form);
+
+        using UnityWebRequest www = UnityWebRequest.Post(GameManager.API_REGISTER, form);
+        www.downloadHandler = new DownloadHandlerBuffer();
+
+        yield return www.SendWebRequest();
+
+        if (www.result != UnityWebRequest.Result.Success)
+        {
+            Debug.LogError("WEB REQUEST ERROR:" + www.error);
+            // StartCoroutine(ShowError(www.error));
+            ShowErrorWindow(www.error);
+        }
+        else
+        {
+            Debug.Log(www.result + " Form upload complete!");
+            string responseText = www.downloadHandler.text;
+            Debug.Log("Response Text:" + responseText);
+
+            CreateAccountResponse response;
+            try
+            {
+                response = JsonUtility.FromJson<CreateAccountResponse>(responseText);
+            }
+            catch (Exception e)
+            {
+                // StartCoroutine(ShowError(e.Message));
+                Debug.LogError("TRY CATCH ERROR:" + e.Message);
+                ShowErrorWindow(e.Message);
+                throw;
+            }
+            // Debug.Log("Response: " + response);
+
+            Debug.Log(response.token);
+            //MOZEME SA POSUNUT DALEJ JEEJ
+            //ULOZIT DATA O POUZIVATELOVI
+            //POSLAT DATA DO DATABAZY
+
+            GameManager.Instance.SetToken(response.token);
+            GameManager.Instance.SetEmail(_email.text);
+            GameManager.Instance.SetNickname(_nickname.text);
+            GameManager.Instance.ISLOGGEDIN = true;
+            DataPersistenceManager.Instance.SaveGame();
+            // _password.text
+
+            //ZISKAT
+
+            _profileCanvas.SetActive(true);
+            _createAccountCanvas.SetActive(false);
+
+
+
+        }
+    }
+
     void OnEnable()
     {
         CreateAccountValidation();
+        UpdateProfileMenu();
+        CheckIfLoggedIn();
     }
 
 
     // Start is called before the first frame update
     void Awake()
     {
-        // _changeNickNameButtonText = _changeNickNameButton.gameObject.GetComponentInChildren<TextMeshProUGUI>();
+        //prehodid do enable
+
     }
 
     void Start()
@@ -136,5 +317,25 @@ public class Login : MonoBehaviour
 
 
 
-
+    private void UpdateProfileMenu()
+    {
+        _nicknameText.text = GameManager.Instance.GetNickname();
+        _emailText.text = GameManager.Instance.GetEmail();
+        // _emailText.text = GameManager.Instance.GetprofilePicture();
+    }
+    private void CheckIfLoggedIn()
+    {
+        if (GameManager.Instance.ISLOGGEDIN)
+        {
+            Debug.Log("Is logged in");
+            _mainMenuCanvas.SetActive(false);
+            _profileCanvas.SetActive(true);
+        }
+        else
+        {
+            Debug.Log("Is NOT logged in");
+            _mainMenuCanvas.SetActive(true);
+            _profileCanvas.SetActive(false);
+        }
+    }
 }
