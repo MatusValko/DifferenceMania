@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
@@ -225,12 +224,12 @@ public class Login : MonoBehaviour
             new MultipartFormDataSection("email", _email.text),
             new MultipartFormDataSection("password", _password.text),
             new MultipartFormDataSection("device_name", SystemInfo.deviceModel),
+            new MultipartFormDataSection("nickname", _nickname.text),
+            new MultipartFormDataSection("is_email_enabled", Convert.ToString(_checkbox.isOn ? 1 : 0)  )
 
-            // new MultipartFormDataSection("nickname", _nickname.text),
-            // new MultipartFormDataSection("checkbox", _checkbox.isOn.ToString())
         };
 
-        Debug.Log(form);
+        Debug.Log(Convert.ToString(_checkbox.isOn ? 1 : 0));
 
         using UnityWebRequest www = UnityWebRequest.Post(GameManager.API_REGISTER, form);
         www.downloadHandler = new DownloadHandlerBuffer();
@@ -271,6 +270,7 @@ public class Login : MonoBehaviour
             GameManager.Instance.SetToken(response.token);
             GameManager.Instance.SetEmail(_email.text);
             GameManager.Instance.SetNickname(_nickname.text);
+            GameManager.Instance.SetFreeNickNameToTrue();
             GameManager.Instance.ISLOGGEDIN = true;
             DataPersistenceManager.Instance.SaveGame();
             // _password.text
@@ -278,6 +278,7 @@ public class Login : MonoBehaviour
             //ZISKAT
 
             _profileCanvas.SetActive(true);
+            UpdateProfileMenu();
             _createAccountCanvas.SetActive(false);
 
 
@@ -289,27 +290,9 @@ public class Login : MonoBehaviour
     {
         CreateAccountValidation();
         UpdateProfileMenu();
-        CheckIfLoggedIn();
+        CheckIfLoggedInAndChangeWindows();
     }
 
-
-    // Start is called before the first frame update
-    void Awake()
-    {
-        //prehodid do enable
-
-    }
-
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
     public void GoToMainMenu()
     {
         SceneManager.LoadScene(1);
@@ -323,8 +306,10 @@ public class Login : MonoBehaviour
         _emailText.text = GameManager.Instance.GetEmail();
         // _emailText.text = GameManager.Instance.GetprofilePicture();
     }
-    private void CheckIfLoggedIn()
+    private void CheckIfLoggedInAndChangeWindows()
     {
+        GameManager.Instance.CheckIfIsLoggedIn();
+
         if (GameManager.Instance.ISLOGGEDIN)
         {
             Debug.Log("Is logged in");
@@ -337,5 +322,11 @@ public class Login : MonoBehaviour
             _mainMenuCanvas.SetActive(true);
             _profileCanvas.SetActive(false);
         }
+    }
+    public void LogoutUser()
+    {
+        GameManager.Instance.LogOut();
+        CheckIfLoggedInAndChangeWindows();
+
     }
 }

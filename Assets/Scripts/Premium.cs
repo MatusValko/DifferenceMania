@@ -62,7 +62,7 @@ public class Premium : MonoBehaviour
                 yield return new WaitForEndOfFrame();
             }
 
-            SelectedCoinImage.material = emptyMaterial;
+            SelectedCoinImage.material = null;
 
             yield return new WaitForSeconds(1.5f);
         }
@@ -86,7 +86,11 @@ public class Premium : MonoBehaviour
     {
         // Debug.Log("PrintOnDisable: script was disabled");
         spriteMaterial.SetFloat("_ShineLocation", 0f);
-        SelectedCoinImage.material = emptyMaterial;
+        if (SelectedCoinImage != null)
+        {
+            SelectedCoinImage.material = null;
+
+        }
 
     }
     private float ShineCurve(float lerpProgress)

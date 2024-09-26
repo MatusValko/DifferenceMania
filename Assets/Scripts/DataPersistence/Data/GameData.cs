@@ -21,7 +21,7 @@ public class GameData
     public string Email;
     public string Device_name;
     // public string Password;
-    public bool FreeNickName;
+    public bool HasFreeNickName;
     public GameData()
     {
         Coins = 50;
@@ -39,7 +39,8 @@ public class GameData
         Email = null;
         Token = null;
         Nickname = null;
-        FreeNickName = true;
+        //TODO: Generate random nickname 
+        HasFreeNickName = true;
         // UnlockedLevels = new List<int>();
 
     }

@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
     [SerializeField]
     private string _email;
     [SerializeField]
-    private bool _freeNickName;
+    private bool _hasFreeNickName;
     // [SerializeField]
     // private string _device_name;
     // [SerializeField]
@@ -62,14 +62,29 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
     }
     private void Start()
     {
-        if (!string.IsNullOrEmpty(_token))
-        {
-            Instance.ISLOGGEDIN = true;
-        }
+        CheckIfIsLoggedIn();
+
 
         // _device_name = SystemInfo.deviceModel;
     }
 
+    public void CheckIfIsLoggedIn()
+    {
+        if (string.IsNullOrEmpty(_token))
+        {
+            Debug.LogWarning("Token is empty!");
+            Instance.ISLOGGEDIN = false;
+            return;
+        }
+        if (string.IsNullOrEmpty(_email))
+        {
+            Debug.LogWarning("Email is empty!");
+            Instance.ISLOGGEDIN = false;
+            return;
+        }
+        Debug.Log("Has token and email. Logging in");
+        Instance.ISLOGGEDIN = true;
+    }
     public void AddLive(int live = 1)
     {
         if (_lives == MAX_LIVES)
@@ -114,11 +129,22 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
     }
     public bool GetFreeNickName()
     {
-        return _freeNickName;
+        return _hasFreeNickName;
     }
     public void SetFreeNickNameToFalse()
     {
-        _freeNickName = false;
+        _hasFreeNickName = false;
+    }
+    public void SetFreeNickNameToTrue()
+    {
+        _hasFreeNickName = true;
+    }
+
+    public void LogOut()
+    {
+        SetEmail(null);
+        SetToken(null);
+        SetNickname(null);
     }
 
     public void LoadData(GameData gameData)
@@ -133,7 +159,7 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
         _token = gameData.Token;
         _email = gameData.Email;
         _nickname = gameData.Nickname;
-        _freeNickName = gameData.FreeNickName;
+        _hasFreeNickName = gameData.HasFreeNickName;
     }
 
     public void SaveData(ref GameData gameData)
@@ -149,7 +175,7 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
         gameData.Token = _token;
         gameData.Email = _email;
         gameData.Nickname = _nickname;
-        gameData.FreeNickName = _freeNickName;
+        gameData.HasFreeNickName = _hasFreeNickName;
     }
 
 }
