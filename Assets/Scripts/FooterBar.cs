@@ -79,7 +79,6 @@ public class FooterBar : MonoBehaviour
             premiumWindow.SetActive(false);
             galleryWindow.SetActive(true);
             topCanvas.SetActive(false);
-
         }
 
     }
