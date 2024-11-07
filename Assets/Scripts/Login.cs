@@ -30,6 +30,16 @@ public class Login : MonoBehaviour
     private TextMeshProUGUI _createAccountButtonText;
 
 
+    [Header("Login To Account Canvas")]
+    [SerializeField]
+    private TMP_InputField _loginEmail;
+    [SerializeField]
+    private TMP_InputField _loginPassword;
+    [SerializeField]
+    private Button _loginButton;
+    [SerializeField]
+    private TextMeshProUGUI _loginAccountButtonText;
+
     [Header("Error Window")]
     [SerializeField]
     private GameObject _errorWindow;
@@ -105,12 +115,46 @@ public class Login : MonoBehaviour
             textMeshProUGUI.color = new Color32(255, 255, 255, 100);
         }
     }
+    //Vzdy ked sa zmeni pole vo formulari tak sa zavolá táto funkcia na validovanie vstupu
+    public void loginToAccountValidation()
+    {
+        if (GameManager.Instance.ISLOGGEDIN)
+        {
+            Debug.Log("NEVALIDUJEM LOGIN FORMULAR!");
+            return;
+        }
+        Debug.Log("VALIDUJEM, Logged in...");
 
+
+        bool error = false;
+        if (string.IsNullOrEmpty(_loginEmail.text))
+        {
+            Debug.LogWarning("login email.text is empty!");
+            error = true;
+        }
+        if (string.IsNullOrEmpty(_loginPassword.text))
+        {
+            Debug.LogWarning("Login password.text is empty!");
+            error = true;
+        }
+
+        ChangeButtonInteractibility(_loginButton, _loginAccountButtonText, !error);
+
+        // if (error)
+        // {
+        //     ChangeButtonInteractibility(_createAccountButton, _createAccountButtonText, !error);
+        // }
+        // else
+        // {
+        //     ChangeButtonInteractibility(_createAccountButton, _createAccountButtonText, !error);
+        // }
+    }
+    //Vzdy ked sa zmeni pole vo formulari tak sa zavolá táto funkcia na validovanie vstupu
     public void CreateAccountValidation()
     {
         if (GameManager.Instance.ISLOGGEDIN)
         {
-            Debug.Log("NEVALIDUJEM");
+            Debug.Log("NEVALIDUJEM REGISTER FORMULAR!");
             return;
         }
         Debug.Log("VALIDUJEM, Logged in...");
@@ -133,14 +177,16 @@ public class Login : MonoBehaviour
             error = true;
         }
 
-        if (error)
-        {
-            ChangeButtonInteractibility(_createAccountButton, _createAccountButtonText, !error);
-        }
-        else
-        {
-            ChangeButtonInteractibility(_createAccountButton, _createAccountButtonText, !error);
-        }
+        ChangeButtonInteractibility(_createAccountButton, _createAccountButtonText, !error);
+
+        // if (error)
+        // {
+        //     ChangeButtonInteractibility(_createAccountButton, _createAccountButtonText, !error);
+        // }
+        // else
+        // {
+        //     ChangeButtonInteractibility(_createAccountButton, _createAccountButtonText, !error);
+        // }
     }
     //CLICK NA BUTTON
     public void CreateAccount()
@@ -149,6 +195,12 @@ public class Login : MonoBehaviour
         StartCoroutine(Upload());
     }
 
+
+    public void LoginToAccount()
+    {
+        _createAccountButton.interactable = false;
+        StartCoroutine(Upload());
+    }
     IEnumerator ShowError(string errorText)
     {
         _errorWindow.SetActive(true);
@@ -158,23 +210,23 @@ public class Login : MonoBehaviour
         yield return null;
     }
 
-    public void CheckIfFreeOrCost()
-    {
-        if (GameManager.Instance.GetFreeNickName())
-        {
-            _freeText.SetActive(true);
-            _cost50Text.SetActive(false);
-            _freeButton.gameObject.SetActive(true);
-            _refillWithCoinsButton.gameObject.SetActive(false);
-        }
-        else
-        {
-            _freeText.SetActive(false);
-            _cost50Text.SetActive(true);
-            _freeButton.gameObject.SetActive(false);
-            _refillWithCoinsButton.gameObject.SetActive(true);
-        }
-    }
+    // public void CheckIfFreeOrCost()
+    // {
+    //     if (GameManager.Instance.GetFreeNickName())
+    //     {
+    //         _freeText.SetActive(true);
+    //         _cost50Text.SetActive(false);
+    //         _freeButton.gameObject.SetActive(true);
+    //         _refillWithCoinsButton.gameObject.SetActive(false);
+    //     }
+    //     else
+    //     {
+    //         _freeText.SetActive(false);
+    //         _cost50Text.SetActive(true);
+    //         _freeButton.gameObject.SetActive(false);
+    //         _refillWithCoinsButton.gameObject.SetActive(true);
+    //     }
+    // }
     public void CheckIfFreeOrCostNew()
     {
         bool free = GameManager.Instance.GetFreeNickName();
@@ -327,6 +379,15 @@ public class Login : MonoBehaviour
     {
         GameManager.Instance.LogOut();
         CheckIfLoggedInAndChangeWindows();
+    }
 
+    public void ShowChangeNickNameWindow()
+    {
+        if (GameManager.Instance.GetCoins() < 50)
+        {
+            _refillWithCoinsButton.enabled = false;
+            // TODO DOKONCIT
+            return;
+        }
     }
 }

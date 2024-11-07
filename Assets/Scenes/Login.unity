@@ -714,17 +714,17 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 48.3
+  m_fontSize: 43
   m_fontSizeBase: 60
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 43
   m_fontStyle: 17
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 4096
   m_textAlignment: 65535
-  m_characterSpacing: 0
+  m_characterSpacing: -3
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -788,18 +788,18 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 126946372}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -5769.8413}
+  m_LocalPosition: {x: 0, y: 0, z: -5769.842}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1929747098}
   - {fileID: 1867649529}
-  m_Father: {fileID: 904459587}
+  m_Father: {fileID: 1312084977}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 460, y: -1310}
-  m_SizeDelta: {x: 900, y: 400}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 0, y: 404}
+  m_SizeDelta: {x: 900, y: 199.6}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!1 &141419942
 GameObject:
@@ -1226,7 +1226,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -505}
+  m_AnchoredPosition: {x: 0, y: -530}
   m_SizeDelta: {x: -180, y: 106.2}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &199917621
@@ -1252,8 +1252,8 @@ MonoBehaviour:
   m_text: "\rBy proceeding you agree with our <color=yellow><u>Terms and Conditions</u></color>
     and <color=yellow><u>Privacy Policy</u> </color>\n\n\n\n\n"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 1aca755691035b742acae71166cc334e, type: 2}
-  m_sharedMaterial: {fileID: 5121587541444851039, guid: 1aca755691035b742acae71166cc334e, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 01caecc4e63351e4992bfff09eaa3077, type: 2}
+  m_sharedMaterial: {fileID: -3186943377329053283, guid: 01caecc4e63351e4992bfff09eaa3077, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1373,7 +1373,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: 25, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 123, y: 123}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &261630173
 MonoBehaviour:
@@ -1395,7 +1395,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: bcabb72eee36d464f9971d4453a5607a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1482,7 +1482,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Do you have an account? <color=yellow> <u>LOG IN >\n </u> </color>"
+  m_text: "Do you have an account? <color=#FAE729> <u>LOG IN >\n </u> </color>"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1aca755691035b742acae71166cc334e, type: 2}
   m_sharedMaterial: {fileID: 5121587541444851039, guid: 1aca755691035b742acae71166cc334e, type: 2}
@@ -1730,8 +1730,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278255590
-  m_fontColor: {r: 0.9019306, g: 1, b: 0, a: 1}
+    rgba: 4280936442
+  m_fontColor: {r: 0.98039216, g: 0.90588236, b: 0.16078432, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -2469,8 +2469,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278255590
-  m_fontColor: {r: 0.9019306, g: 1, b: 0, a: 1}
+    rgba: 4280936442
+  m_fontColor: {r: 0.98039216, g: 0.90588236, b: 0.16078432, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -2572,8 +2572,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -856}
-  m_SizeDelta: {x: 0, y: 100}
+  m_AnchoredPosition: {x: 0, y: -950}
+  m_SizeDelta: {x: 0, y: 608.5}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!1001 &483122467
 PrefabInstance:
@@ -2691,6 +2691,34 @@ PrefabInstance:
       propertyPath: m_CharacterValidation
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 7786256056578954589, guid: ce4c3d7ae719144489db7b08c899c4d5, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7786256056578954589, guid: ce4c3d7ae719144489db7b08c899c4d5, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7786256056578954589, guid: ce4c3d7ae719144489db7b08c899c4d5, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1285972609}
+    - target: {fileID: 7786256056578954589, guid: ce4c3d7ae719144489db7b08c899c4d5, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7786256056578954589, guid: ce4c3d7ae719144489db7b08c899c4d5, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: loginToAccountValidation
+      objectReference: {fileID: 0}
+    - target: {fileID: 7786256056578954589, guid: ce4c3d7ae719144489db7b08c899c4d5, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Login, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7786256056578954589, guid: ce4c3d7ae719144489db7b08c899c4d5, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 8406918314861049457, guid: ce4c3d7ae719144489db7b08c899c4d5, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 0
@@ -2714,6 +2742,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6631399022143136023, guid: ce4c3d7ae719144489db7b08c899c4d5, type: 3}
   m_PrefabInstance: {fileID: 483122467}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &483122469 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7786256056578954589, guid: ce4c3d7ae719144489db7b08c899c4d5, type: 3}
+  m_PrefabInstance: {fileID: 483122467}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da0c512f12947e489f739169773d7ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &486761059
 GameObject:
   m_ObjectHideFlags: 0
@@ -4050,8 +4089,8 @@ MonoBehaviour:
   m_text: "\rSave your game progress and pick up right where you left off. Play on
     any device, anywhere."
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 1aca755691035b742acae71166cc334e, type: 2}
-  m_sharedMaterial: {fileID: 5121587541444851039, guid: 1aca755691035b742acae71166cc334e, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 01caecc4e63351e4992bfff09eaa3077, type: 2}
+  m_sharedMaterial: {fileID: -3186943377329053283, guid: 01caecc4e63351e4992bfff09eaa3077, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -4075,7 +4114,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 38.8
+  m_fontSize: 45.7
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -4584,7 +4623,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: f30f821df8eca7a4f86de3b8509d92ec, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6ce483728bf0c874d91bc88fd1c4c852, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4779,7 +4818,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -750}
-  m_SizeDelta: {x: -160, y: 465}
+  m_SizeDelta: {x: -180.22253, y: 465}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &878752008
 MonoBehaviour:
@@ -4879,7 +4918,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Don't have an account? <color=yellow> <u>sign up >\n </u> </color>"
+  m_text: "Don't have an account? <color=#FAE729> <u>sign up >\n </u> </color>"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1aca755691035b742acae71166cc334e, type: 2}
   m_sharedMaterial: {fileID: 5121587541444851039, guid: 1aca755691035b742acae71166cc334e, type: 2}
@@ -5058,13 +5097,12 @@ RectTransform:
   - {fileID: 10988548}
   - {fileID: 568141013}
   - {fileID: 1285901884}
-  - {fileID: 126946373}
   m_Father: {fileID: 1312084977}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -704.6}
-  m_SizeDelta: {x: -160, y: 1310}
+  m_SizeDelta: {x: -183.14221, y: 885}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &904459588
 MonoBehaviour:
@@ -5174,7 +5212,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Do you have an account? <color=yellow><u> LOG IN </u> </color>
+  m_text: Do you have an account? <color=#FAE729><u> LOG IN </u> </color>
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1aca755691035b742acae71166cc334e, type: 2}
   m_sharedMaterial: {fileID: 5121587541444851039, guid: 1aca755691035b742acae71166cc334e, type: 2}
@@ -5654,8 +5692,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278255590
-  m_fontColor: {r: 0.9019306, g: 1, b: 0, a: 1}
+    rgba: 4280936442
+  m_fontColor: {r: 0.98039216, g: 0.90588236, b: 0.16078432, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -6073,8 +6111,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4282515455
-  m_fontColor: {r: 1, g: 1, b: 0.25490198, a: 1}
+    rgba: 4280936442
+  m_fontColor: {r: 0.98039216, g: 0.90588236, b: 0.16078432, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -6962,8 +7000,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278255615
-  m_fontColor: {r: 1, g: 1, b: 0, a: 1}
+    rgba: 4280936442
+  m_fontColor: {r: 0.98039216, g: 0.90588236, b: 0.16078432, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -7238,6 +7276,10 @@ MonoBehaviour:
   _checkbox: {fileID: 1291738950}
   _createAccountButton: {fileID: 1929747099}
   _createAccountButtonText: {fileID: 383440036}
+  _loginEmail: {fileID: 483122469}
+  _loginPassword: {fileID: 2070763670}
+  _loginButton: {fileID: 1806929706}
+  _loginAccountButtonText: {fileID: 693337574}
   _errorWindow: {fileID: 6754025505406879360}
   _errorResponseText: {fileID: 637376201}
   _profileCanvas: {fileID: 2005583129}
@@ -7449,6 +7491,7 @@ RectTransform:
   - {fileID: 436424426}
   - {fileID: 1136370092}
   - {fileID: 904459587}
+  - {fileID: 126946373}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -8487,7 +8530,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1495969516}
   m_Layer: 0
-  m_Name: CreateAnAccount
+  m_Name: LoginToAccount
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8623,7 +8666,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -750}
-  m_SizeDelta: {x: -160, y: 220}
+  m_SizeDelta: {x: -180.22253, y: 220}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1737562396
 MonoBehaviour:
@@ -8870,7 +8913,7 @@ GameObject:
   - component: {fileID: 1806929707}
   - component: {fileID: 1806929706}
   m_Layer: 5
-  m_Name: CreateAccount
+  m_Name: LoginToAccount
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8942,7 +8985,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1285972609}
         m_TargetAssemblyTypeName: Login, Assembly-CSharp
-        m_MethodName: GoToMainMenu
+        m_MethodName: LoginToAccount
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9318,11 +9361,12 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\rBy Creating an account you accept the <color=yellow><u>Terms and Conditions</u>
-    </color> and have read the <color=yellow><u>Privacy Policy</u> </color>"
+  m_text: "\rBy Creating an account you accept the <color=#FAE729><u>\nTerms and
+    Conditions</u> </color>and have read the <color=#FAE729><u>\nPrivacy Policy</u>
+    </color>"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 1aca755691035b742acae71166cc334e, type: 2}
-  m_sharedMaterial: {fileID: 5121587541444851039, guid: 1aca755691035b742acae71166cc334e, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 01caecc4e63351e4992bfff09eaa3077, type: 2}
+  m_sharedMaterial: {fileID: -3186943377329053283, guid: 01caecc4e63351e4992bfff09eaa3077, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -10042,6 +10086,34 @@ PrefabInstance:
       propertyPath: m_ContentType
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 7786256056578954589, guid: ce4c3d7ae719144489db7b08c899c4d5, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7786256056578954589, guid: ce4c3d7ae719144489db7b08c899c4d5, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7786256056578954589, guid: ce4c3d7ae719144489db7b08c899c4d5, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1285972609}
+    - target: {fileID: 7786256056578954589, guid: ce4c3d7ae719144489db7b08c899c4d5, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7786256056578954589, guid: ce4c3d7ae719144489db7b08c899c4d5, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: loginToAccountValidation
+      objectReference: {fileID: 0}
+    - target: {fileID: 7786256056578954589, guid: ce4c3d7ae719144489db7b08c899c4d5, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Login, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7786256056578954589, guid: ce4c3d7ae719144489db7b08c899c4d5, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 8406918314861049457, guid: ce4c3d7ae719144489db7b08c899c4d5, type: 3}
       propertyPath: m_SizeDelta.x
       value: 249.7
@@ -10073,6 +10145,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6631399022143136023, guid: ce4c3d7ae719144489db7b08c899c4d5, type: 3}
   m_PrefabInstance: {fileID: 2070763668}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2070763670 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7786256056578954589, guid: ce4c3d7ae719144489db7b08c899c4d5, type: 3}
+  m_PrefabInstance: {fileID: 2070763668}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da0c512f12947e489f739169773d7ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2083604910
 GameObject:
   m_ObjectHideFlags: 0
@@ -10505,7 +10588,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -250}
+  m_AnchoredPosition: {x: 0, y: -275}
   m_SizeDelta: {x: 900, y: 200}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &2127828988
@@ -10596,7 +10679,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 81340bfbd67d775449d6fe794126497a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 421fc6493aaffee49a88a1cbbdca070a, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -10919,6 +11002,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4372760052577128864, guid: 87602f992bb95364ea2e84064a737b0c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4444906561545157286, guid: 87602f992bb95364ea2e84064a737b0c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4748778878928430087, guid: 87602f992bb95364ea2e84064a737b0c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 6
@@ -11221,6 +11312,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7267093060918778833, guid: 87602f992bb95364ea2e84064a737b0c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7406880888111997335, guid: 87602f992bb95364ea2e84064a737b0c, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8088790614362138545, guid: 87602f992bb95364ea2e84064a737b0c, type: 3}
