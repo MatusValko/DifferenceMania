@@ -51,7 +51,7 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
     {
         if (Instance != null && Instance != this)
         {
-            Destroy(this);
+            Destroy(gameObject);
             Debug.LogWarning("GAME MANAGER IS INSTANTIATED");
         }
         else

@@ -24,10 +24,9 @@ public class SoundManager : MonoBehaviour
     {
         if (Instance != null && Instance != this)
         {
-            Destroy(this);
             Destroy(gameObject); //check if GO is destroyed
 
-            Debug.LogWarning("GAME MANAGER IS INSTANTIATED");
+            Debug.LogWarning("SOUND MANAGER IS INSTANTIATED");
         }
         else
         {

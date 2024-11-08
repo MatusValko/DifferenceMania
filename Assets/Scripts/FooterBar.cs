@@ -19,7 +19,7 @@ public class FooterBar : MonoBehaviour
 
 
     [SerializeField]
-    public int selected;
+    public int SelectedScreen;
 
     public GameObject premiumWindow;
     public GameObject galleryWindow;
@@ -30,7 +30,7 @@ public class FooterBar : MonoBehaviour
         buttons[0] = premium;
         buttons[1] = home;
         buttons[2] = gallery;
-        selected = 0;
+
         // SELECT HOME
         SelectButton(1);
     }
@@ -43,20 +43,17 @@ public class FooterBar : MonoBehaviour
 
     public void SelectButton(int index)
     {
-        if (selected == index)
+        if (SelectedScreen == index)
         {
             return;
         }
         //DAJ SELECTNUTY BUTTON NA DEFAULT - NESTLACENE
-        buttons[selected].sprite = defaultButtons[selected];
-
+        buttons[SelectedScreen].sprite = defaultButtons[SelectedScreen];
 
         SetActiveOff(index);
         //ZMEN STLACENE TLACIDLO SPRITE
         buttons[index].sprite = pressedButtonSprite;
-        selected = index;
-
-
+        SelectedScreen = index;
     }
 
     private void SetActiveOff(int index)
@@ -80,7 +77,5 @@ public class FooterBar : MonoBehaviour
             galleryWindow.SetActive(true);
             topCanvas.SetActive(false);
         }
-
     }
-
 }
