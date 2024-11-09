@@ -1,11 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.XR;
 
 public class Login : MonoBehaviour
 {
@@ -13,15 +15,39 @@ public class Login : MonoBehaviour
     [SerializeField]
     private GameObject _mainMenuCanvas;
 
+    [Header("Sprites")]
+    [SerializeField]
+    private Sprite _formInput;
+    [SerializeField]
+    private Sprite _formErrorInput;
+
+    [SerializeField]
+    private Sprite _openEye;
+    [SerializeField]
+    private Sprite _closedEye;
+
     [Header("Create Account Canvas")]
     [SerializeField]
     private GameObject _createAccountCanvas;
     [SerializeField]
     private TMP_InputField _email;
+    private Image _emailFormInputImage;
+    private const string emailPattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
     [SerializeField]
     private TMP_InputField _password;
+    private Image _passwordFormInputImage;
+
+
+    [SerializeField]
+    private Image _eyeButton;
+    private bool isPasswordVisible = false;
+
+
+
+
     [SerializeField]
     private TMP_InputField _nickname;
+    private Image _nicknameFormInputImage;
     [SerializeField]
     private Toggle _checkbox;
     [SerializeField]
@@ -30,15 +56,32 @@ public class Login : MonoBehaviour
     private TextMeshProUGUI _createAccountButtonText;
 
 
+    [SerializeField]
+    private GameObject _emailErrorMessage;
+    [SerializeField]
+    private GameObject _passwordErrorMessage;
+    [SerializeField]
+    private GameObject _nicknameErrorMessage;
+
+
     [Header("Login To Account Canvas")]
     [SerializeField]
-    private TMP_InputField _loginEmail;
+    private TMP_InputField _emailLogin;
     [SerializeField]
-    private TMP_InputField _loginPassword;
+    private TMP_InputField _passwordLogin;
     [SerializeField]
     private Button _loginButton;
     [SerializeField]
     private TextMeshProUGUI _loginAccountButtonText;
+
+    [SerializeField]
+    private GameObject _emailLoginErrorMessage;
+    [SerializeField]
+    private GameObject _passwordLoginErrorMessage;
+
+    private Image _emailLoginFormInputImage;
+    private Image _passwordLoginFormInputImage;
+
 
     [Header("Error Window")]
     [SerializeField]
@@ -86,6 +129,17 @@ public class Login : MonoBehaviour
         // public bool checkbox;
 
     }
+    void Awake()
+    {
+        _emailFormInputImage = _email.gameObject.GetComponent<Image>();
+        _passwordFormInputImage = _password.gameObject.GetComponent<Image>();
+        _nicknameFormInputImage = _nickname.gameObject.GetComponent<Image>();
+        _emailLoginFormInputImage = _emailLogin.gameObject.GetComponent<Image>();
+        _passwordLoginFormInputImage = _passwordLogin.gameObject.GetComponent<Image>();
+
+        //ONLY FOR TESTING
+        GenerateRandomCredentials();
+    }
 
     public void CheckInputField()
     {
@@ -116,78 +170,7 @@ public class Login : MonoBehaviour
         }
     }
     //Vzdy ked sa zmeni pole vo formulari tak sa zavolá táto funkcia na validovanie vstupu
-    public void loginToAccountValidation()
-    {
-        if (GameManager.Instance.ISLOGGEDIN)
-        {
-            Debug.Log("NEVALIDUJEM LOGIN FORMULAR!");
-            return;
-        }
-        Debug.Log("VALIDUJEM, Logged in...");
 
-
-        bool error = false;
-        if (string.IsNullOrEmpty(_loginEmail.text))
-        {
-            Debug.LogWarning("login email.text is empty!");
-            error = true;
-        }
-        if (string.IsNullOrEmpty(_loginPassword.text))
-        {
-            Debug.LogWarning("Login password.text is empty!");
-            error = true;
-        }
-
-        ChangeButtonInteractibility(_loginButton, _loginAccountButtonText, !error);
-
-        // if (error)
-        // {
-        //     ChangeButtonInteractibility(_createAccountButton, _createAccountButtonText, !error);
-        // }
-        // else
-        // {
-        //     ChangeButtonInteractibility(_createAccountButton, _createAccountButtonText, !error);
-        // }
-    }
-    //Vzdy ked sa zmeni pole vo formulari tak sa zavolá táto funkcia na validovanie vstupu
-    public void CreateAccountValidation()
-    {
-        if (GameManager.Instance.ISLOGGEDIN)
-        {
-            Debug.Log("NEVALIDUJEM REGISTER FORMULAR!");
-            return;
-        }
-        Debug.Log("VALIDUJEM, Logged in...");
-
-
-        bool error = false;
-        if (string.IsNullOrEmpty(_email.text))
-        {
-            Debug.LogWarning("email.text is empty!");
-            error = true;
-        }
-        if (string.IsNullOrEmpty(_password.text))
-        {
-            Debug.LogWarning("password.text is empty!");
-            error = true;
-        }
-        if (string.IsNullOrEmpty(_nickname.text))
-        {
-            Debug.LogWarning("_nickname.text is empty!");
-            error = true;
-        }
-
-        ChangeButtonInteractibility(_createAccountButton, _createAccountButtonText, !error);
-
-        // if (error)
-        // {
-        //     ChangeButtonInteractibility(_createAccountButton, _createAccountButtonText, !error);
-        // }
-        // else
-        // {
-        //     ChangeButtonInteractibility(_createAccountButton, _createAccountButtonText, !error);
-        // }
-    }
     //CLICK NA BUTTON
     public void CreateAccount()
     {
@@ -210,23 +193,6 @@ public class Login : MonoBehaviour
         yield return null;
     }
 
-    // public void CheckIfFreeOrCost()
-    // {
-    //     if (GameManager.Instance.GetFreeNickName())
-    //     {
-    //         _freeText.SetActive(true);
-    //         _cost50Text.SetActive(false);
-    //         _freeButton.gameObject.SetActive(true);
-    //         _refillWithCoinsButton.gameObject.SetActive(false);
-    //     }
-    //     else
-    //     {
-    //         _freeText.SetActive(false);
-    //         _cost50Text.SetActive(true);
-    //         _freeButton.gameObject.SetActive(false);
-    //         _refillWithCoinsButton.gameObject.SetActive(true);
-    //     }
-    // }
     public void CheckIfFreeOrCostNew()
     {
         bool free = GameManager.Instance.GetFreeNickName();
@@ -333,14 +299,13 @@ public class Login : MonoBehaviour
             UpdateProfileMenu();
             _createAccountCanvas.SetActive(false);
 
-
-
         }
     }
 
     void OnEnable()
     {
         CreateAccountValidation();
+        LoginToAccountValidation();
         UpdateProfileMenu();
         CheckIfLoggedInAndChangeWindows();
     }
@@ -381,6 +346,227 @@ public class Login : MonoBehaviour
         CheckIfLoggedInAndChangeWindows();
     }
 
+
+
+    #region VALIDATION
+
+    public void LoginToAccountValidation()
+    {
+        if (GameManager.Instance.ISLOGGEDIN)
+        {
+            Debug.Log("NEVALIDUJEM LOGIN FORMULAR!");
+            return;
+        }
+        // Debug.Log("VALIDUJEM, Logged in...");
+
+
+        bool error = false;
+        if (string.IsNullOrEmpty(_emailLogin.text))
+        {
+            Debug.LogWarning("login email.text is empty!");
+            error = true;
+        }
+        if (string.IsNullOrEmpty(_passwordLogin.text))
+        {
+            Debug.LogWarning("Login password.text is empty!");
+            error = true;
+        }
+
+        if (_validateEmailLogin())
+        {
+            error = true;
+        }
+
+        if (_validatePasswordLogin())
+        {
+            error = true;
+        }
+
+        ChangeButtonInteractibility(_loginButton, _loginAccountButtonText, !error);
+    }
+    //Vzdy ked sa zmeni pole vo formulari tak sa zavolá táto funkcia na validovanie vstupu
+    public void CreateAccountValidation()
+    {
+        if (GameManager.Instance.ISLOGGEDIN)
+        {
+            Debug.Log("NEVALIDUJEM REGISTER FORMULAR!");
+            return;
+        }
+        // Debug.Log("VALIDUJEM, Logged in...");
+
+
+        bool error = false;
+        if (string.IsNullOrEmpty(_email.text))
+        {
+            Debug.LogWarning("email.text is empty!");
+            error = true;
+        }
+        if (string.IsNullOrEmpty(_password.text))
+        {
+            Debug.LogWarning("password.text is empty!");
+            error = true;
+        }
+        if (string.IsNullOrEmpty(_nickname.text))
+        {
+            Debug.LogWarning("_nickname.text is empty!");
+            error = true;
+        }
+
+        if (_validateEmail())
+        {
+            error = true;
+        }
+
+        if (_validatePassword())
+        {
+            error = true;
+        }
+
+        //TODO CHECKBOX
+        //MUSI BYT ZASKRTNUTY?
+
+        ChangeButtonInteractibility(_createAccountButton, _createAccountButtonText, !error);
+    }
+    public void OnPasswordDeselect()
+    {
+        if (_validatePassword())
+        {
+            //PASSWORD MIN. 6 CHARACTERS
+            //TODO DAJ CERVENY RAMIK
+            _passwordErrorMessage.SetActive(true);
+            _passwordFormInputImage.sprite = _formErrorInput;
+        }
+        else
+        {
+            _passwordErrorMessage.SetActive(false);
+            _passwordFormInputImage.sprite = _formInput;
+        }
+    }
+    private bool _validatePassword()
+    {
+        if (_password.text.Length < 6)
+        {
+            //PASSWORD MIN. 6 CHARACTERS
+            // Debug.LogWarning("PASSWORD MIN. 6 CHARACTERS!");
+            return true;
+        }
+        else
+        {
+            if (_passwordErrorMessage.activeSelf)
+            {
+                _passwordErrorMessage.SetActive(false);
+                _passwordFormInputImage.sprite = _formInput;
+                //TODO VYMENIT RAMIK
+            }
+            return false;
+        }
+    }
+
+    public void OnEmailDeselect()
+    {
+        if (_validateEmail())
+        {
+            //DAJ CERVENY RAMIK
+            _emailErrorMessage.SetActive(true);
+            _emailFormInputImage.sprite = _formErrorInput;
+        }
+        else
+        {
+            _emailErrorMessage.SetActive(false);
+            _emailFormInputImage.sprite = _formInput;
+        }
+    }
+    private bool _validateEmail()
+    {
+        if (!Regex.IsMatch(_email.text, emailPattern))
+        {
+            //PASSWORD MIN. 6 CHARACTERS
+            // Debug.LogWarning("INCORRECT EMAIL!");
+            return true;
+        }
+        else
+        {
+            if (_emailErrorMessage.activeSelf)
+            {
+                _emailErrorMessage.SetActive(false);
+                _emailFormInputImage.sprite = _formInput;
+                //TODO VYMENIT RAMIK
+            }
+            return false;
+        }
+    }
+
+    public void OnPasswordLoginDeselect()
+    {
+        if (_validatePasswordLogin())
+        {
+            //PASSWORD MIN. 6 CHARACTERS
+            //TODO DAJ CERVENY RAMIK
+            _passwordLoginErrorMessage.SetActive(true);
+            _passwordLoginFormInputImage.sprite = _formErrorInput;
+        }
+        else
+        {
+            _passwordLoginErrorMessage.SetActive(false);
+            _passwordLoginFormInputImage.sprite = _formInput;
+        }
+    }
+    private bool _validatePasswordLogin()
+    {
+        if (_passwordLogin.text.Length < 6)
+        {
+            //PASSWORD MIN. 6 CHARACTERS
+            // Debug.LogWarning("PASSWORD MIN. 6 CHARACTERS!");
+            return true;
+        }
+        else
+        {
+            if (_passwordLoginErrorMessage.activeSelf)
+            {
+                _passwordLoginErrorMessage.SetActive(false);
+                _passwordLoginFormInputImage.sprite = _formInput;
+                //TODO VYMENIT RAMIK
+            }
+            return false;
+        }
+    }
+
+    public void OnEmailLoginDeselect()
+    {
+        if (_validateEmailLogin())
+        {
+            //DAJ CERVENY RAMIK
+            _emailLoginErrorMessage.SetActive(true);
+            _emailLoginFormInputImage.sprite = _formErrorInput;
+        }
+        else
+        {
+            _emailLoginErrorMessage.SetActive(false);
+            _emailLoginFormInputImage.sprite = _formInput;
+        }
+    }
+    private bool _validateEmailLogin()
+    {
+        if (!Regex.IsMatch(_emailLogin.text, emailPattern))
+        {
+            //PASSWORD MIN. 6 CHARACTERS
+            // Debug.LogWarning("INCORRECT EMAIL!");
+            return true;
+        }
+        else
+        {
+            if (_emailLoginErrorMessage.activeSelf)
+            {
+                _emailLoginErrorMessage.SetActive(false);
+                _emailLoginFormInputImage.sprite = _formInput;
+                //TODO VYMENIT RAMIK
+            }
+            return false;
+        }
+    }
+
+    #endregion VALIDATION
+
     public void ShowChangeNickNameWindow()
     {
         if (GameManager.Instance.GetCoins() < 50)
@@ -390,4 +576,58 @@ public class Login : MonoBehaviour
             return;
         }
     }
+
+
+    public void TogglePasswordVisibility()
+    {
+        if (isPasswordVisible)
+        {
+            // Hide password: Set InputField to password mode
+            _password.contentType = TMP_InputField.ContentType.Password;
+            _eyeButton.sprite = _openEye;
+            // toggleButton.GetComponentInChildren<Text>().text = "Show";
+        }
+        else
+        {
+            // Show password: Set InputField to standard text mode
+            _password.contentType = TMP_InputField.ContentType.Standard;
+            _eyeButton.sprite = _closedEye;
+            // toggleButton.GetComponentInChildren<Text>().text = "Hide";
+        }
+
+        isPasswordVisible = !isPasswordVisible;
+        // Apply the change immediately
+        _password.ForceLabelUpdate();
+    }
+
+    #region TESTING, CAN BE DELETED LATER
+    private const string chars = "abcdefghijklmnopqrstuvwxyz0123456789";
+    // private const string letters = "abcdefghijklmnopqrstuvwxyz";
+
+    // Call this function to generate a random email, password, and nickname
+    public void GenerateRandomCredentials()
+    {
+        string email = GenerateRandomString(5) + "@" + GenerateRandomString(3) + ".com";
+        string password = GenerateRandomString(8); // Password longer than 6 characters
+        string nickname = GenerateRandomString(6); // Nickname with 6 random characters
+
+        _email.text = email;
+        _password.text = password;
+        _nickname.text = nickname;
+        // return (email, password, nickname);
+    }
+
+    // Helper function to generate a random string of specified length
+    private string GenerateRandomString(int length)
+    {
+        System.Text.StringBuilder result = new System.Text.StringBuilder(length);
+        for (int i = 0; i < length; i++)
+        {
+            result.Append(chars[UnityEngine.Random.Range(0, chars.Length)]);
+        }
+        return result.ToString();
+    }
+    #endregion
 }
+
+

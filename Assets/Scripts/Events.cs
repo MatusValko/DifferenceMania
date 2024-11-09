@@ -27,7 +27,7 @@ public class Events : MonoBehaviour
         {
             foreach (var animator in _eventAnimators)
             {
-                Debug.Log(animator.name);
+                // Debug.Log(animator.name);
                 animator.Play("Event", -1, 0);
                 yield return new WaitForSeconds(5);
             }
