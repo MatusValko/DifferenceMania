@@ -7358,10 +7358,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1816588287}
     m_Modifications:
-    - target: {fileID: 3085045863772571722, guid: c57b09cf99be6284b91af2e226dcc1b0, type: 3}
-      propertyPath: m_RaycastTarget
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4369488952092237471, guid: c57b09cf99be6284b91af2e226dcc1b0, type: 3}
       propertyPath: m_Name
       value: Coins
