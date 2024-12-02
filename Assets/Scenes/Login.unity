@@ -4636,7 +4636,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -704.6}
-  m_SizeDelta: {x: -191.22473, y: 885}
+  m_SizeDelta: {x: -183.14221, y: 885}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &904459588
 MonoBehaviour:
@@ -6815,9 +6815,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mainMenuCanvas: {fileID: 560247986}
   _formInput: {fileID: 21300000, guid: acdc88c96388b1846929a2e0d8744bfe, type: 3}
-  _formErrorInput: {fileID: 21300000, guid: f96ab55ef3b3311449e0858c367459fb, type: 3}
+  _formErrorInput: {fileID: 21300000, guid: b653c822123bbc942bc48b4cbddbeafd, type: 3}
   _openEye: {fileID: 21300000, guid: 9f838bd6d8ca7e24a811faa5d0d54702, type: 3}
-  _closedEye: {fileID: 21300000, guid: 0a6256a7f6041bc4aa3f14649bdf1c93, type: 3}
+  _closedEye: {fileID: 21300000, guid: b67fea8271b203e43a3affc3f869ed68, type: 3}
   _createAccountCanvas: {fileID: 1312084973}
   _email: {fileID: 2000005660}
   _password: {fileID: 2021022906}
