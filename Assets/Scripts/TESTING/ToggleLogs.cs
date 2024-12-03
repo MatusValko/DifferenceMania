@@ -1,9 +1,10 @@
 using UnityEditor;
 using UnityEngine;
 
+//USE UNITY_EDITOR INSTEAD
 public class ToggleLogs
 {
-    private const string DefineSymbol = "ENABLE_LOGS";
+    private const string DefineSymbol = "DEVELOPMENT_BUILD";
 
     [MenuItem("Tools/Toggle Logs")]
     public static void ToggleEnableLogs()
@@ -17,7 +18,7 @@ public class ToggleLogs
         {
             // Remove the symbol if it exists
             currentSymbols = currentSymbols.Replace(DefineSymbol, "").Trim(';');
-            Debug.Log("ENABLE_LOGS disabled.");
+            Debug.Log($"{DefineSymbol + " disabled"}");
         }
         else
         {
@@ -26,7 +27,7 @@ public class ToggleLogs
                 currentSymbols += ";";
 
             currentSymbols += DefineSymbol;
-            Debug.Log("ENABLE_LOGS enabled.");
+            Debug.Log($"{DefineSymbol + " enabled"}");
         }
 
         // Apply the updated define symbols (ensures valid formatting)

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 public class DifferencesManager : MonoBehaviour
 {
@@ -57,6 +58,14 @@ public class DifferencesManager : MonoBehaviour
     private bool _isGameOver = false;
 
 
+    [SerializeField]
+    private GameObject _levelCompleted;
+    [SerializeField]
+    private GameObject _outOfTime;
+
+    [SerializeField]
+    private GameObject _congratulationWindow;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -68,10 +77,21 @@ public class DifferencesManager : MonoBehaviour
         else
         {
             Instance = this;
-            DontDestroyOnLoad(Instance);
+            // DontDestroyOnLoad(Instance);
         }
     }
     void Start()
+    {
+
+        Initialisation();
+
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        Initialisation();
+    }
+    private void Initialisation()
     {
         // Load and parse the JSON data
 
@@ -103,7 +123,6 @@ public class DifferencesManager : MonoBehaviour
         //GET TOTAL TIME TO SOLVE
         _totalTime = _differencesCount * _timePerDifference;
         _updateTimerUI();
-
     }
 
     void Update()
@@ -111,6 +130,11 @@ public class DifferencesManager : MonoBehaviour
         if (_isGameOver)
             return;
 
+        _timeTick();
+    }
+
+    private void _timeTick()
+    {
         // Countdown logic
         _totalTime -= Time.deltaTime;
 
@@ -121,6 +145,7 @@ public class DifferencesManager : MonoBehaviour
         if (_totalTime <= 0)
         {
             DebugLogger.Log("Run out of time!");
+            _outOfTime.SetActive(true);
             _gameOver();
         }
 
@@ -151,23 +176,6 @@ public class DifferencesManager : MonoBehaviour
         int minutes = Mathf.FloorToInt(_totalTime / 60);
         int seconds = Mathf.FloorToInt(_totalTime % 60);
         _timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
-    }
-
-    private void _gameOver()
-    {
-        _isGameOver = true;
-        _timerText.text = "00:00"; // Display zero time
-        DebugLogger.Log("Game Over!");
-        // Trigger other game-over actions (e.g., show Game Over screen)
-    }
-
-    private void _gameWon()
-    {
-        DebugLogger.Log("Found all differences!, Game WON!");
-        //MAYBE TEMPORALY FREEZE TIME
-        Time.timeScale = 0;
-        _isGameOver = true;
-        // Trigger other game-over actions (e.g., show Game Over screen)
     }
 
     public void RestartGame()
@@ -241,9 +249,7 @@ public class DifferencesManager : MonoBehaviour
         GameObject circle = null;
         foreach (var difference in foundDifferences)
         {
-            DebugLogger.Log("NASLO DIFF" + difference.id);
             differenceLocal = difference;
-
             difference.gameObject.SetActive(false);
         }
         DebugLogger.Log("Vytvaram Image" + differenceLocal.id);
@@ -261,10 +267,40 @@ public class DifferencesManager : MonoBehaviour
         DebugLogger.Log("Davam fajku :)");
         _adjustCorrectCircles();
 
+        if (_foundDifferences == _differencesCount)
+        {
+            _gameWon();
+        }
+
 
 
     }
 
+    private void _gameOver()
+    {
+        _isGameOver = true;
+        _timerText.text = "00:00"; // Display zero time
+        DebugLogger.Log("Game Over!");
+        // Trigger other game-over actions (e.g., show Game Over screen)
+    }
 
+    private void _gameWon()
+    {
+        DebugLogger.Log("Found all differences!, Game WON!");
+        //MAYBE TEMPORALY FREEZE TIME
+        // Time.timeScale = 0;
+        _isGameOver = true;
+        _levelCompleted.SetActive(true);
+
+        //start coroutine to next window, congratulations
+
+        StartCoroutine(_showCongratulation());
+    }
+
+    IEnumerator _showCongratulation()
+    {
+        yield return new WaitForSeconds(2);
+        _congratulationWindow.SetActive(true);
+    }
 
 }

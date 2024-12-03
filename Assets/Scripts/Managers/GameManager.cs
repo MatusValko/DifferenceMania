@@ -27,6 +27,9 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
     [SerializeField]
     private int _unlockedLevels;
     [SerializeField]
+    private int _currentWins;
+    public int CurrentWins => _currentWins;
+    [SerializeField]
     private int _selectedPFP;
     [SerializeField]
     private List<int> _unlockedPFP;
@@ -140,6 +143,15 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
         _hasFreeNickName = true;
     }
 
+
+    public void AddWin()
+    {
+        _currentWins += 1;
+    }
+    public void ResetWins()
+    {
+        _currentWins = 0;
+    }
     public void LogOut()
     {
         SetEmail(null);
@@ -155,6 +167,7 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
         _unlockedPFP = gameData.UnlockedPFP;
         _selectedPFP = gameData.SelectedPFP;
         _experience = gameData.Experience;
+        _currentWins = gameData.CurrentWins;
 
         _token = gameData.Token;
         _email = gameData.Email;
@@ -170,6 +183,7 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
         gameData.UnlockedPFP = _unlockedPFP;
         gameData.SelectedPFP = _selectedPFP;
         gameData.Experience = _experience;
+        gameData.CurrentWins = _currentWins;
 
 
         gameData.Token = _token;

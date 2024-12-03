@@ -10,6 +10,7 @@ public class GameData
     public int Lives;
     public int Experience;
     // public List<int> UnlockedLevels;
+    public int CurrentWins;
     public int UnlockedLevels;
     public int SelectedPFP;
     // public int UnlockedPFP;
@@ -33,7 +34,7 @@ public class GameData
         };
         SelectedPFP = 1;
         Experience = 0;
-
+        CurrentWins = 0;
 
         Device_name = null;
         Email = null;
