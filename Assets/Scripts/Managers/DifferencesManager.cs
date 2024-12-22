@@ -10,6 +10,9 @@ public class DifferencesManager : MonoBehaviour
 {
     public static DifferencesManager Instance { get; private set; }
 
+    [SerializeField] private Camera _mainCamera;
+
+
     [SerializeField]
     private List<Difference> _differences;
 
@@ -20,6 +23,9 @@ public class DifferencesManager : MonoBehaviour
 
     [SerializeField]
     private int _foundDifferences = 0;
+
+    [SerializeField]
+    private bool _isHurryUp = false;
 
 
     [System.Serializable]
@@ -40,10 +46,10 @@ public class DifferencesManager : MonoBehaviour
 
     // Set the path to the JSON file/ ONLY FOR TESTING
     public string jsonFilePath = "Assets/differencesTest.json";
-    [SerializeField]
-    private GameObject _firstImage;
-    [SerializeField]
-    private GameObject _secondImage;
+    [SerializeField] private GameObject _firstImage;
+    [SerializeField] private BoxCollider2D _firstImageCollider;
+    [SerializeField] private GameObject _secondImage;
+    [SerializeField] private BoxCollider2D _secondImageCollider;
 
     [SerializeField]
     private GameObject _foundCircle;
@@ -57,6 +63,7 @@ public class DifferencesManager : MonoBehaviour
     private bool _isPaused = false;
     private bool _isGameOver = false;
 
+    [SerializeField] private GameObject _xImage; // Prefab for the "X" image
 
     [SerializeField]
     private GameObject _levelCompleted;
@@ -93,8 +100,11 @@ public class DifferencesManager : MonoBehaviour
     }
     private void Initialisation()
     {
-        // Load and parse the JSON data
+        //GET IMAGE COLLIDERS
+        _firstImageCollider = _firstImage.GetComponent<BoxCollider2D>();
+        _secondImageCollider = _secondImage.GetComponent<BoxCollider2D>();
 
+        // Load and parse the JSON data
         string jsonContent = File.ReadAllText(jsonFilePath);
         DifferencesData data = JsonUtility.FromJson<DifferencesData>(jsonContent);
         // Debug.Log(data.image_id);
@@ -131,6 +141,52 @@ public class DifferencesManager : MonoBehaviour
             return;
 
         _timeTick();
+
+        // Detect background clicks
+        _click();
+    }
+
+
+    private void _click()
+    {
+        if (_isPaused)
+        {
+            return;
+        }
+        if (Input.GetMouseButtonDown(0))
+        {
+            Vector2 mousePosition = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
+            Collider2D hitCollider = Physics2D.OverlapPoint(mousePosition);
+
+            // Clicked outside of a difference
+            if (hitCollider == null)
+            {
+                DebugLogger.Log("CLICKED OUTSIDE!");
+                return;
+            }
+
+            if (hitCollider.gameObject.CompareTag("Difference"))
+            {
+                Difference difference = hitCollider.gameObject.GetComponent<Difference>();  // Get the Difference component of the clicked object
+                if (difference != null)
+                {
+                    DebugLogger.Log("CLICKED ON DIFFERENCE!");
+                    Clicked(difference.id);
+                }
+            }
+            else if (hitCollider.gameObject.CompareTag("Image"))
+            {
+                DebugLogger.LogWarning("NO DIFFERENCE CLICKED!");
+                TakeLife();
+
+                // Instantiate the "X" image at the clicked position
+                Vector3 position = new Vector3(mousePosition.x, mousePosition.y, 0);
+                Instantiate(_xImage, position, Quaternion.identity, _secondImage.transform);
+
+                //play X sound
+                // _audioSource.PlayOneShot(_xSound);
+            }
+        }
     }
 
     private void _timeTick()
@@ -141,10 +197,21 @@ public class DifferencesManager : MonoBehaviour
         // Update the timer UI
         _updateTimerUI();
 
+        //if less than 10 seconds, play time animation 
+        if (_totalTime <= 10 && !_isHurryUp)
+        {
+            //get parent gameobject of timer text and play animation COPILOT
+            _timerText.transform.parent.gameObject.GetComponent<Animator>().SetTrigger("HurryUp");
+            DebugLogger.LogWarning("HURRY UP!");
+            _isHurryUp = true;
+            // _timerText.GetComponent<Animator>().SetTrigger("TimeEnd");
+        }
+
         // Check for game over
         if (_totalTime <= 0)
         {
             DebugLogger.Log("Run out of time!");
+            _timerText.transform.parent.gameObject.GetComponent<Animator>().SetTrigger("End");
             _outOfTime.SetActive(true);
             _gameOver();
         }
@@ -303,4 +370,11 @@ public class DifferencesManager : MonoBehaviour
         _congratulationWindow.SetActive(true);
     }
 
+    //function to take live when player dont click on difference
+    //copilot
+    public void TakeLife()
+    {
+        _totalTime -= 10;
+        _updateTimerUI();
+    }
 }

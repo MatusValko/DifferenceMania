@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Difference : MonoBehaviour
 {
@@ -31,7 +32,7 @@ public class Difference : MonoBehaviour
         difference.height = height;
         difference.id = id;
 
-        difference.transform.localPosition = new Vector2(x, -y);
+        difference.transform.localPosition = new Vector3(x, -y, -5);
         difference.transform.localScale = new Vector2(1, 1);
 
 
@@ -39,6 +40,9 @@ public class Difference : MonoBehaviour
         BoxCollider2D boxCollider = differenceObject.AddComponent<BoxCollider2D>();
         boxCollider.size = new Vector2(width, height);
         boxCollider.offset = new Vector2(width / 2, -height / 2);
+
+        //Add tag Difference
+        differenceObject.tag = "Difference";
 
         return difference;
     }
@@ -61,12 +65,51 @@ public class Difference : MonoBehaviour
         //         // Additional actions on the clicked object
         //     }
         // }
+
+        // if (Input.GetMouseButtonDown(0)) // Detect left mouse click or tap
+        // {
+        //     Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //     Collider2D hitCollider = Physics2D.OverlapPoint(mousePosition);
+
+        //     if (hitCollider == null)
+        //     {
+        //         DifferencesManager.Instance.TakeLife();
+        //         Debug.LogWarning("NO DIFFERENCE CLICKED!");
+        //     }
+
+        //     DifferencesManager.Instance.Clicked(id);
+
+        //     Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        //     Debug.DrawRay(ray.origin, ray.direction * 100, Color.red, 2f);
+        //     if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
+        //     {
+        //         Debug.LogWarning("Hit object: " + hit.collider.name);
+        //     }
+        //     else
+        //     {
+        //         Debug.Log("NO Hit object");
+
+        //     }
+        // }
     }
 
     private void OnMouseDown()
     {
-        Clicked();
+        // if (EventSystem.current.IsPointerOverGameObject())
+        // {
+        //     // Do nothing if over a UI element
+        //     return;
+        // }
+        // if (EventSystem.current.IsPointerOverGameObject())
+        // {
+        //     Debug.Log("Click blocked by UI element.");
+        //     return;
+        // }
+        // Clicked();
     }
+
+
+
     public void Clicked()
     {
         DebugLogger.Log($"{id} was clicked!");
