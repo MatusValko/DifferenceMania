@@ -33,6 +33,10 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
     private int _selectedPFP;
     [SerializeField]
     private List<int> _unlockedPFP;
+    [SerializeField]
+    private int _boostAddTimeCount;
+    [SerializeField]
+    private int _boostHintCount;
 
     [Header("Account details")]
     [SerializeField]
@@ -96,6 +100,15 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
         }
         _lives += live;
         UI_Manager.Instance.UpdateLives();
+    }
+    //get hints and time
+    public int GetBoostAddTimeCount()
+    {
+        return _boostAddTimeCount;
+    }
+    public int GetBoostHintCount()
+    {
+        return _boostHintCount;
     }
     public void AddCoins(int coin)
     {
@@ -200,5 +213,24 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
     {
         //TODO
 
+    }
+
+    // UseBoostHint function
+    public void UseBoostHint()
+    {
+        if (_boostHintCount > 0)
+        {
+            _boostHintCount--;
+            // UI_Manager.Instance.UpdateBoostHint();
+        }
+    }
+    // function UseBoostAddTime
+    public void UseBoostAddTime()
+    {
+        if (_boostAddTimeCount > 0)
+        {
+            _boostAddTimeCount--;
+            // UI_Manager.Instance.UpdateBoostAddTime();
+        }
     }
 }

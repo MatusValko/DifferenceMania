@@ -11477,10 +11477,26 @@ PrefabInstance:
       propertyPath: m_fontColor32.rgba
       value: 4280936442
       objectReference: {fileID: 0}
+    - target: {fileID: 3119761907839893024, guid: 2c4ec499b85401846ab4d0de6da90c0b, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3119761907839893024, guid: 2c4ec499b85401846ab4d0de6da90c0b, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3208674594758606204, guid: 2c4ec499b85401846ab4d0de6da90c0b, type: 3}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 519420031}
+    - target: {fileID: 4107966470714879375, guid: 2c4ec499b85401846ab4d0de6da90c0b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4223438780151503549, guid: 2c4ec499b85401846ab4d0de6da90c0b, type: 3}
+      propertyPath: m_Maskable
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4576531156429656143, guid: 2c4ec499b85401846ab4d0de6da90c0b, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1

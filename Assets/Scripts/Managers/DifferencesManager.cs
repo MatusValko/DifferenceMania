@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using TMPro;
 using UnityEngine;
@@ -73,6 +74,20 @@ public class DifferencesManager : MonoBehaviour
     [SerializeField]
     private GameObject _congratulationWindow;
 
+    [Header("Boosts")]
+    //private variable for boost hint and boost add time text
+    [SerializeField] private TextMeshProUGUI _boostHintTextAmount;
+    [SerializeField] private TextMeshProUGUI _boostAddTimeTextAmount;
+    //gameobject for boost hint and boost add time
+    // [SerializeField] private GameObject _boostHint;
+    // [SerializeField] private GameObject _boostAddTime;
+    //gameobject for ribbons
+    [SerializeField] private GameObject _ribbonHint;
+    [SerializeField] private GameObject _ribbonAddTime;
+
+    [SerializeField] private GameObject _buyHintWindow;
+    [SerializeField] private GameObject _buyAddTimeWindow;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -133,6 +148,7 @@ public class DifferencesManager : MonoBehaviour
         //GET TOTAL TIME TO SOLVE
         _totalTime = _differencesCount * _timePerDifference;
         _updateTimerUI();
+        _adjustBoosts();
     }
 
     void Update()
@@ -177,7 +193,7 @@ public class DifferencesManager : MonoBehaviour
             else if (hitCollider.gameObject.CompareTag("Image"))
             {
                 DebugLogger.LogWarning("NO DIFFERENCE CLICKED!");
-                TakeLife();
+                _takeTime();
 
                 // Instantiate the "X" image at the clicked position
                 Vector3 position = new Vector3(mousePosition.x, mousePosition.y, 0);
@@ -372,9 +388,118 @@ public class DifferencesManager : MonoBehaviour
 
     //function to take live when player dont click on difference
     //copilot
-    public void TakeLife()
+    private void _takeTime()
     {
         _totalTime -= 10;
         _updateTimerUI();
     }
+
+    //function to add 60 seconds to totaltime, onclick button
+    public void AddTime()
+    {
+        _totalTime += 60;
+        _updateTimerUI();
+    }
+
+    //function to quit level, onclick button
+    public void QuitLevel()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
+
+    //function to show boosts texts if gamemanager has enough of them, otherwise show ribbon
+    public void _adjustBoosts()
+    {
+        //if player has enough of hints, show hint boost
+        if (GameManager.Instance.GetBoostHintCount() > 0)
+        {
+            // _boostHint.SetActive(true);
+            _ribbonHint.SetActive(false);
+            // Adjust text with $ sign, and add 'X' at the end
+            _boostHintTextAmount.text = $"{GameManager.Instance.GetBoostHintCount()}X";
+        }
+        else
+        {
+            // _boostHint.SetActive(false);
+            _ribbonHint.SetActive(true);
+            _boostHintTextAmount.gameObject.SetActive(false);
+        }
+
+        //if player has enough of add time, show add time boost
+        if (GameManager.Instance.GetBoostAddTimeCount() > 0)
+        {
+            // _boostAddTime.SetActive(true);
+            _ribbonAddTime.SetActive(false);
+            // Adjust text with $ sign, and add 'X' at the end
+            _boostAddTimeTextAmount.text = $"{GameManager.Instance.GetBoostAddTimeCount()}X";
+        }
+        else
+        {
+            // _boostAddTime.SetActive(false);
+            _ribbonAddTime.SetActive(true);
+            _boostAddTimeTextAmount.gameObject.SetActive(false);
+        }
+    }
+
+
+
+    //Delete this after testing
+    [Conditional("UNITY_EDITOR")]
+    public void TESTWinGame()
+    {
+        _gameWon();
+    }
+
+    //function to check if player has enough of hints, if yes use one otherwise show popup window
+    public void UseHint()
+    {
+        if (GameManager.Instance.GetBoostHintCount() > 0)
+        {
+            //if player has enough of hints, use one and show difference
+            GameManager.Instance.UseBoostHint();
+            //show difference
+            _showDifference();
+            //play hint sound
+            // _audioSource.PlayOneShot(_hintSound);
+            _adjustBoosts();
+        }
+        else
+        {
+            //show popup window
+            _buyHintWindow.SetActive(true);
+        }
+    }
+
+    //function boost to add time
+    public void UseAddTime()
+    {
+        if (GameManager.Instance.GetBoostAddTimeCount() > 0)
+        {
+            //if player has enough of add time, use one and add 60 seconds
+            GameManager.Instance.UseBoostAddTime();
+            //add 60 seconds
+            AddTime();
+            //play add time sound
+            // _audioSource.PlayOneShot(_addTimeSound);
+            _adjustBoosts();
+        }
+        else
+        {
+            //show popup window
+            _buyAddTimeWindow.SetActive(true);
+        }
+    }
+
+    // function _showDifference();
+    private void _showDifference()
+    {
+        //get random difference
+        // int randomDifference = UnityEngine.Random.Range(0, _differences.Count);
+        // //get difference
+        // Difference difference = _differences[randomDifference];
+        // //show difference
+        // difference.gameObject.SetActive(true);
+        // _audioSource.PlayOneShot(_hintSound);
+    }
+
 }

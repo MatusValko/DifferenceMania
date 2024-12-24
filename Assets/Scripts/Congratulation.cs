@@ -14,7 +14,8 @@ public class Congratulation : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _completedXoutOfMaxText;
     [SerializeField] private Button _continueButton;
     [SerializeField] private Button _menuButton;
-    [SerializeField] private GameObject _GiftsRoomWindow;
+    [SerializeField] private GameObject _giftsRoomWindow;
+    [SerializeField] private Animator _animator; // Animator for the gift animation
 
 
 
@@ -39,47 +40,79 @@ public class Congratulation : MonoBehaviour
 
     private IEnumerator _setUpWindow()
     {
+
+
+
         //AK NEMA GIFT MOZE IST DALEJ/DO MENU INAK DISABLE NA TLACIDLA
         if (GameManager.Instance.CurrentWins + 1 == _winsNeededToGift)
         {
             _menuButton.interactable = false;
             _continueButton.interactable = false;
         }
-
-        _AdjustSliderAndTexts();
-        //Wait for confetti
-        yield return new WaitForSeconds(2);
-
+        //prvy krat nastavi slider a texty
+        _adjustSliderAndTexts();
         GameManager.Instance.AddWin();
+
+        yield return new WaitForSeconds(1);
+        //gift glow animation
+        _animator.SetTrigger("GiftGlow");
+        _animator.SetTrigger("CongratulationsText");
+
+        //Wait for confetti
+        yield return new WaitForSeconds(3);
+
+        //update slider
+        _adjustSliderAndTexts();
+
         //play slider animation
+
         //Wait for animation
         yield return new WaitForSeconds(1);
-        _AdjustSliderAndTexts();
 
         if (GameManager.Instance.CurrentWins == _winsNeededToGift)
         {
-            // play Gift animation
-            //Wait for gift animation
+            // Play Gift animation
+            _animator.SetTrigger("GiftPopUp");
+            // Wait for gift animation
             yield return new WaitForSeconds(2);
-            // open gift window
-            _GiftsRoomWindow.SetActive(true);
+            // Open gift window
+            _giftsRoomWindow.SetActive(true);
 
             _menuButton.interactable = true;
             _continueButton.interactable = true;
-            // set new maximum for gift/reset
+            // Set new maximum for gift/reset
             GameManager.Instance.ResetWins();
-            _AdjustSliderAndTexts();
+            _adjustSliderAndTexts();
 
         }
     }
 
-    private void _AdjustSliderAndTexts()
+    private void _adjustSliderAndTexts()
     {
-        //SLIDER TO GIFT
-        _slider.value = GameManager.Instance.CurrentWins;
+        StartCoroutine(_updateSlider());
+    }
+
+    private IEnumerator _updateSlider()
+    {
         int left = _winsNeededToGift - GameManager.Instance.CurrentWins;
         _winsNeededToGiftText.text = $"<color=#FAE729>{left}</color> levels left to get reward";
         _completedXoutOfMaxText.text = $"Completed {GameManager.Instance.CurrentWins}/{_winsNeededToGift}";
+
+
+        float fillSpeed = 1f;
+        if (_slider.value < GameManager.Instance.CurrentWins)
+        {
+            //play text animation
+            _animator.SetTrigger("ProgressCompletedText");
+
+            while (_slider.value < GameManager.Instance.CurrentWins)
+            {
+                _slider.value += fillSpeed * Time.deltaTime;
+                // DebugLogger.Log(_slider.value);
+                yield return null; // Wait for the next frame
+            }
+        }
+        _slider.value = GameManager.Instance.CurrentWins;
     }
 
     public void ContinueButton()
@@ -90,6 +123,9 @@ public class Congratulation : MonoBehaviour
     {
         SceneManager.LoadScene("MainMenu");
     }
+
+
+
 
 
 }
