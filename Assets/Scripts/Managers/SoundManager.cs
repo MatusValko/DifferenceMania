@@ -3,13 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum SoundType
-{
-    LOGIN_THEME,
-    MAIN_MENU_THEME,
-    PREMIUM_THEME,
-    BUTTON_CLICK,
-}
 
 
 
@@ -18,14 +11,15 @@ public class SoundManager : MonoBehaviour
 {
     [SerializeField] private SoundList[] soundList;
     public static SoundManager Instance { get; private set; }//RENAME
-    private AudioSource audioSource;
+    [SerializeField] private AudioSource _musicSource;
+    [SerializeField] private AudioSource _sfxSource;
+    [SerializeField] private Queue<AudioClip> audioQueue = new Queue<AudioClip>();
 
     private void Awake()
     {
         if (Instance != null && Instance != this)
         {
-            Destroy(gameObject); //check if GO is destroyed
-
+            Destroy(this);
             Debug.LogWarning("SOUND MANAGER IS INSTANTIATED");
         }
         else
@@ -35,42 +29,102 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-
-
-
     void Start()
     {
-        audioSource = GetComponent<AudioSource>();
-        PlaySound(SoundType.LOGIN_THEME);
+        // PlaySound(SoundType.LOGIN_THEME);
     }
 
-
-    public static void PlaySound(SoundType sound, AudioSource source = null, float volume = 1)
+    public static void PlaySound(SoundType sound, float volume = 1)
     {
-        // Instance.audioSource.PlayOneShot(Instance.soundList[(int)sound]);
+        AudioClip[] clips = Instance.soundList[(int)sound].Sounds;
+        AudioClip randomClip = clips[UnityEngine.Random.Range(0, clips.Length)];
+        Instance._sfxSource.PlayOneShot(randomClip, volume);
     }
 
-    // public static void PlaySound(SoundType sound, AudioSource source = null, float volume = 1)
-    // {
-    //     SoundList soundList = Instance.SO.sounds[(int)sound];
-    //     AudioClip[] clips = soundList.sounds;
-    //     AudioClip randomClip = clips[UnityEngine.Random.Range(0, clips.Length)];
+    public static void PlayThemeSound(SoundType sound, float volume = 1)
+    {
+        //if there is a clip playing with the same sound type, don't play it again
+        if (Instance._musicSource.clip != null)
+        {
+            //check if the clip is from the same soundType, search all clips in the same soundList copilot
+            foreach (AudioClip clip in Instance.soundList[(int)sound].Sounds)
+            {
+                if (Instance._musicSource.clip == clip)
+                {
+                    return;
+                }
+            }
+        }
+        Instance.StopTheme();
 
-    //     if (source)
-    //     {
-    //         source.outputAudioMixerGroup = soundList.mixer;
-    //         source.clip = randomClip;
-    //         source.volume = volume * soundList.volume;
-    //         source.Play();
-    //     }
-    //     else
-    //     {
-    //         Instance.audioSource.outputAudioMixerGroup = soundList.mixer;
-    //         Instance.audioSource.PlayOneShot(randomClip, volume * soundList.volume);
-    //     }
-    // }
-    // Update is called once per frame
+        AudioClip[] clips = Instance.soundList[(int)sound].Sounds;
+        List<AudioClip> shuffledClips = new List<AudioClip>(clips);
+        Shuffle(shuffledClips);
 
+        foreach (AudioClip clip in shuffledClips)
+        {
+            Instance.audioQueue.Enqueue(clip);
+        }
+        Instance.PlayNextClip(volume);
+    }
+
+    private static void Shuffle(List<AudioClip> list)
+    {
+        System.Random rng = new System.Random();
+        int n = list.Count;
+        while (n > 1)
+        {
+            n--;
+            int k = rng.Next(n + 1);
+            AudioClip value = list[k];
+            list[k] = list[n];
+            list[n] = value;
+        }
+    }
+
+    private void PlayNextClip(float volume)
+    {
+        if (audioQueue.Count > 0)
+        {
+            AudioClip clip = audioQueue.Dequeue();
+            _musicSource.clip = clip;
+            _musicSource.Play();
+            // _musicSource.PlayOneShot(clip, volume);
+            StartCoroutine(WaitForClipToEnd(clip.length, volume));
+        }
+    }
+
+    //reset music source clip to null copilot
+    public void StopTheme()
+    {
+        _musicSource.Stop();
+        _musicSource.clip = null;
+    }
+
+    private IEnumerator WaitForClipToEnd(float clipLength, float volume)
+    {
+        yield return new WaitForSeconds(clipLength);
+        PlayNextClip(volume);
+    }
+
+    public void ToggleMuteMusic(bool mute)
+    {
+        _musicSource.mute = mute;
+    }
+
+    public void ToggleMuteSFX(bool mute)
+    {
+        _sfxSource.mute = mute;
+    }
+
+    public bool IsMusicMuted()
+    {
+        return _musicSource.mute;
+    }
+    public bool IsSFXMuted()
+    {
+        return _sfxSource.mute;
+    }
 
 #if UNITY_EDITOR
     private void OnEnable()
@@ -85,13 +139,33 @@ public class SoundManager : MonoBehaviour
 #endif
 }
 
-
-[Serializable]
+[System.Serializable]
 public struct SoundList
 {
-    public string name;
-    [Range(0, 1)] public float volume;
-    // public AudioMixerGroup mixer;
-    public AudioClip[] sounds;
+    public AudioClip[] Sounds { get => sounds; }
+    [HideInInspector] public string name;
+    [SerializeField] private AudioClip[] sounds;
+}
+
+public enum SoundType
+{
+    LOGIN_THEME,
+    MAIN_MENU_THEME,
+    PREMIUM_THEME,
+    PREMIUM_START_COIN,
+    PREMIUM_START_REGISTER,
+    COLLECTION_START_OPEN_WINDOW,
+    GAME_THEME,
+    GAME_INCORRECT_CLICK,
+    GAME_CORRECT_CLICK,
+    GAME_CORRECT_HINT,
+    GAME_LOSE,
+    GAME_WIN,
+    GAME_TIME,
+    CONGRATULATION_CONFETTI,
+    CONGRATULATION_FANFARE,
+    GIFT_OPEN,
+    BUTTON_CLICK,
+
 }
 

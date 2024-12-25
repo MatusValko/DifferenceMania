@@ -21,7 +21,7 @@ public class Gallery : MonoBehaviour
     void OnEnable()
     {
         Content.transform.position = new Vector3(transform.position.x, 0f, transform.position.z);
-
+        SoundManager.PlaySound(SoundType.COLLECTION_START_OPEN_WINDOW);
     }
 
     // public void ShowHideWindow()

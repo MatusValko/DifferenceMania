@@ -116,6 +116,7 @@ public class DifferencesManager : MonoBehaviour
     }
     private void Initialisation()
     {
+        SoundManager.PlayThemeSound(SoundType.GAME_THEME);
         //GET IMAGE COLLIDERS
         _firstImageCollider = _firstImage.GetComponent<BoxCollider2D>();
         _secondImageCollider = _secondImage.GetComponent<BoxCollider2D>();
@@ -200,9 +201,8 @@ public class DifferencesManager : MonoBehaviour
                 // Instantiate the "X" image at the clicked position
                 Vector3 position = new Vector3(mousePosition.x, mousePosition.y, 0);
                 Instantiate(_xImage, position, Quaternion.identity, _secondImage.transform);
-
                 //play X sound
-                // _audioSource.PlayOneShot(_xSound);
+                SoundManager.PlaySound(SoundType.GAME_INCORRECT_CLICK);
             }
         }
     }
@@ -218,18 +218,22 @@ public class DifferencesManager : MonoBehaviour
         //if less than 10 seconds, play time animation 
         if (_totalTime <= 10 && !_isHurryUp)
         {
-            //get parent gameobject of timer text and play animation COPILOT
+            //get parent gameobject of timer text and play animation
             _topBarUIAnimator.SetTrigger("HurryUp");
             DebugLogger.LogWarning("HURRY UP!");
             _isHurryUp = true;
-            // _timerText.GetComponent<Animator>().SetTrigger("TimeEnd");
+        }
+        else if (_totalTime > 10 && _isHurryUp)
+        {
+            _topBarUIAnimator.SetTrigger("EndHurryUp");
+            _isHurryUp = false;
         }
 
         // Check for game over
         if (_totalTime <= 0)
         {
             DebugLogger.Log("Run out of time!");
-            _topBarUIAnimator.SetTrigger("End");
+            _topBarUIAnimator.SetTrigger("EndHurryUp");
             _outOfTime.SetActive(true);
             _gameOver();
         }

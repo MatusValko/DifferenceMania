@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -73,6 +74,9 @@ public class ToggleSwitch : MonoBehaviour, IPointerClickHandler
         sliderColors.disabledColor = Color.white;
         _slider.colors = sliderColors;
         _slider.transition = Selectable.Transition.None;
+
+
+
     }
 
     // public void SetupForManager(ToggleSwitchGroupManager manager)
@@ -84,6 +88,28 @@ public class ToggleSwitch : MonoBehaviour, IPointerClickHandler
     protected virtual void Awake()
     {
         SetupSliderComponent();
+    }
+    void Start()
+    {
+        if (SoundManager.Instance == null)
+        {
+            DebugLogger.LogWarning("SoundManager is not present in the scene!");
+            return;
+        }
+
+        if (gameObject.name == "MusicSwitch")
+        {
+            CurrentValue = SoundManager.Instance.IsMusicMuted();
+        }
+        else if (gameObject.name == "SoundSwitch")
+        {
+            CurrentValue = SoundManager.Instance.IsSFXMuted();
+        }
+
+        if (!CurrentValue)
+        {
+            Toggle();
+        }
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -142,17 +168,12 @@ public class ToggleSwitch : MonoBehaviour, IPointerClickHandler
     {
         if (gameObject.name == "MusicSwitch")
         {
-            GameManager.Instance.ToggleMusic();
-
+            SoundManager.Instance.ToggleMuteMusic(!CurrentValue);
         }
         else if (gameObject.name == "SoundSwitch")
         {
-            GameManager.Instance.ToggleSound();
+            SoundManager.Instance.ToggleMuteSFX(!CurrentValue);
 
-        }
-        else
-        {
-            Debug.LogWarning("Did not find switch!");
         }
     }
 
@@ -178,5 +199,10 @@ public class ToggleSwitch : MonoBehaviour, IPointerClickHandler
         }
 
         _slider.value = endValue;
+    }
+
+    void OnEnable()
+    {
+
     }
 }

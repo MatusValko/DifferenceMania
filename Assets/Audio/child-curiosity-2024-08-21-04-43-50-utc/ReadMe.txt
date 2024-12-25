@@ -1,1 +1,0 @@
-Thank you for purchasing! Please, do not forget to rate!
