@@ -50,6 +50,7 @@ public class Congratulation : MonoBehaviour
             _continueButton.interactable = false;
         }
         //prvy krat nastavi slider a texty
+        _slider.value = GameManager.Instance.CurrentWins;
         _adjustSliderAndTexts();
         GameManager.Instance.AddWin();
 
@@ -59,7 +60,7 @@ public class Congratulation : MonoBehaviour
         _animator.SetTrigger("CongratulationsText");
 
         //Wait for confetti
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(2.4f);
 
         //update slider
         _adjustSliderAndTexts();

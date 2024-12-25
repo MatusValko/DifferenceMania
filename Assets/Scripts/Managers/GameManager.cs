@@ -33,10 +33,10 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
     private int _selectedPFP;
     [SerializeField]
     private List<int> _unlockedPFP;
-    [SerializeField]
-    private int _boostAddTimeCount;
-    [SerializeField]
-    private int _boostHintCount;
+    [SerializeField] private int _boostAddTimeCount;
+    [SerializeField] private int _boostHintCount;
+
+    [SerializeField] private const int BUY_HINT_PRICE = 10;
 
     [Header("Account details")]
     [SerializeField]
@@ -232,5 +232,15 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
             _boostAddTimeCount--;
             // UI_Manager.Instance.UpdateBoostAddTime();
         }
+    }
+    public bool BuyBoostHint()
+    {
+        // _boostHintCount++;
+        if (_coins >= BUY_HINT_PRICE)
+        {
+            _coins -= BUY_HINT_PRICE;
+            return true;
+        }
+        return false;
     }
 }

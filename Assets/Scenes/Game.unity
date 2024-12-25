@@ -1256,21 +1256,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1960903592}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
       - m_Target: {fileID: 1517913385}
         m_TargetAssemblyTypeName: DifferencesManager, Assembly-CSharp
-        m_MethodName: TogglePause
+        m_MethodName: ClickOnAddTime
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1330,6 +1318,7 @@ GameObject:
   - component: {fileID: 663097995}
   - component: {fileID: 663097994}
   - component: {fileID: 663097993}
+  - component: {fileID: 663097997}
   m_Layer: 5
   m_Name: TopCanvas
   m_TagString: Untagged
@@ -1420,6 +1409,27 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!95 &663097997
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 663097992}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b5baeac416217d043a309604c3a80bb8, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &686051867 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6471219529764437568, guid: 67f9dca30963330419c9f3385fa716a1, type: 3}
@@ -2368,6 +2378,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &949378169 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 198962798770693565, guid: 22c4863d16b1be34382d01c164b2a1ae, type: 3}
+  m_PrefabInstance: {fileID: 1389393583190777733}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &951188680
 GameObject:
   m_ObjectHideFlags: 0
@@ -3287,6 +3308,17 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1284, y: 777}
   m_EdgeRadius: 0
+--- !u!114 &1227430813 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8316445919893066227, guid: 76bfffddc6155cb49a69674b7c4d1318, type: 3}
+  m_PrefabInstance: {fileID: 6735380805220394463}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1242923263
 GameObject:
   m_ObjectHideFlags: 0
@@ -4340,18 +4372,22 @@ MonoBehaviour:
   _secondImageCollider: {fileID: 0}
   _foundCircle: {fileID: 698047977823426871, guid: 62f8c5ab1c9355f438477cc32bafeb69, type: 3}
   _timePerDifference: 10
-  _timerText: {fileID: 729205726}
   _totalTime: 0
   _isPaused: 0
-  _xImage: {fileID: 0}
+  _xImage: {fileID: 1822790570987384569, guid: 03ee15ff76939e84cbd72bae51aee4fe, type: 3}
   _levelCompleted: {fileID: 1342840687}
   _outOfTime: {fileID: 2054119248}
   _congratulationWindow: {fileID: 1014883135}
+  _topBarUIAnimator: {fileID: 663097997}
+  _timerText: {fileID: 729205726}
+  _lifeText: {fileID: 1227430813}
+  _coinsText: {fileID: 949378169}
   _boostHintTextAmount: {fileID: 1027629181}
   _boostAddTimeTextAmount: {fileID: 345040599}
   _ribbonHint: {fileID: 2057868473}
-  _ribbonAddTime: {fileID: 1355231055}
+  _ribbonAddTime: {fileID: 160179123}
   _buyHintWindow: {fileID: 0}
+  _buyAddTimeWindow: {fileID: 1960903592}
 --- !u!4 &1517913386
 Transform:
   m_ObjectHideFlags: 0
@@ -4585,7 +4621,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1758922052}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: b5baeac416217d043a309604c3a80bb8, type: 2}
   m_CullingMode: 0
@@ -5019,10 +5055,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 1517913385}
+        m_TargetAssemblyTypeName: DifferencesManager, Assembly-CSharp
+        m_MethodName: ClickOnUseHint
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -5294,8 +5330,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4701705742013619808, guid: 47209bd8d1e95bc488a82d8607c36733, type: 3}
+      propertyPath: _coins
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4701705742013619808, guid: 47209bd8d1e95bc488a82d8607c36733, type: 3}
+      propertyPath: _currentWins
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4701705742013619808, guid: 47209bd8d1e95bc488a82d8607c36733, type: 3}
       propertyPath: _boostHintCount
-      value: 4
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6681,11 +6725,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 198962798770693565, guid: 22c4863d16b1be34382d01c164b2a1ae, type: 3}
       propertyPath: m_text
-      value: 69696969
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 198962798770693565, guid: 22c4863d16b1be34382d01c164b2a1ae, type: 3}
       propertyPath: m_fontSize
-      value: 33.45
+      value: 36
       objectReference: {fileID: 0}
     - target: {fileID: 198962798770693565, guid: 22c4863d16b1be34382d01c164b2a1ae, type: 3}
       propertyPath: m_fontSizeMin
@@ -7105,7 +7149,8 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5599028147409516097, guid: 37fc4b3675f5fee4c84aaf58717956f8, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 441636824436573059, guid: 37fc4b3675f5fee4c84aaf58717956f8, type: 3}

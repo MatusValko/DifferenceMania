@@ -54,25 +54,26 @@ public class DifferencesManager : MonoBehaviour
 
     [SerializeField]
     private GameObject _foundCircle;
-    [SerializeField]
-    private float _timePerDifference = 20f; // Time allocated per difference (in seconds)
-    [SerializeField]
-    private TextMeshProUGUI _timerText; // UI Text to display the timer
-    [SerializeField]
-    private float _totalTime; // Total countdown time
-    [SerializeField]
-    private bool _isPaused = false;
-    private bool _isGameOver = false;
+    [SerializeField] private float _timePerDifference = 20f; // Time allocated per difference (in seconds)
 
+
+
+
+    [SerializeField] private float _totalTime; // Total countdown time
+    [SerializeField] private bool _isPaused = false;
+    private bool _isGameOver = false;
     [SerializeField] private GameObject _xImage; // Prefab for the "X" image
 
-    [SerializeField]
-    private GameObject _levelCompleted;
-    [SerializeField]
-    private GameObject _outOfTime;
+    [SerializeField] private GameObject _levelCompleted;
+    [SerializeField] private GameObject _outOfTime;
 
-    [SerializeField]
-    private GameObject _congratulationWindow;
+    [SerializeField] private GameObject _congratulationWindow;
+
+    [Header("Top bar UI")]
+    [SerializeField] Animator _topBarUIAnimator;
+    [SerializeField] private TextMeshProUGUI _timerText; // UI Text to display the timer
+    [SerializeField] private TextMeshProUGUI _lifeText;
+    [SerializeField] private TextMeshProUGUI _coinsText;
 
     [Header("Boosts")]
     //private variable for boost hint and boost add time text
@@ -149,6 +150,7 @@ public class DifferencesManager : MonoBehaviour
         _totalTime = _differencesCount * _timePerDifference;
         _updateTimerUI();
         _adjustBoosts();
+        _adjustTopBarUI();
     }
 
     void Update()
@@ -217,7 +219,7 @@ public class DifferencesManager : MonoBehaviour
         if (_totalTime <= 10 && !_isHurryUp)
         {
             //get parent gameobject of timer text and play animation COPILOT
-            _timerText.transform.parent.gameObject.GetComponent<Animator>().SetTrigger("HurryUp");
+            _topBarUIAnimator.SetTrigger("HurryUp");
             DebugLogger.LogWarning("HURRY UP!");
             _isHurryUp = true;
             // _timerText.GetComponent<Animator>().SetTrigger("TimeEnd");
@@ -227,7 +229,7 @@ public class DifferencesManager : MonoBehaviour
         if (_totalTime <= 0)
         {
             DebugLogger.Log("Run out of time!");
-            _timerText.transform.parent.gameObject.GetComponent<Animator>().SetTrigger("End");
+            _topBarUIAnimator.SetTrigger("End");
             _outOfTime.SetActive(true);
             _gameOver();
         }
@@ -297,30 +299,30 @@ public class DifferencesManager : MonoBehaviour
         //     }
         // }
     }
-    private void CreateCollider(float x, float y, float width, float height)
-    {
-        // Create a new GameObject
-        Difference colliderObject = new Difference();
-        GameObject difference = new GameObject("Difference");
-        if (_firstImage != null && _secondImage != null)
-        {
-            colliderObject.gameObject.transform.SetParent(_firstImage.transform);
-            colliderObject.gameObject.transform.SetParent(_secondImage.transform);
-        }
-        colliderObject.transform.localPosition = new Vector2(x, -y);
-        colliderObject.transform.localScale = new Vector2(1, 1);
+    // private void CreateCollider(float x, float y, float width, float height)
+    // {
+    //     // Create a new GameObject
+    //     Difference colliderObject = new Difference();
+    //     GameObject difference = new GameObject("Difference");
+    //     if (_firstImage != null && _secondImage != null)
+    //     {
+    //         colliderObject.gameObject.transform.SetParent(_firstImage.transform);
+    //         colliderObject.gameObject.transform.SetParent(_secondImage.transform);
+    //     }
+    //     colliderObject.transform.localPosition = new Vector2(x, -y);
+    //     colliderObject.transform.localScale = new Vector2(1, 1);
 
 
-        // Add a BoxCollider2D component and set its size
-        BoxCollider2D boxCollider = colliderObject.gameObject.AddComponent<BoxCollider2D>();
-        boxCollider.size = new Vector2(width, height);
-        boxCollider.offset = new Vector2(width / 2, -height / 2);
+    //     // Add a BoxCollider2D component and set its size
+    //     BoxCollider2D boxCollider = colliderObject.gameObject.AddComponent<BoxCollider2D>();
+    //     boxCollider.size = new Vector2(width, height);
+    //     boxCollider.offset = new Vector2(width / 2, -height / 2);
 
-        Button buttonCollider = colliderObject.gameObject.AddComponent<Button>();
-        // buttonCollider.onClick.AddListener(Clicked);
-        // buttonCollider..AddListener(Clicked);
+    //     Button buttonCollider = colliderObject.gameObject.AddComponent<Button>();
+    //     // buttonCollider.onClick.AddListener(Clicked);
+    //     // buttonCollider..AddListener(Clicked);
 
-    }
+    // }
 
 
 
@@ -451,27 +453,38 @@ public class DifferencesManager : MonoBehaviour
     }
 
     //function to check if player has enough of hints, if yes use one otherwise show popup window
-    public void UseHint()
+    public void ClickOnUseHint()
     {
         if (GameManager.Instance.GetBoostHintCount() > 0)
         {
             //if player has enough of hints, use one and show difference
             GameManager.Instance.UseBoostHint();
             //show difference
-            _showDifference();
+            _boostShowDifference();
             //play hint sound
             // _audioSource.PlayOneShot(_hintSound);
             _adjustBoosts();
+
         }
         else
         {
-            //show popup window
-            _buyHintWindow.SetActive(true);
+            //buys hint if enough coins
+            if (!GameManager.Instance.BuyBoostHint())
+            {
+                //play not enough coins animation
+                _topBarUIAnimator.SetTrigger("NotEnoughCoins");
+                return;
+            }
+            //if player has enough of coins, buy hint and show difference
+            _boostShowDifference();
+            //adjust coinsUI
+            _adjustTopBarUI();
         }
+
     }
 
     //function boost to add time
-    public void UseAddTime()
+    public void ClickOnAddTime()
     {
         if (GameManager.Instance.GetBoostAddTimeCount() > 0)
         {
@@ -487,11 +500,22 @@ public class DifferencesManager : MonoBehaviour
         {
             //show popup window
             _buyAddTimeWindow.SetActive(true);
+            TogglePause();
         }
     }
 
+
+    //function to adjust top bar ui texts
+    private void _adjustTopBarUI()
+    {
+        //adjust coins text
+        _coinsText.text = GameManager.Instance.GetCoins().ToString();
+        //adjust lives text
+        _lifeText.text = $"{GameManager.Instance.GetLives()}/{GameManager.MAX_LIVES}";
+    }
+
     // function _showDifference();
-    private void _showDifference()
+    private void _boostShowDifference()
     {
         //get random difference
         // int randomDifference = UnityEngine.Random.Range(0, _differences.Count);
