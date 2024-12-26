@@ -99,9 +99,10 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 8f3b43e72e723fd48bda821010af3270, type: 3}
   - name: BUTTON_CLICK
     sounds:
-    - {fileID: 8300000, guid: 400f0d8c50787f645b86982be4a64b9d, type: 3}
+    - {fileID: 8300000, guid: 73de8dc15efff9c4cbe0216e3c1bc765, type: 3}
   _musicSource: {fileID: 4288890889141270765}
   _sfxSource: {fileID: 1863688273247430326}
+  _tmpSource: {fileID: 1081446087564780367}
 --- !u!82 &1081446087564780367
 AudioSource:
   m_ObjectHideFlags: 0
@@ -109,12 +110,12 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2067963250522349459}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.704
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -245,7 +246,7 @@ AudioSource:
   m_Volume: 0.7
   m_Pitch: 1
   Loop: 0
-  Mute: 0
+  Mute: 1
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
@@ -370,10 +371,10 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.096
+  m_Volume: 0.115
   m_Pitch: 1
   Loop: 0
-  Mute: 0
+  Mute: 1
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128

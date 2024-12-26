@@ -428,8 +428,6 @@ public class DifferencesManager : MonoBehaviour
         }
     }
 
-
-
     //Delete this after testing
     [Conditional("UNITY_EDITOR")]
     public void TESTWinGame()
@@ -440,6 +438,11 @@ public class DifferencesManager : MonoBehaviour
     //function to check if player has enough of hints, if yes use one otherwise show popup window
     public void ClickOnUseHint()
     {
+        if (_isGameOver)
+        {
+            return;
+        }
+
         if (GameManager.Instance.GetBoostHintCount() > 0)
         {
             //if player has enough of hints, use one and show difference
@@ -469,6 +472,10 @@ public class DifferencesManager : MonoBehaviour
     //function boost to add time
     public void ClickOnAddTime()
     {
+        if (_isGameOver)
+        {
+            return;
+        }
         if (GameManager.Instance.GetBoostAddTimeCount() > 0)
         {
             //if player has enough of add time, use one and add 60 seconds

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -34,6 +35,15 @@ public class SoundManager : MonoBehaviour
     void Start()
     {
         // PlaySound(SoundType.LOGIN_THEME);
+    }
+
+    void Update()
+    {
+        //if left mouse button is clicked, play button click sound
+        if (Input.GetMouseButtonDown(0))
+        {
+            PlaySound(SoundType.BUTTON_CLICK);
+        }
     }
 
     public static void PlaySound(SoundType sound, float volume = 1)
@@ -128,6 +138,8 @@ public class SoundManager : MonoBehaviour
     public void ToggleMuteSFX(bool mute)
     {
         _sfxSource.mute = mute;
+        _tmpSource.mute = mute;
+
     }
 
     public bool IsMusicMuted()
