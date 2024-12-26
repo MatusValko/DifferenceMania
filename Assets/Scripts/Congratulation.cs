@@ -40,8 +40,10 @@ public class Congratulation : MonoBehaviour
 
     private IEnumerator _setUpWindow()
     {
-
-
+        //play sound confetti
+        SoundManager.PlaySound(SoundType.CONGRATULATION_CONFETTI);
+        //play sound confetti
+        SoundManager.PlaySound(SoundType.CONGRATULATION_FANFARE);
 
         //AK NEMA GIFT MOZE IST DALEJ/DO MENU INAK DISABLE NA TLACIDLA
         if (GameManager.Instance.CurrentWins + 1 == _winsNeededToGift)

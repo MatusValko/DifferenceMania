@@ -48,9 +48,9 @@ public class DifferencesManager : MonoBehaviour
     // Set the path to the JSON file/ ONLY FOR TESTING
     public string jsonFilePath = "Assets/differencesTest.json";
     [SerializeField] private GameObject _firstImage;
-    [SerializeField] private BoxCollider2D _firstImageCollider;
+    // [SerializeField] private BoxCollider2D _firstImageCollider;
     [SerializeField] private GameObject _secondImage;
-    [SerializeField] private BoxCollider2D _secondImageCollider;
+    // [SerializeField] private BoxCollider2D _secondImageCollider;
 
     [SerializeField]
     private GameObject _foundCircle;
@@ -118,8 +118,8 @@ public class DifferencesManager : MonoBehaviour
     {
         SoundManager.PlayThemeSound(SoundType.GAME_THEME);
         //GET IMAGE COLLIDERS
-        _firstImageCollider = _firstImage.GetComponent<BoxCollider2D>();
-        _secondImageCollider = _secondImage.GetComponent<BoxCollider2D>();
+        // _firstImageCollider = _firstImage.GetComponent<BoxCollider2D>();
+        // _secondImageCollider = _secondImage.GetComponent<BoxCollider2D>();
 
         // Load and parse the JSON data
         string jsonContent = File.ReadAllText(jsonFilePath);
@@ -191,6 +191,9 @@ public class DifferencesManager : MonoBehaviour
                 {
                     DebugLogger.Log("CLICKED ON DIFFERENCE!");
                     Clicked(difference.id);
+                    //play correct click sound
+                    SoundManager.PlaySound(SoundType.GAME_CORRECT_CLICK);
+
                 }
             }
             else if (hitCollider.gameObject.CompareTag("Image"))
@@ -201,8 +204,8 @@ public class DifferencesManager : MonoBehaviour
                 // Instantiate the "X" image at the clicked position
                 Vector3 position = new Vector3(mousePosition.x, mousePosition.y, 0);
                 Instantiate(_xImage, position, Quaternion.identity, _secondImage.transform);
-                //play X sound
-                SoundManager.PlaySound(SoundType.GAME_INCORRECT_CLICK);
+                //play incorrect click sound with 50% lower volume
+                SoundManager.PlaySound(SoundType.GAME_INCORRECT_CLICK, volume: 0.5f);
             }
         }
     }
@@ -222,22 +225,21 @@ public class DifferencesManager : MonoBehaviour
             _topBarUIAnimator.SetTrigger("HurryUp");
             DebugLogger.LogWarning("HURRY UP!");
             _isHurryUp = true;
+            SoundManager.PlayAudioClip(SoundType.GAME_TIME);
         }
         else if (_totalTime > 10 && _isHurryUp)
         {
             _topBarUIAnimator.SetTrigger("EndHurryUp");
             _isHurryUp = false;
+            SoundManager.StopClip();
         }
 
         // Check for game over
         if (_totalTime <= 0)
         {
             DebugLogger.Log("Run out of time!");
-            _topBarUIAnimator.SetTrigger("EndHurryUp");
-            _outOfTime.SetActive(true);
             _gameOver();
         }
-
     }
 
     public void TogglePause()
@@ -303,32 +305,6 @@ public class DifferencesManager : MonoBehaviour
         //     }
         // }
     }
-    // private void CreateCollider(float x, float y, float width, float height)
-    // {
-    //     // Create a new GameObject
-    //     Difference colliderObject = new Difference();
-    //     GameObject difference = new GameObject("Difference");
-    //     if (_firstImage != null && _secondImage != null)
-    //     {
-    //         colliderObject.gameObject.transform.SetParent(_firstImage.transform);
-    //         colliderObject.gameObject.transform.SetParent(_secondImage.transform);
-    //     }
-    //     colliderObject.transform.localPosition = new Vector2(x, -y);
-    //     colliderObject.transform.localScale = new Vector2(1, 1);
-
-
-    //     // Add a BoxCollider2D component and set its size
-    //     BoxCollider2D boxCollider = colliderObject.gameObject.AddComponent<BoxCollider2D>();
-    //     boxCollider.size = new Vector2(width, height);
-    //     boxCollider.offset = new Vector2(width / 2, -height / 2);
-
-    //     Button buttonCollider = colliderObject.gameObject.AddComponent<Button>();
-    //     // buttonCollider.onClick.AddListener(Clicked);
-    //     // buttonCollider..AddListener(Clicked);
-
-    // }
-
-
 
     public void Clicked(int index)
     {
@@ -360,17 +336,20 @@ public class DifferencesManager : MonoBehaviour
         {
             _gameWon();
         }
-
-
-
     }
 
     private void _gameOver()
     {
+        _topBarUIAnimator.SetTrigger("EndHurryUp");
+        _outOfTime.SetActive(true);
         _isGameOver = true;
         _timerText.text = "00:00"; // Display zero time
         DebugLogger.Log("Game Over!");
-        // Trigger other game-over actions (e.g., show Game Over screen)
+        SoundManager.StopClip();
+        SoundManager.StopTheme();
+
+        SoundManager.PlaySound(SoundType.GAME_LOSE);
+
     }
 
     private void _gameWon()
@@ -380,7 +359,10 @@ public class DifferencesManager : MonoBehaviour
         // Time.timeScale = 0;
         _isGameOver = true;
         _levelCompleted.SetActive(true);
-
+        //play level complete sound
+        SoundManager.StopClip();
+        SoundManager.StopTheme();
+        SoundManager.PlaySound(SoundType.GAME_WIN);
         //start coroutine to next window, congratulations
 
         StartCoroutine(_showCongratulation());
@@ -388,12 +370,11 @@ public class DifferencesManager : MonoBehaviour
 
     IEnumerator _showCongratulation()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(3);
         _congratulationWindow.SetActive(true);
     }
 
     //function to take live when player dont click on difference
-    //copilot
     private void _takeTime()
     {
         _totalTime -= 10;
@@ -466,9 +447,7 @@ public class DifferencesManager : MonoBehaviour
             //show difference
             _boostShowDifference();
             //play hint sound
-            // _audioSource.PlayOneShot(_hintSound);
             _adjustBoosts();
-
         }
         else
         {
@@ -497,7 +476,7 @@ public class DifferencesManager : MonoBehaviour
             //add 60 seconds
             AddTime();
             //play add time sound
-            // _audioSource.PlayOneShot(_addTimeSound);
+            SoundManager.PlaySound(SoundType.GAME_CORRECT_HINT);
             _adjustBoosts();
         }
         else
@@ -521,13 +500,15 @@ public class DifferencesManager : MonoBehaviour
     // function _showDifference();
     private void _boostShowDifference()
     {
+
         //get random difference
         // int randomDifference = UnityEngine.Random.Range(0, _differences.Count);
         // //get difference
         // Difference difference = _differences[randomDifference];
         // //show difference
         // difference.gameObject.SetActive(true);
-        // _audioSource.PlayOneShot(_hintSound);
+        SoundManager.PlaySound(SoundType.GAME_CORRECT_HINT);
+
     }
 
 }

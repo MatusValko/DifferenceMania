@@ -13,6 +13,8 @@ public class SoundManager : MonoBehaviour
     public static SoundManager Instance { get; private set; }//RENAME
     [SerializeField] private AudioSource _musicSource;
     [SerializeField] private AudioSource _sfxSource;
+    [SerializeField] private AudioSource _tmpSource; // Temporary source for playing clips (used for time ticking)
+
     [SerializeField] private Queue<AudioClip> audioQueue = new Queue<AudioClip>();
 
     private void Awake()
@@ -40,6 +42,12 @@ public class SoundManager : MonoBehaviour
         AudioClip randomClip = clips[UnityEngine.Random.Range(0, clips.Length)];
         Instance._sfxSource.PlayOneShot(randomClip, volume);
     }
+    public static void PlayAudioClip(SoundType sound, float volume = 1)
+    {
+        AudioClip clip = Instance.soundList[(int)sound].Sounds[0];
+        Instance._tmpSource.clip = clip;
+        Instance._tmpSource.Play();
+    }
 
     public static void PlayThemeSound(SoundType sound, float volume = 1)
     {
@@ -55,11 +63,11 @@ public class SoundManager : MonoBehaviour
                 }
             }
         }
-        Instance.StopTheme();
+        StopTheme();
 
         AudioClip[] clips = Instance.soundList[(int)sound].Sounds;
         List<AudioClip> shuffledClips = new List<AudioClip>(clips);
-        Shuffle(shuffledClips);
+        _shuffle(shuffledClips);
 
         foreach (AudioClip clip in shuffledClips)
         {
@@ -68,7 +76,7 @@ public class SoundManager : MonoBehaviour
         Instance.PlayNextClip(volume);
     }
 
-    private static void Shuffle(List<AudioClip> list)
+    private static void _shuffle(List<AudioClip> list)
     {
         System.Random rng = new System.Random();
         int n = list.Count;
@@ -95,10 +103,15 @@ public class SoundManager : MonoBehaviour
     }
 
     //reset music source clip to null copilot
-    public void StopTheme()
+    public static void StopTheme()
     {
-        _musicSource.Stop();
-        _musicSource.clip = null;
+        Instance._musicSource.Stop();
+        Instance._musicSource.clip = null;
+    }
+    public static void StopClip()
+    {
+        Instance._tmpSource.Stop();
+        Instance._tmpSource.clip = null;
     }
 
     private IEnumerator WaitForClipToEnd(float clipLength, float volume)
