@@ -22,7 +22,7 @@ public class SoundManager : MonoBehaviour
     {
         if (Instance != null && Instance != this)
         {
-            Destroy(this);
+            Destroy(gameObject);
             Debug.LogWarning("SOUND MANAGER IS INSTANTIATED");
         }
         else
@@ -117,6 +117,7 @@ public class SoundManager : MonoBehaviour
     {
         Instance._musicSource.Stop();
         Instance._musicSource.clip = null;
+        Instance.audioQueue.Clear();
     }
     public static void StopClip()
     {
@@ -130,17 +131,24 @@ public class SoundManager : MonoBehaviour
         PlayNextClip(volume);
     }
 
-    public void ToggleMuteMusic(bool mute)
+    public void ToggleMuteMusic()
     {
-        _musicSource.mute = mute;
+        _musicSource.mute = true;
+    }
+    public void ToggleUnmuteMusic()
+    {
+        _musicSource.mute = false;
     }
 
-    public void ToggleMuteSFX(bool mute)
+    public void ToggleMuteSFX()
     {
-        _sfxSource.mute = mute;
-        _tmpSource.mute = mute;
-
+        _sfxSource.mute = true;
     }
+    public void ToggleUnmuteSFX()
+    {
+        _sfxSource.mute = false;
+    }
+
 
     public bool IsMusicMuted()
     {

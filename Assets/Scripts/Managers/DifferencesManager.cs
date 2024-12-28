@@ -391,6 +391,11 @@ public class DifferencesManager : MonoBehaviour
     //function to quit level, onclick button
     public void QuitLevel()
     {
+        if (Time.timeScale == 0)
+        {
+            Time.timeScale = 1;
+        }
+        SoundManager.StopTheme();
         SceneManager.LoadScene("MainMenu");
     }
 

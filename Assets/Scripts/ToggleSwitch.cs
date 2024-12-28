@@ -14,13 +14,12 @@ public class ToggleSwitch : MonoBehaviour, IPointerClickHandler
 
     public bool _previousValue;
     private Slider _slider;
+    [SerializeField] private SoundManager _soundManager;
 
     [Header("Animation")]
     [SerializeField, Range(0, 1f)] private float animationDuration = 0.5f;
     [SerializeField]
-    private AnimationCurve slideEase =
-        AnimationCurve.EaseInOut(0, 0, 1, 1);
-
+    private AnimationCurve slideEase = AnimationCurve.EaseInOut(0, 0, 1, 1);
     private Coroutine _animateSliderCoroutine;
 
     [Header("Events")]
@@ -36,9 +35,6 @@ public class ToggleSwitch : MonoBehaviour, IPointerClickHandler
     [SerializeField] private Sprite _greySlider;
     [SerializeField] private Sprite _greenSlider;
 
-
-    // private ToggleSwitchGroupManager _toggleSwitchGroupManager;
-
     protected Action transitionEffect;
 
     // protected virtual void OnValidate()
@@ -47,6 +43,51 @@ public class ToggleSwitch : MonoBehaviour, IPointerClickHandler
 
     //     _slider.value = sliderValue;
     // }
+
+    protected virtual void Awake()
+    {
+        SetupSliderComponent();
+    }
+
+    void Start()
+    {
+        if (SoundManager.Instance == null)
+        {
+            DebugLogger.LogWarning("SoundManager is not present in the scene!");
+            return;
+        }
+
+        if (gameObject.name == "MusicSwitch")
+        {
+            if (!SoundManager.Instance.IsMusicMuted())
+            {
+                Toggle();
+            }
+            else
+            {
+                SoundManager.Instance.ToggleMuteMusic();
+            }
+            onToggleOn.AddListener(SoundManager.Instance.ToggleUnmuteMusic);
+            onToggleOff.AddListener(SoundManager.Instance.ToggleMuteMusic);
+        }
+        else if (gameObject.name == "SoundSwitch")
+        {
+            if (!SoundManager.Instance.IsSFXMuted())
+            {
+                Toggle();
+            }
+            else
+            {
+                SoundManager.Instance.ToggleMuteSFX();
+            }
+            onToggleOn.AddListener(SoundManager.Instance.ToggleUnmuteSFX);
+            onToggleOff.AddListener(SoundManager.Instance.ToggleMuteSFX);
+        }
+        else
+        {
+            DebugLogger.LogError("ToggleSwitch is not assigned to any sound type!");
+        }
+    }
 
     private void SetupToggleComponents()
     {
@@ -73,89 +114,8 @@ public class ToggleSwitch : MonoBehaviour, IPointerClickHandler
         _slider.transition = Selectable.Transition.None;
     }
 
-    // public void SetupForManager(ToggleSwitchGroupManager manager)
-    // {
-    //     _toggleSwitchGroupManager = manager;
-    // }
 
 
-    protected virtual void Awake()
-    {
-        SetupSliderComponent();
-    }
-    void Start()
-    {
-        if (SoundManager.Instance == null)
-        {
-            DebugLogger.LogWarning("SoundManager is not present in the scene!");
-            return;
-        }
-
-        if (gameObject.name == "MusicSwitch")
-        {
-            CurrentValue = SoundManager.Instance.IsMusicMuted();
-            _previousValue = !CurrentValue;
-            if (SoundManager.Instance.IsMusicMuted())
-            {
-                onToggleOff?.Invoke();
-                _handle.sprite = _greySlider;
-                _ON.SetActive(false);
-                _OFF.SetActive(true);
-                sliderValue = 0;
-                _slider.value = sliderValue;
-
-            }
-            else
-            {
-                onToggleOn?.Invoke();
-                _handle.sprite = _greenSlider;
-                _ON.SetActive(true);
-                _OFF.SetActive(false);
-                sliderValue = 1;
-                _slider.value = sliderValue;
-            }
-            StartCoroutine(AnimateSlider());
-            // _previousValue = CurrentValue;
-            // CurrentValue = SoundManager.Instance.IsMusicMuted();
-        }
-        else if (gameObject.name == "SoundSwitch")
-        {
-            CurrentValue = SoundManager.Instance.IsSFXMuted();
-            _previousValue = !CurrentValue;
-            if (SoundManager.Instance.IsSFXMuted())
-            {
-                onToggleOff?.Invoke();
-                _handle.sprite = _greySlider;
-                _ON.SetActive(false);
-                _OFF.SetActive(true);
-                sliderValue = 0;
-                _slider.value = sliderValue;
-            }
-            else
-            {
-                onToggleOn?.Invoke();
-                _handle.sprite = _greenSlider;
-                _ON.SetActive(true);
-                _OFF.SetActive(false);
-                sliderValue = 1;
-                _slider.value = sliderValue;
-            }
-            StartCoroutine(AnimateSlider());
-        }
-        else
-        {
-            DebugLogger.LogError("ToggleSwitch is not assigned to any sound type!");
-        }
-
-        // if (_previousValue != CurrentValue)
-        // {
-        //     Toggle();
-        // }
-        // if (!CurrentValue)
-        // {
-        //     Toggle();
-        // }
-    }
 
     public void OnPointerClick(PointerEventData eventData)
     {
@@ -166,10 +126,6 @@ public class ToggleSwitch : MonoBehaviour, IPointerClickHandler
     private void Toggle()
     {
         SetStateAndStartAnimation(!CurrentValue);
-
-        // if (_toggleSwitchGroupManager != null)
-        //     _toggleSwitchGroupManager.ToggleGroup(this);
-        // else
     }
 
     private void SetStateAndStartAnimation(bool state)
@@ -187,7 +143,7 @@ public class ToggleSwitch : MonoBehaviour, IPointerClickHandler
                 _ON.SetActive(true);
                 _OFF.SetActive(false);
 
-                SwitchSwitch();
+                // SwitchSwitch();
             }
             else
             {
@@ -196,12 +152,14 @@ public class ToggleSwitch : MonoBehaviour, IPointerClickHandler
                 _ON.SetActive(false);
                 _OFF.SetActive(true);
 
-                SwitchSwitch();
+                // SwitchSwitch();
             }
         }
 
         if (_animateSliderCoroutine != null)
+        {
             StopCoroutine(_animateSliderCoroutine);
+        }
 
         _animateSliderCoroutine = StartCoroutine(AnimateSlider());
     }
@@ -210,11 +168,11 @@ public class ToggleSwitch : MonoBehaviour, IPointerClickHandler
     {
         if (gameObject.name == "MusicSwitch")
         {
-            SoundManager.Instance.ToggleMuteMusic(!CurrentValue);
+            // SoundManager.Instance.ToggleMuteMusic(!CurrentValue);
         }
         else if (gameObject.name == "SoundSwitch")
         {
-            SoundManager.Instance.ToggleMuteSFX(!CurrentValue);
+            // SoundManager.Instance.ToggleMuteSFX(!CurrentValue);
         }
     }
 
