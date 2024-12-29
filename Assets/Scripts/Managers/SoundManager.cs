@@ -143,10 +143,13 @@ public class SoundManager : MonoBehaviour
     public void ToggleMuteSFX()
     {
         _sfxSource.mute = true;
+        _tmpSource.mute = true;
     }
     public void ToggleUnmuteSFX()
     {
         _sfxSource.mute = false;
+        _tmpSource.mute = false;
+
     }
 
 
