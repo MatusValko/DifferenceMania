@@ -334,6 +334,7 @@ GameObject:
   - component: {fileID: 7317618196740630325}
   - component: {fileID: 2023898647668239338}
   - component: {fileID: 6745475059462727706}
+  - component: {fileID: 1412842935952435332}
   m_Layer: 5
   m_Name: Card
   m_TagString: Untagged
@@ -415,6 +416,7 @@ MonoBehaviour:
   _giftBox: {fileID: 8509648830083975764}
   _CoinwText: {fileID: 7821201148174929645}
   _coinValue: {fileID: 6760016596330952111}
+  _giftsRoomManager: {fileID: 0}
 --- !u!114 &6745475059462727706
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -471,3 +473,24 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!95 &1412842935952435332
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8956810180921773003}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 97fc8a345b811ae498041156d34512e0, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

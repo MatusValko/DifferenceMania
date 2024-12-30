@@ -66,6 +66,8 @@ public class GiftBox : MonoBehaviour
 
         // ADD VALUE TO TOTAL COINS OBTAINED DURING GIFTS ROOM 
         _giftBox.SetActive(false);
+        //remove from animator array to not show animations on gift
+        _giftsRoomManager.RemoveAnimator(_giftBox.transform.parent.name);
         _CoinwText.SetActive(true);
 
 

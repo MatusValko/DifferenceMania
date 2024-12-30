@@ -41,6 +41,9 @@ public class GiftsRoomManager : MonoBehaviour
 
     public int GiftCounter = 0;
 
+    //(array)list for all gift animators
+    [SerializeField] private List<Animator> _giftAnimators = new List<Animator>();
+
     void OnEnable()
     {
         FreeSlotsToUnlock = MAXFreeSlotsToUnlock;
@@ -49,7 +52,29 @@ public class GiftsRoomManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        StartCoroutine(playAnimations());
+    }
 
+    //iNumerator to play animations on gift boxes
+    IEnumerator playAnimations()
+    {
+        int lastIndex = -1;
+        while (true)
+        {
+            //if the list is less than 2, break the loop
+            if (_giftAnimators.Count < 2)
+            {
+                break;
+            }
+            //pick random animator from array and play animation trigger
+            int randomIndex = Random.Range(0, _giftAnimators.Count);
+            if (lastIndex != randomIndex)
+            {
+                lastIndex = randomIndex;
+                _giftAnimators[randomIndex].SetTrigger("GiftShake");
+                yield return new WaitForSeconds(2);
+            }
+        }
     }
 
     // Update is called once per frame
@@ -150,6 +175,28 @@ public class GiftsRoomManager : MonoBehaviour
     }
     private void CollectAllRewards()
     {
+
+    }
+
+    public void RemoveAnimator(string animatorName)
+    {
+        // animatorName += " (Animator)";
+        List<Animator> animatorsToRemove = new List<Animator>();
+        foreach (var animator in _giftAnimators)
+        {
+            if (animator != null && animator.name == animatorName)
+            {
+                //stop animation
+                animator.enabled = false;
+                animatorsToRemove.Add(animator);
+                DebugLogger.Log("Deleted " + animatorName);
+            }
+        }
+        foreach (var animator in animatorsToRemove)
+        {
+            _giftAnimators.Remove(animator);
+        }
+        DebugLogger.Log("Not found " + animatorName);
 
     }
 }
