@@ -386,6 +386,7 @@ public class DifferencesManager : MonoBehaviour
     {
         _totalTime += 60;
         _updateTimerUI();
+        _topBarUIAnimator.SetTrigger("AddTime");
     }
 
     //function to quit level, onclick button

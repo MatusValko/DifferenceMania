@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class Gallery : MonoBehaviour
 {
-    public GameObject GalleryWindow;
     public GameObject Content;
+    [SerializeField] private Animator _collectionAnimator;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,6 +22,9 @@ public class Gallery : MonoBehaviour
     {
         Content.transform.position = new Vector3(transform.position.x, 0f, transform.position.z);
         SoundManager.PlaySound(SoundType.COLLECTION_START_OPEN_WINDOW);
+        _collectionAnimator.SetTrigger("OpenCurtains");
+        //play curtain sound
+
     }
 
     // public void ShowHideWindow()

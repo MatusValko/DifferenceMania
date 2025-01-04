@@ -45,14 +45,15 @@ public class Congratulation : MonoBehaviour
         //play sound confetti
         SoundManager.PlaySound(SoundType.CONGRATULATION_FANFARE);
 
+
         //AK NEMA GIFT MOZE IST DALEJ/DO MENU INAK DISABLE NA TLACIDLA
-        if (GameManager.Instance.CurrentWins + 1 == _winsNeededToGift)
+        if (GameManager.Instance.GetCurrentWins() + 1 == _winsNeededToGift)
         {
             _menuButton.interactable = false;
             _continueButton.interactable = false;
         }
         //prvy krat nastavi slider a texty
-        _slider.value = GameManager.Instance.CurrentWins;
+        _slider.value = GameManager.Instance.GetCurrentWins();
         _adjustSliderAndTexts();
         GameManager.Instance.AddWin();
 
@@ -72,7 +73,7 @@ public class Congratulation : MonoBehaviour
         //Wait for animation
         yield return new WaitForSeconds(1);
 
-        if (GameManager.Instance.CurrentWins == _winsNeededToGift)
+        if (GameManager.Instance.GetCurrentWins() == _winsNeededToGift)
         {
             // Play Gift animation
             _animator.SetTrigger("GiftPopUp");
@@ -97,25 +98,26 @@ public class Congratulation : MonoBehaviour
 
     private IEnumerator _updateSlider()
     {
-        int left = _winsNeededToGift - GameManager.Instance.CurrentWins;
+        int currentWins = GameManager.Instance.GetCurrentWins();
+        int left = _winsNeededToGift - currentWins;
         _winsNeededToGiftText.text = $"<color=#FAE729>{left}</color> levels left to get reward";
-        _completedXoutOfMaxText.text = $"Completed {GameManager.Instance.CurrentWins}/{_winsNeededToGift}";
+        _completedXoutOfMaxText.text = $"Completed {currentWins}/{_winsNeededToGift}";
 
 
         float fillSpeed = 1f;
-        if (_slider.value < GameManager.Instance.CurrentWins)
+        if (_slider.value < currentWins)
         {
             //play text animation
             _animator.SetTrigger("ProgressCompletedText");
 
-            while (_slider.value < GameManager.Instance.CurrentWins)
+            while (_slider.value < currentWins)
             {
                 _slider.value += fillSpeed * Time.deltaTime;
                 // DebugLogger.Log(_slider.value);
                 yield return null; // Wait for the next frame
             }
         }
-        _slider.value = GameManager.Instance.CurrentWins;
+        _slider.value = currentWins;
     }
 
     public void ContinueButton()

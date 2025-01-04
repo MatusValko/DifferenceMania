@@ -28,7 +28,6 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
     private int _unlockedLevels;
     [SerializeField]
     private int _currentWins;
-    public int CurrentWins => _currentWins;
     [SerializeField]
     private int _selectedPFP;
     [SerializeField]
@@ -114,6 +113,10 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
     {
         _coins += coin;
         UI_Manager.Instance.UpdateCoins();
+    }
+    public int GetCurrentWins()
+    {
+        return _currentWins;
     }
     public int GetLives()
     {
