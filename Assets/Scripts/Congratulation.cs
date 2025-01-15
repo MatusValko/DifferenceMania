@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class Congratulation : MonoBehaviour
 {
 
-    [SerializeField] private const int _winsNeededToGift = 6;
+    // [SerializeField] private const int _winsNeededToGift = 6;
     [SerializeField] private Slider _slider;
     [SerializeField] private TextMeshProUGUI _winsNeededToGiftText;
     [SerializeField] private TextMeshProUGUI _completedXoutOfMaxText;
@@ -16,10 +16,6 @@ public class Congratulation : MonoBehaviour
     [SerializeField] private Button _menuButton;
     [SerializeField] private GameObject _giftsRoomWindow;
     [SerializeField] private Animator _animator; // Animator for the gift animation
-
-
-
-
 
     // Start is called before the first frame update
     void Start()
@@ -47,7 +43,7 @@ public class Congratulation : MonoBehaviour
 
 
         //AK NEMA GIFT MOZE IST DALEJ/DO MENU INAK DISABLE NA TLACIDLA
-        if (GameManager.Instance.GetCurrentWins() + 1 == _winsNeededToGift)
+        if (GameManager.Instance.GetCurrentWins() + 1 == GameManager.WINS_NEED_TO_GIFT)
         {
             _menuButton.interactable = false;
             _continueButton.interactable = false;
@@ -73,7 +69,7 @@ public class Congratulation : MonoBehaviour
         //Wait for animation
         yield return new WaitForSeconds(1);
 
-        if (GameManager.Instance.GetCurrentWins() == _winsNeededToGift)
+        if (GameManager.Instance.GetCurrentWins() == GameManager.WINS_NEED_TO_GIFT)
         {
             // Play Gift animation
             _animator.SetTrigger("GiftPopUp");
@@ -99,9 +95,9 @@ public class Congratulation : MonoBehaviour
     private IEnumerator _updateSlider()
     {
         int currentWins = GameManager.Instance.GetCurrentWins();
-        int left = _winsNeededToGift - currentWins;
+        int left = GameManager.WINS_NEED_TO_GIFT - currentWins;
         _winsNeededToGiftText.text = $"<color=#FAE729>{left}</color> levels left to get reward";
-        _completedXoutOfMaxText.text = $"Completed {currentWins}/{_winsNeededToGift}";
+        _completedXoutOfMaxText.text = $"Completed {currentWins}/{GameManager.WINS_NEED_TO_GIFT}";
 
 
         float fillSpeed = 1f;
@@ -128,9 +124,4 @@ public class Congratulation : MonoBehaviour
     {
         SceneManager.LoadScene("MainMenu");
     }
-
-
-
-
-
 }

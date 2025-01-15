@@ -115,9 +115,9 @@ public class SoundManager : MonoBehaviour
     //reset music source clip to null copilot
     public static void StopTheme()
     {
+        Instance.audioQueue.Clear();
         Instance._musicSource.Stop();
         Instance._musicSource.clip = null;
-        Instance.audioQueue.Clear();
     }
     public static void StopClip()
     {

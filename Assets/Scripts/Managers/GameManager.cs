@@ -37,6 +37,9 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
 
     [SerializeField] private const int BUY_HINT_PRICE = 10;
 
+    [SerializeField] public const int WINS_NEED_TO_GIFT = 6;
+
+
     [Header("Account details")]
     [SerializeField]
     private string _token;

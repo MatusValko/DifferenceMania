@@ -68,6 +68,10 @@ public class DifferencesManager : MonoBehaviour
     [SerializeField] private GameObject _outOfTime;
 
     [SerializeField] private GameObject _congratulationWindow;
+    [SerializeField] private GameObject _youLoseWindow;
+    [SerializeField] private GameObject _youLosePopUpWindow;
+
+
 
     [Header("Top bar UI")]
     [SerializeField] Animator _topBarUIAnimator;
@@ -105,9 +109,7 @@ public class DifferencesManager : MonoBehaviour
     }
     void Start()
     {
-
         Initialisation();
-
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -341,15 +343,32 @@ public class DifferencesManager : MonoBehaviour
     private void _gameOver()
     {
         _topBarUIAnimator.SetTrigger("EndHurryUp");
-        _outOfTime.SetActive(true);
+        // _outOfTime.SetActive(true);
         _isGameOver = true;
         _timerText.text = "00:00"; // Display zero time
+        _totalTime = 0;
         DebugLogger.Log("Game Over!");
+        _youLosePopUpWindow.SetActive(true);
+    }
+    public void YouLoseContinueButton()
+    {
         SoundManager.StopClip();
         SoundManager.StopTheme();
-
         SoundManager.PlaySound(SoundType.GAME_LOSE);
+        _youLosePopUpWindow.SetActive(false);
+        _youLoseWindow.SetActive(true);
 
+    }
+    public void YouLoseWatchADtoPlayOn()
+    {
+        //play ad
+        //if ad is watched, continue to play
+        //if ad is not watched, show popup window
+
+        _youLosePopUpWindow.SetActive(false);
+        //add time
+        AddTime();
+        _isGameOver = false;
     }
 
     private void _gameWon()
@@ -358,7 +377,7 @@ public class DifferencesManager : MonoBehaviour
         //MAYBE TEMPORALY FREEZE TIME
         // Time.timeScale = 0;
         _isGameOver = true;
-        _levelCompleted.SetActive(true);
+        // _levelCompleted.SetActive(true);
         //play level complete sound
         SoundManager.StopClip();
         SoundManager.StopTheme();
@@ -367,6 +386,8 @@ public class DifferencesManager : MonoBehaviour
 
         StartCoroutine(_showCongratulation());
     }
+
+
 
     IEnumerator _showCongratulation()
     {
@@ -456,6 +477,7 @@ public class DifferencesManager : MonoBehaviour
             //show difference
             _boostShowDifference();
             //play hint sound
+            SoundManager.PlaySound(SoundType.GAME_CORRECT_HINT, volume: 0.8f);
             _adjustBoosts();
         }
         else
@@ -489,7 +511,7 @@ public class DifferencesManager : MonoBehaviour
             //add 60 seconds
             AddTime();
             //play add time sound
-            SoundManager.PlaySound(SoundType.GAME_CORRECT_HINT);
+            SoundManager.PlaySound(SoundType.GAME_CORRECT_HINT, volume: 0.8f);
             _adjustBoosts();
         }
         else
@@ -520,7 +542,6 @@ public class DifferencesManager : MonoBehaviour
         // Difference difference = _differences[randomDifference];
         // //show difference
         // difference.gameObject.SetActive(true);
-        SoundManager.PlaySound(SoundType.GAME_CORRECT_HINT);
 
     }
 
