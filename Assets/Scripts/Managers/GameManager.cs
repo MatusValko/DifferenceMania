@@ -211,16 +211,6 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
         gameData.HasFreeNickName = _hasFreeNickName;
     }
 
-    public void ToggleMusic()
-    {
-        //TODO
-    }
-    public void ToggleSound()
-    {
-        //TODO
-
-    }
-
     // UseBoostHint function
     public void UseBoostHint()
     {

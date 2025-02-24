@@ -357,7 +357,6 @@ public class DifferencesManager : MonoBehaviour
         SoundManager.PlaySound(SoundType.GAME_LOSE);
         _youLosePopUpWindow.SetActive(false);
         _youLoseWindow.SetActive(true);
-
     }
     public void YouLoseWatchADtoPlayOn()
     {
@@ -386,8 +385,6 @@ public class DifferencesManager : MonoBehaviour
 
         StartCoroutine(_showCongratulation());
     }
-
-
 
     IEnumerator _showCongratulation()
     {

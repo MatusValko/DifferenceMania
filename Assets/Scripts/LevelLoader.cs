@@ -25,11 +25,34 @@ public class LevelLoader : MonoBehaviour
     [SerializeField]
     private bool SERVER_ERROR = false;
 
+
+    [Header("SharRise")]
+    [SerializeField] private GameObject _sharRiseCanvas;
+    [SerializeField] private GameObject _diffManiaCanvas;
+    [SerializeField] private GameObject _loadingCanvas;
+    // [SerializeField] private bool isIntro = true;
+
+
     public void LoadGame()
     {
+        DebugLogger.Log("Loading Game");
         //MAIN MENU - 1
         //LOGIN - 2
         StartCoroutine(LoadAsynchronously(1));
+    }
+
+    IEnumerator IntroLogo()
+    {
+        //play music
+        SoundManager.PlaySound(SoundType.LOGIN_THEME, 1, 0);
+        yield return new WaitForSeconds(1);
+        SoundManager.PlaySound(SoundType.LOGIN_THEME, 3, 1);
+        yield return new WaitForSeconds(1);
+
+        _sharRiseCanvas.SetActive(false);
+        _diffManiaCanvas.SetActive(true);
+        _loadingCanvas.SetActive(true);
+        SoundManager.PlayThemeSound(SoundType.MAIN_MENU_THEME);
     }
 
     IEnumerator LoadAsynchronously(int sceneIndex)
@@ -63,10 +86,10 @@ public class LevelLoader : MonoBehaviour
         //OTHERWISE GET DATA FROM LOCAL STORAGE
 
 
-        DataPersistenceManager.Instance.LoadGame();
 
 
-
+        //TESTING
+        yield return new WaitForSeconds(3);
         //TESTING MAYBE UNCOMMENT IF ERROR IS NOT SHOWING
         // MAX = 1000;
         // for (int i = 0; i < MAX; i++)
@@ -83,7 +106,7 @@ public class LevelLoader : MonoBehaviour
         // }
 
 
-
+        //isIntro = false; TODO 
         //LOAD LEVEL 
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneIndex);
         // operation.allowSceneActivation = false;
@@ -101,6 +124,8 @@ public class LevelLoader : MonoBehaviour
             yield return null;
         }
 
+
+
     }
     // WHY STATIC public static IEnumerator CheckInternetConnection()
     public IEnumerator CheckServerConnection()
@@ -115,7 +140,7 @@ public class LevelLoader : MonoBehaviour
             if (request.error != null)
             {
                 _errorText = "Can't connect to the game server, please wait.";
-                Debug.LogError(_errorText);
+                DebugLogger.LogError(_errorText);
                 SERVER_ERROR = true;
                 yield return StartCoroutine(CheckInternetConnection());
 
@@ -123,6 +148,9 @@ public class LevelLoader : MonoBehaviour
             else
             {
                 Debug.Log("Successfully connected to game server");
+                //LOAD DATA FROM SERVER OR LOCAL STORAGE
+
+                DataPersistenceManager.Instance.LoadGame();
             }
         }
     }
@@ -139,7 +167,7 @@ public class LevelLoader : MonoBehaviour
             if (request.error != null)
             {
                 _errorText = "No internet connection";
-                Debug.LogError(_errorText);
+                DebugLogger.LogError(_errorText);
                 // _loadingText.text = text;
                 // SERVER_ERROR = true;
 
@@ -154,6 +182,10 @@ public class LevelLoader : MonoBehaviour
 
     private void ChangeLoading(float value)
     {
+        if (_leftSlider.gameObject.activeSelf == false)
+        {
+            return;
+        }
         _leftSlider.value = value;
         _rightSlider.value = value;
 
@@ -163,6 +195,8 @@ public class LevelLoader : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        StartCoroutine(IntroLogo());
+        LoadGame();
 
     }
 

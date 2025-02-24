@@ -15,7 +15,6 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioSource _musicSource;
     [SerializeField] private AudioSource _sfxSource;
     [SerializeField] private AudioSource _tmpSource; // Temporary source for playing clips (used for time ticking)
-
     [SerializeField] private Queue<AudioClip> audioQueue = new Queue<AudioClip>();
 
     private void Awake()
@@ -46,11 +45,27 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    public static void PlaySound(SoundType sound, float volume = 1)
+
+    public static void PlaySound(SoundType sound, float volume = 1, int index = -1)
     {
         AudioClip[] clips = Instance.soundList[(int)sound].Sounds;
-        AudioClip randomClip = clips[UnityEngine.Random.Range(0, clips.Length)];
-        Instance._sfxSource.PlayOneShot(randomClip, volume);
+        if (index == -1)
+        {
+            AudioClip randomClip = clips[UnityEngine.Random.Range(0, clips.Length)];
+            Instance._sfxSource.PlayOneShot(randomClip, volume);
+        }
+        else
+        {
+            //check if the index is within the range of the clips
+            if (index >= 0 && index < clips.Length)
+            {
+                Instance._sfxSource.PlayOneShot(clips[index], volume);
+            }
+            else
+            {
+                DebugLogger.LogError("Index out of range! SoundType: " + sound + " Index: " + index);
+            }
+        }
     }
     public static void PlayAudioClip(SoundType sound, float volume = 1)
     {
@@ -64,13 +79,18 @@ public class SoundManager : MonoBehaviour
         //if there is a clip playing with the same sound type, don't play it again
         if (Instance._musicSource.clip != null)
         {
-            //check if the clip is from the same soundType, search all clips in the same soundList copilot
-            foreach (AudioClip clip in Instance.soundList[(int)sound].Sounds)
+            //check if the clip is from the same soundType, search all clips in the same soundList
+            foreach (SoundType s in Enum.GetValues(typeof(SoundType)))
             {
-                if (Instance._musicSource.clip == clip)
+                foreach (AudioClip clip in Instance.soundList[(int)s].Sounds)
                 {
-                    return;
+                    if (Instance._musicSource.clip == clip)
+                    {
+                        DebugLogger.LogWarning("Clip is already playing! SoundType: " + s);
+                        return;
+                    }
                 }
+
             }
         }
         StopTheme();
@@ -200,11 +220,18 @@ public enum SoundType
     GAME_TIME,
     CONGRATULATION_CONFETTI,
     CONGRATULATION_FANFARE,
-    GIFT_OPEN,
-    BUTTON_CLICK,
+    CONGRATULATION_GIFT_BAR,
+    CONGRATULATION_GIFT_UNLOCK,
     GONGRATULATION_3STARS,
     CONGRATULATION_2STARS,
     CONGRATULATION_1STAR,
+    GIFT_OPEN,
+    GIFT_OPEN_COLLECTION,
+    BUTTON_CLICK,
+    COINS,
+    LIVES,
+    MODAL_WINDOW,
+
 
 
 

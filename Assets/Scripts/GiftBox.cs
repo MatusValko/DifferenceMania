@@ -38,6 +38,8 @@ public class GiftBox : MonoBehaviour
             _giftsRoomManager.ShowGetMoreSlotsForUnlock();
             return;
         }
+        //play sound
+        SoundManager.PlaySound(SoundType.GIFT_OPEN);
         _giftsRoomManager.FreeSlotsToUnlock -= 1;
         _giftsRoomManager.UpdateFreeSlotsText();
 

@@ -55,7 +55,7 @@ public class UI_Manager : MonoBehaviour
     void Start()
     {
         InitializeUI();
-
+        SoundManager.PlayThemeSound(SoundType.MAIN_MENU_THEME); //IF QUICKLY LOADED THIS WILL MAKE SURE THE MUSIC IS PLAYING
     }
 
     // Update is called once per frame

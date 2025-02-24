@@ -71,7 +71,10 @@ public class Premium : MonoBehaviour
 
     IEnumerator PlayAnimation(Animator animator)
     {
-        animator.Play("Shine");
+        // Play animation from New Layer
+        // animator.Play("Shine", 1);
+        //set trigger Shine
+        animator.SetTrigger("Shine");
         yield break;
     }
     void OnEnable()

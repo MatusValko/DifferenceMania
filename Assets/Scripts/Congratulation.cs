@@ -60,17 +60,17 @@ public class Congratulation : MonoBehaviour
 
         //Wait for confetti
         yield return new WaitForSeconds(2.4f);
-
+        SoundManager.PlaySound(SoundType.CONGRATULATION_GIFT_BAR);
         //update slider
         _adjustSliderAndTexts();
-
-        //play slider animation
 
         //Wait for animation
         yield return new WaitForSeconds(1);
 
         if (GameManager.Instance.GetCurrentWins() == GameManager.WINS_NEED_TO_GIFT)
         {
+            //play sound
+            SoundManager.PlaySound(SoundType.CONGRATULATION_GIFT_UNLOCK);
             // Play Gift animation
             _animator.SetTrigger("GiftPopUp");
             // Wait for gift animation
