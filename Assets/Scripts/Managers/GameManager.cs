@@ -71,10 +71,15 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
     }
     private void Start()
     {
+        _setTargetFrameRate();
         CheckIfIsLoggedIn();
-
-
         // _device_name = SystemInfo.deviceModel;
+    }
+
+    //set target frame rate to 60
+    private void _setTargetFrameRate()
+    {
+        Application.targetFrameRate = 60;
     }
 
     public void CheckIfIsLoggedIn()
