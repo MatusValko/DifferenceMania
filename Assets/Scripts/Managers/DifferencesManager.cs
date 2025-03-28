@@ -46,7 +46,7 @@ public class DifferencesManager : MonoBehaviour
     }
 
     // Set the path to the JSON file/ ONLY FOR TESTING
-    public string jsonFilePath = "Assets/differencesTest.json";
+    public string jsonFilePath = "differencesTest";
     [SerializeField] private GameObject _firstImage;
     // [SerializeField] private BoxCollider2D _firstImageCollider;
     [SerializeField] private GameObject _secondImage;
@@ -93,6 +93,12 @@ public class DifferencesManager : MonoBehaviour
     [SerializeField] private GameObject _buyHintWindow;
     [SerializeField] private GameObject _buyAddTimeWindow;
 
+    [Header("Error Winodw")]
+    [SerializeField] private GameObject _errorWindow;
+    [SerializeField] private TextMeshProUGUI _errorText;
+
+
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -123,28 +129,57 @@ public class DifferencesManager : MonoBehaviour
         // _firstImageCollider = _firstImage.GetComponent<BoxCollider2D>();
         // _secondImageCollider = _secondImage.GetComponent<BoxCollider2D>();
 
-        // Load and parse the JSON data
-        string jsonContent = File.ReadAllText(jsonFilePath);
-        DifferencesData data = JsonUtility.FromJson<DifferencesData>(jsonContent);
-        // Debug.Log(data.image_id);
-        // Generate colliders
-        int index = 0;
-        foreach (var diff in data.differences)
+        // Load and parse the JSON data and use try catch block to catch any exceptions
+        try
         {
-            Difference difference1 = Difference.CreateDifference(diff.x, diff.y, diff.width, diff.height, index, _firstImage);
-            _differences.Add(difference1);
-            Difference difference2 = Difference.CreateDifference(diff.x, diff.y, diff.width, diff.height, index, _secondImage);
-            _differences.Add(difference2);
-            _differencesCount++;
-            // _differences.Add(Difference.CreateDifference(diff.x, diff.y, diff.width, diff.height, _firstImage));
-            // _differences.Add(Difference.CreateDifference(diff.x, diff.y, diff.width, diff.height, _secondImage));
+            //use reference from inspector for json file
+            TextAsset jsonFile = Resources.Load<TextAsset>(jsonFilePath);
+            if (jsonFile == null)
+            {
+                throw new Exception("JSON file not found at path: " + jsonFilePath);
 
-            // Difference.CreateDifference(diff.x, diff.y, diff.width, diff.height, _secondImage);
+            }
+            string jsonContent = jsonFile.text;
 
-            // CreateCollider(diff.x, diff.y, diff.width, diff.height);
 
-            index++;
+            // string jsonContent = File.ReadAllText(jsonFilePath);
+            DifferencesData data = JsonUtility.FromJson<DifferencesData>(jsonContent);
+            // Debug.Log(data.image_id);
+            // Generate colliders
+            int index = 0;
+            foreach (var diff in data.differences)
+            {
+                Difference difference1 = Difference.CreateDifference(diff.x, diff.y, diff.width, diff.height, index, _firstImage);
+                _differences.Add(difference1);
+                Difference difference2 = Difference.CreateDifference(diff.x, diff.y, diff.width, diff.height, index, _secondImage);
+                _differences.Add(difference2);
+                _differencesCount++;
+                index++;
+            }
         }
+        catch (Exception ex)
+        {
+            DebugLogger.LogError("Error loading or parsing JSON data: " + ex.Message);
+            //show error window
+            _errorWindow.SetActive(true);
+            _errorText.text = "Error loading or parsing JSON data: " + ex.Message;
+        }
+
+
+        // string jsonContent = File.ReadAllText(jsonFilePath);
+        // DifferencesData data = JsonUtility.FromJson<DifferencesData>(jsonContent);
+        // // Debug.Log(data.image_id);
+        // // Generate colliders
+        // int index = 0;
+        // foreach (var diff in data.differences)
+        // {
+        //     Difference difference1 = Difference.CreateDifference(diff.x, diff.y, diff.width, diff.height, index, _firstImage);
+        //     _differences.Add(difference1);
+        //     Difference difference2 = Difference.CreateDifference(diff.x, diff.y, diff.width, diff.height, index, _secondImage);
+        //     _differences.Add(difference2);
+        //     _differencesCount++;
+        //     index++;
+        // }
 
         // SHOW FOUND CIRCLES EQUAL TO NUMBER OF DIFFERENCES
         _adjustCircles();

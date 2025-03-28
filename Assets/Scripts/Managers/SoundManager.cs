@@ -76,23 +76,32 @@ public class SoundManager : MonoBehaviour
 
     public static void PlayThemeSound(SoundType sound, float volume = 1)
     {
-        //if there is a clip playing with the same sound type, don't play it again
-        if (Instance._musicSource.clip != null)
-        {
-            //check if the clip is from the same soundType, search all clips in the same soundList
-            foreach (SoundType s in Enum.GetValues(typeof(SoundType)))
-            {
-                foreach (AudioClip clip in Instance.soundList[(int)s].Sounds)
-                {
-                    if (Instance._musicSource.clip == clip)
-                    {
-                        DebugLogger.LogWarning("Clip is already playing! SoundType: " + s);
-                        return;
-                    }
-                }
 
-            }
+
+        //if there is a clip playing with the same sound type, don't play it again
+        if (Instance._musicSource.clip != null && Array.Exists(Instance.soundList[(int)sound].Sounds, clip => clip == Instance._musicSource.clip))
+        {
+            DebugLogger.LogWarning("Clip is already playing! SoundType: " + sound);
+            return;
         }
+
+
+        // if (Instance._musicSource.clip != null)
+        // {
+        //     //check if the clip is from the same soundType, search all clips in the same soundList
+        //     foreach (SoundType s in Enum.GetValues(typeof(SoundType)))
+        //     {
+        //         foreach (AudioClip clip in Instance.soundList[(int)s].Sounds)
+        //         {
+        //             if (Instance._musicSource.clip == clip)
+        //             {
+        //                 DebugLogger.LogWarning("Clip is already playing! SoundType: " + s);
+        //                 return;
+        //             }
+        //         }
+
+        //     }
+        // }
         StopTheme();
 
         AudioClip[] clips = Instance.soundList[(int)sound].Sounds;

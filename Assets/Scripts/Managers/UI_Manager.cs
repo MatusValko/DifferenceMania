@@ -52,6 +52,7 @@ public class UI_Manager : MonoBehaviour
         }
 
     }
+
     void Start()
     {
         InitializeUI();

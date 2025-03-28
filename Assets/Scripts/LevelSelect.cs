@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,21 +8,6 @@ public class LevelSelect : MonoBehaviour
 
     public RectTransform[] children; // Array of child RectTransforms
 
-
-    void OnEnable()
-    {
-        // Debug.Log("GameObject enabled!");
-        //GO TO TOP OF WINDOW
-        //content.transform.position = new Vector3(transform.position.x, 0f, transform.position.z);
-    }
-    void Start()
-    {
-    }
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
     private void GetChildrenAsArray()
     {
         //PARENT HAS A LAYOUT GROUP AND CONTENT SIZE FITTER DOESNT WORK
@@ -68,8 +51,8 @@ public class LevelSelect : MonoBehaviour
             Content.transform.position = new Vector3(transform.position.x, 0f, transform.position.z);
 
             //GET CHILDREN OBJECT TO RESIZE WINDOW
-            GetChildrenAsArray();
-            GetHeight();
+            // GetChildrenAsArray();
+            // GetHeight();
         }
     }
 
