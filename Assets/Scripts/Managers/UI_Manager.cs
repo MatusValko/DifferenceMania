@@ -20,13 +20,21 @@ public class UI_Manager : MonoBehaviour
 
     public void UpdateLives()
     {
-        if (GetLives() == GameManager.MAX_LIVES)
+        if (GetLives() == GameManager.Instance.GetMaxLiveConst())
+        {
+            _livesText.text = "FULL";
+        }
+        else if (GetLives() == 0)
+        {
+            _livesText.text = "0/" + GameManager.Instance.GetMaxLiveConst();
+        }
+        else if (GetLives() == GameManager.Instance.GetMaxLiveConst())
         {
             _livesText.text = "FULL";
         }
         else
         {
-            _livesText.text = $"{GameManager.Instance.GetLives() + "/" + GameManager.MAX_LIVES}";
+            _livesText.text = $"{GameManager.Instance.GetLives() + "/" + GameManager.Instance.GetMaxLiveConst()}";
 
         }
     }

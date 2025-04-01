@@ -26,7 +26,7 @@ public class GameData
     public GameData()
     {
         Coins = 50;
-        Lives = GameManager.MAX_LIVES;
+        Lives = 5;
         UnlockedLevels = 1;
         UnlockedPFP = new List<int>
         {
@@ -41,6 +41,7 @@ public class GameData
         Token = null;
         Nickname = null;
         //TODO: Generate random nickname 
+        Nickname = "Anonymous_";
         HasFreeNickName = true;
         // UnlockedLevels = new List<int>();
 

@@ -69,14 +69,11 @@ public class DataPersistenceManager : MonoBehaviour
         {
             DebugLogger.LogError("No data was found. Initializing data to defaults");
             NewGame();
+            DebugLogger.LogWarning("New game data created");
             //NEW USER
         }
 
         GameManager.Instance.LoadData(_gameData);
-
-        DebugLogger.Log("Loaded coins = " + _gameData.Coins);
-        DebugLogger.Log("Loaded lives = " + _gameData.Lives);
-
     }
 
     public void SaveGame()

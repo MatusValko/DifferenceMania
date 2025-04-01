@@ -561,7 +561,7 @@ public class DifferencesManager : MonoBehaviour
         //adjust coins text
         _coinsText.text = GameManager.Instance.GetCoins().ToString();
         //adjust lives text
-        _lifeText.text = $"{GameManager.Instance.GetLives()}/{GameManager.MAX_LIVES}";
+        _lifeText.text = $"{GameManager.Instance.GetLives()}/{GameManager.Instance.GetMaxLiveConst()}";
     }
 
     // function _showDifference();

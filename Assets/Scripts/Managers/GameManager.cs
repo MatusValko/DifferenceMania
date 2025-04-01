@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour, IDataPersistenceManager
 {
-    public const int MAX_LIVES = 3;
+    public int MAX_LIVES = 3;
+    public const int MAX_LIVES_COUNT_CONST = 5;
 
     public bool ISLOGGEDIN = false;
     public const string GAMESERVER = "https://diff.nconnect.sk";
@@ -12,6 +13,9 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
 
     public const string API_LOGIN = "https://diff.nconnect.sk/api/login";
     public const string API_DIFF_IMAGES = "https://diff.nconnect.sk/api/diff-iamges";
+
+    public const string API_LOAD_USER_DATA = "https://diff.nconnect.sk/api/load_user_data";
+
 
 
 
@@ -23,17 +27,32 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
     [SerializeField]
     private int _lives;
     [SerializeField]
+    private int _starsCollected;
+    [SerializeField]
     private int _experience;
     [SerializeField]
+    private int _experienceToNextLevel;
+
+    [SerializeField]
     private int _unlockedLevels;
+    [SerializeField]
+    private int _finishedLevels;
     [SerializeField]
     private int _currentWins;
     [SerializeField]
     private int _selectedPFP;
     [SerializeField]
+    private int _profileLevel;
+    [SerializeField]
     private List<int> _unlockedPFP;
     [SerializeField] private int _boostAddTimeCount;
     [SerializeField] private int _boostHintCount;
+
+    [SerializeField] private bool has_ads_removed;
+    [SerializeField] private bool _rewardedForAccConnection;
+    [SerializeField] private bool _hasAdsRemoved;
+    [SerializeField] private int last_refill_timestamp;
+    [SerializeField] private int? _life_refill_time;
 
     [SerializeField] private const int BUY_HINT_PRICE = 10;
 
@@ -49,8 +68,8 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
     private string _email;
     [SerializeField]
     private bool _hasFreeNickName;
-    // [SerializeField]
-    // private string _device_name;
+    [SerializeField]
+    private string _device_name;
     // [SerializeField]
     // private string _password;
 
@@ -72,7 +91,7 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
     private void Start()
     {
         _setTargetFrameRate();
-        CheckIfIsLoggedIn();
+        // CheckIfIsLoggedIn();
         // _device_name = SystemInfo.deviceModel;
     }
 
@@ -90,12 +109,12 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
             Instance.ISLOGGEDIN = false;
             return;
         }
-        if (string.IsNullOrEmpty(_email))
-        {
-            Debug.LogWarning("Email is empty!");
-            Instance.ISLOGGEDIN = false;
-            return;
-        }
+        // if (string.IsNullOrEmpty(_email))
+        // {
+        //     Debug.LogWarning("Email is empty!");
+        //     Instance.ISLOGGEDIN = false;
+        //     return;
+        // }
         Debug.Log("Has token and email. Logging in");
         Instance.ISLOGGEDIN = true;
     }
@@ -134,17 +153,105 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
     {
         return _coins;
     }
+    //get token
+    public string GetToken()
+    {
+        return _token;
+    }
     public void SetToken(string token)
     {
         _token = token;
     }
+
     public void SetEmail(string email)
     {
         _email = email;
     }
+    public void SetStarsCollected(int starsCollected)
+    {
+        _starsCollected = starsCollected;
+    }
+    public void SetFinishedLevels(int finishedLevels)
+    {
+        _finishedLevels = finishedLevels;
+    }
+    public int GetFinishedLevels()
+    {
+        return _finishedLevels;
+    }
+    public int GetBoostAddTimePrice()
+    {
+        return _boostAddTimeCount;
+    }
+    public int GetBoostHintPrice()
+    {
+        return _boostHintCount;
+    }
+    //set experience
+    public void SetExperience(int experience)
+    {
+        _experience = experience;
+    }
+    //set experience to next level
+    public void SetExperienceToNextLevel(int experience)
+    {
+        _experienceToNextLevel = experience;
+    }
+
+    public int GetStarsCollected()
+    {
+        return _starsCollected;
+    }
+    public int GetExperience()
+    {
+        return _experience;
+    }
+    public int GetUnlockedLevels()
+    {
+        return _unlockedLevels;
+    }
+    public int GetSelectedPFP()
+    {
+        return _selectedPFP;
+    }
+    public int GetProfileLevel()
+    {
+        return _profileLevel;
+    }
+    public int GetMaxLives()
+    {
+        return MAX_LIVES;
+    }
+    public void SetDeviceName(string device_name)
+    {
+        _device_name = device_name;
+    }
+    //set rewarded for account connection
+    public void SetRewardedForAccountConnection(bool rewardedForAccConnection)
+    {
+        _rewardedForAccConnection = rewardedForAccConnection;
+    }
     public void SetNickname(string nickname)
     {
         _nickname = nickname;
+    }
+    //set max lives
+    public void SetMaxLives(int maxLives)
+    {
+        MAX_LIVES = maxLives;
+    }
+    public void SetProfileLevel(int level)
+    {
+        _profileLevel = level;
+    }
+    public void SetBoostAddTime(int boostAddTime)
+    {
+        _boostAddTimeCount = boostAddTime;
+    }
+    //set life refill time
+    public void SetLifeRefillTime(int? lifeRefillTime)
+    {
+        _life_refill_time = lifeRefillTime;
     }
     public string GetNickname()
     {
@@ -158,13 +265,73 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
     {
         return _hasFreeNickName;
     }
-    public void SetFreeNickNameToFalse()
+    public void SetFreeNickName(bool freeNickName)
     {
-        _hasFreeNickName = false;
+        _hasFreeNickName = freeNickName;
     }
-    public void SetFreeNickNameToTrue()
+    public void SetUnlockedLevels(int unlockedLevels)
     {
-        _hasFreeNickName = true;
+        _unlockedLevels = unlockedLevels;
+    }
+
+    //get Max lives, TODO FIX THIS 
+    public int GetMaxLiveConst()
+    {
+        return MAX_LIVES_COUNT_CONST;
+    }
+    //set current wins
+    public void SetCurrentWins(int currentWins)
+    {
+        _currentWins = currentWins;
+    }
+    //set boost hint
+    public void SetBoostHint(int boostHint)
+    {
+        _boostHintCount = boostHint;
+    }
+    public void SetSelectedPFP(int selectedPFP)
+    {
+        _selectedPFP = selectedPFP;
+    }
+    public void SetUnlockedPFP(int unlockedPFP)
+    {
+        _unlockedPFP.Add(unlockedPFP);
+    }
+    public List<int> GetUnlockedPFP()
+    {
+        return _unlockedPFP;
+    }
+    public int GetUnlockedPFPCount()
+    {
+        return _unlockedPFP.Count;
+    }
+    //Set has ads removed
+    public void SetHasAdsRemoved(bool hasAdsRemoved)
+    {
+        has_ads_removed = hasAdsRemoved;
+    }
+    //set free nickname available
+    public void SetFreeNickNameAvailable(bool freeNickNameAvailable)
+    {
+        _hasFreeNickName = freeNickNameAvailable;
+    }
+    //set last refill timestamp
+    public void SetLastRefillTimestamp(int lastRefillTimestamp)
+    {
+        last_refill_timestamp = lastRefillTimestamp;
+    }
+
+    // public void SetFreeNickNameToTrue()
+    // {
+    //     _hasFreeNickName = true;
+    // }
+    public void SetCoins(int coins)
+    {
+        _coins = coins;
+    }
+    public void SetLives(int lives)
+    {
+        _lives = lives;
     }
 
 

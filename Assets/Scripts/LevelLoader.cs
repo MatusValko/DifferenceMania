@@ -1,12 +1,11 @@
 using System;
 using System.Collections;
-using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
-using UnityEngine.AI;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Newtonsoft.Json;
 
 public class LevelLoader : MonoBehaviour
 {
@@ -151,6 +150,20 @@ public class LevelLoader : MonoBehaviour
                 //LOAD DATA FROM SERVER OR LOCAL STORAGE
 
                 DataPersistenceManager.Instance.LoadGame();
+                GameManager.Instance.CheckIfIsLoggedIn();
+                if (GameManager.Instance.ISLOGGEDIN)
+                {
+                    //LOAD DATA FROM SERVER
+                    DebugLogger.Log("Loading data from server");
+                    StartCoroutine(LoadUserData());
+                    // GameManager.Instance.LoadDataFromServer();
+                }
+                else
+                {
+                    //LOAD DATA FROM LOCAL STORAGE
+                    DebugLogger.Log("Loading data from local storage");
+                    // GameManager.Instance.LoadDataFromLocalStorage();
+                }
             }
         }
     }
@@ -175,9 +188,115 @@ public class LevelLoader : MonoBehaviour
             else
             {
                 string text = "No internet connection";
-                Debug.LogError(text);
+                DebugLogger.LogError(text);
             }
         }
+    }
+
+    public IEnumerator LoadUserData()
+    {
+        UnityWebRequest request = UnityWebRequest.Get(GameManager.API_LOAD_USER_DATA);
+        request.SetRequestHeader("Authorization", "Bearer " + GameManager.Instance.GetToken());
+        request.SetRequestHeader("Accept", "application/json");
+
+        yield return request.SendWebRequest();
+        // GameManager.Instance.LoadDataFromServer();
+        // GameManager.Instance.LoadDataFromLocalStorage();
+        if (request.result == UnityWebRequest.Result.Success)
+        {
+            string json = request.downloadHandler.text;
+            DebugLogger.Log("Raw JSON: " + json);
+
+            // Deserialize JSON response
+            UserDataResponse userDataResponse = JsonConvert.DeserializeObject<UserDataResponse>(json);
+
+            if (userDataResponse != null && userDataResponse.status == "success")
+            {
+                DebugLogger.Log("User Name: " + userDataResponse.data.device_name);
+                GameManager.Instance.SetDeviceName(userDataResponse.data.device_name);
+                DebugLogger.Log("Email: " + userDataResponse.data.email);
+                GameManager.Instance.SetEmail(userDataResponse.data.email);
+                DebugLogger.Log("Nickname: " + userDataResponse.data.nickname);
+                GameManager.Instance.SetNickname(userDataResponse.data.nickname);
+                DebugLogger.Log("Nickname: " + userDataResponse.data.device_name);
+                GameManager.Instance.SetDeviceName(userDataResponse.data.device_name);
+                DebugLogger.Log("Stars Collected: " + userDataResponse.data.stars_collected);
+                GameManager.Instance.SetStarsCollected(userDataResponse.data.stars_collected);
+                DebugLogger.Log("Finished Levels: " + userDataResponse.data.finished_levels);
+                GameManager.Instance.SetFinishedLevels(userDataResponse.data.finished_levels);
+                DebugLogger.Log("Experience: " + userDataResponse.data.experience);
+                GameManager.Instance.SetExperience(userDataResponse.data.experience);
+                DebugLogger.Log("Experience to Next Level: " + userDataResponse.data.experience_to_next_level);
+                GameManager.Instance.SetExperienceToNextLevel(userDataResponse.data.experience_to_next_level);
+                DebugLogger.Log("Has Ads Removed: " + userDataResponse.data.has_ads_removed);
+                GameManager.Instance.SetHasAdsRemoved(userDataResponse.data.has_ads_removed);
+                DebugLogger.Log("Last Refill Timestamp: " + userDataResponse.data.last_refill_timestamp);
+                GameManager.Instance.SetLastRefillTimestamp(userDataResponse.data.last_refill_timestamp);
+                DebugLogger.Log("Free Nickname Available: " + userDataResponse.data.free_nickname_available);
+                GameManager.Instance.SetFreeNickNameAvailable(userDataResponse.data.free_nickname_available);
+                DebugLogger.Log("Rewarded for Account Connection: " + userDataResponse.data.rewarded_for_acc_connection);
+                GameManager.Instance.SetRewardedForAccountConnection(userDataResponse.data.rewarded_for_acc_connection);
+                DebugLogger.Log("Max Lives: " + userDataResponse.data.max_lives);
+                GameManager.Instance.SetMaxLives(userDataResponse.data.max_lives);
+                DebugLogger.Log("Life Refill Time: " + userDataResponse.data.life_refill_time);
+                GameManager.Instance.SetLifeRefillTime(userDataResponse.data.life_refill_time);
+                DebugLogger.Log("Boost Bonus Time: " + userDataResponse.data.boost_bonus_time);
+                GameManager.Instance.SetBoostAddTime(userDataResponse.data.boost_bonus_time);
+                DebugLogger.Log("Boost Hint: " + userDataResponse.data.boost_hint);
+                GameManager.Instance.SetBoostHint(userDataResponse.data.boost_hint);
+                // DebugLogger.Log("Unlocked Levels: " + userDataResponse.data.finished_levels);
+                // GameManager.Instance.SetUnlockedLevels(userDataResponse.data.finished_levels);
+                // DebugLogger.Log("Current Wins: " + userDataResponse.data.finished_levels);
+                // GameManager.Instance.SetCurrentWins(userDataResponse.data.finished_levels);
+                // DebugLogger.Log("Selected PFP: " + userDataResponse.data.finished_levels);
+                // GameManager.Instance.SetSelectedPFP(userDataResponse.data.finished_levels);
+                // DebugLogger.Log("Unlocked PFP: " + userDataResponse.data.finished_levels);
+                // GameManager.Instance.SetUnlockedPFP(userDataResponse.data.finished_levels);
+                // DebugLogger.Log("Boost Hint Count: " + userDataResponse.data.finished_levels);
+                // GameManager.Instance.SetBoostHintCount(userDataResponse.data.finished_levels);
+                // DebugLogger.Log("Stars Collected: " + userDataResponse.data.stars_collected);
+                // GameManager.Instance.SetStarsCollected(userDataResponse.data.stars_collected);
+                // DebugLogger.Log("Finished Levels: " + userDataResponse.data.finished_levels);
+                // GameManager.Instance.SetFinishedLevels(userDataResponse.data.finished_levels);
+                // DebugLogger.Log("Experience: " + userDataResponse.data.experience);
+                // GameManager.Instance.SetExperience(userDataResponse.data.experience);
+                // DebugLogger.Log("Experience to Next Level: " + userDataResponse.data.experience_to_next_level);
+                // GameManager.Instance.SetExperienceToNextLevel(userDataResponse.data.experience_to_next_level);
+                // DebugLogger.Log("Has Ads Removed: " + userDataResponse.data.has_ads_removed);
+                // GameManager.Instance.SetHasAdsRemoved(userDataResponse.data.has_ads_removed);
+                // DebugLogger.Log("Last Refill Timestamp: " + userDataResponse.data.last_refill_timestamp);
+                // GameManager.Instance.SetLastRefillTimestamp(userDataResponse.data.last_refill_timestamp);
+                // DebugLogger.Log("Free Nickname Available: " + userDataResponse.data.free_nickname_available);
+                // GameManager.Instance.SetFreeNicknameAvailable(userDataResponse.data.free_nickname_available);
+                // DebugLogger.Log("Rewarded for Account Connection: " + userDataResponse.data.rewarded_for_acc_connection);
+                // GameManager.Instance.SetRewardedForAccConnection(userDataResponse.data.rewarded_for_acc_connection);
+                // DebugLogger.Log("Max Lives: " + userDataResponse.data.max_lives);
+                // GameManager.Instance.SetMaxLives(userDataResponse.data.max_lives);
+
+                DebugLogger.Log("User Level: " + userDataResponse.data.level);
+                GameManager.Instance.SetProfileLevel(userDataResponse.data.level);
+                DebugLogger.Log("Coins: " + userDataResponse.data.coins);
+                GameManager.Instance.SetCoins(userDataResponse.data.coins);
+                DebugLogger.Log("Lives: " + userDataResponse.data.lives);
+                GameManager.Instance.SetLives(userDataResponse.data.lives);
+
+
+                // Loop through daily rewards
+                foreach (var reward in userDataResponse.data.dailyRewards)
+                {
+                    DebugLogger.Log($"Day {reward.day}: Reward {reward.reward}, Opened: {reward.opened}");
+                }
+            }
+            else
+            {
+                DebugLogger.LogError("Failed to parse user data.");
+            }
+        }
+        else
+        {
+            DebugLogger.LogError("Error fetching user data: " + request.error);
+        }
+
     }
 
     private void ChangeLoading(float value)

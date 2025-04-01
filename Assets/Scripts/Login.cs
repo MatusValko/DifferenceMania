@@ -211,7 +211,7 @@ public class Login : MonoBehaviour
     {
         //poslat poziadavku na server
         GameManager.Instance.SetNickname(_newNickNameText.text);
-        GameManager.Instance.SetFreeNickNameToFalse();
+        GameManager.Instance.SetFreeNickName(false);
         DataPersistenceManager.Instance.SaveGame();
         UpdateProfileMenu();
     }
@@ -288,7 +288,7 @@ public class Login : MonoBehaviour
             GameManager.Instance.SetToken(response.token);
             GameManager.Instance.SetEmail(_email.text);
             GameManager.Instance.SetNickname(_nickname.text);
-            GameManager.Instance.SetFreeNickNameToTrue();
+            GameManager.Instance.SetFreeNickName(true);
             GameManager.Instance.ISLOGGEDIN = true;
             DataPersistenceManager.Instance.SaveGame();
             // _password.text
