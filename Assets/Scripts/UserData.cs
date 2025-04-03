@@ -13,7 +13,7 @@ public class UserDataResponse
 [Serializable]
 public class UserData
 {
-    public string device_name;
+    public string name;
     public string email;
     public string nickname;
     public int stars_collected;

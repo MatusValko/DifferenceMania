@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 84a92b25f83d49b9bc132d206b370281, type: 3}
-  m_Name: COIN_ICO_184
+  m_Name: STAR
   m_EditorClassIdentifier: 
   m_Version: 1.1.0
   m_FaceInfo:
@@ -36,26 +36,26 @@ MonoBehaviour:
     m_StrikethroughThickness: 0
     m_TabWidth: 0
   m_Material: {fileID: 2779312117092255800}
-  spriteSheet: {fileID: 2800000, guid: 866f67caa4a909642a86fce32773905c, type: 3}
+  spriteSheet: {fileID: 2800000, guid: 30d827a989ed0714e946eb683d439e2a, type: 3}
   m_SpriteCharacterTable:
   - m_ElementType: 2
     m_Unicode: 65534
     m_GlyphIndex: 0
-    m_Scale: 1.2
-    m_Name: COIN_ICO_184
+    m_Scale: 1
+    m_Name: Star
   m_GlyphTable:
   - m_Index: 0
     m_Metrics:
-      m_Width: 184
-      m_Height: 184
+      m_Width: 58
+      m_Height: 58
       m_HorizontalBearingX: 0
-      m_HorizontalBearingY: 130
-      m_HorizontalAdvance: 184
+      m_HorizontalBearingY: 45
+      m_HorizontalAdvance: 45
     m_GlyphRect:
-      m_X: -6
+      m_X: 0
       m_Y: 0
-      m_Width: 184
-      m_Height: 184
+      m_Width: 58
+      m_Height: 58
     m_Scale: 1.5
     m_AtlasIndex: 0
     m_ClassDefinitionType: 0
@@ -86,7 +86,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 866f67caa4a909642a86fce32773905c, type: 3}
+        m_Texture: {fileID: 2800000, guid: 30d827a989ed0714e946eb683d439e2a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []

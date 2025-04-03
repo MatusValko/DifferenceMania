@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
     public const string API_DIFF_IMAGES = "https://diff.nconnect.sk/api/diff-iamges";
 
     public const string API_LOAD_USER_DATA = "https://diff.nconnect.sk/api/load_user_data";
-
+    public const string API_GET_USER_LEVEL_DATA = "https://diff.nconnect.sk/api/progress";
 
 
 
@@ -59,6 +59,8 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
     [SerializeField] public const int WINS_NEED_TO_GIFT = 6;
 
 
+
+
     [Header("Account details")]
     [SerializeField]
     private string _token;
@@ -73,7 +75,10 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
     // [SerializeField]
     // private string _password;
 
-
+    [Header("Level data")]
+    [SerializeField]
+    private List<EpisodeData> _episodes;
+    private int _levelID = 1;
 
     private void Awake()
     {
@@ -118,6 +123,14 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
         Debug.Log("Has token and email. Logging in");
         Instance.ISLOGGEDIN = true;
     }
+
+    //get level data url adress
+    public string GetLevelDataURL(int levelID)
+    {
+        string url = $"https://diff.nconnect.sk/api/level/{levelID}";
+        return url;
+    }
+
     public void AddLive(int live = 1)
     {
         if (_lives == MAX_LIVES)
@@ -140,6 +153,27 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
     {
         _coins += coin;
         UI_Manager.Instance.UpdateCoins();
+    }
+    // get level data
+    public List<EpisodeData> GetEpisodes()
+    {
+        return _episodes;
+    }
+    //set level data
+    public void SetEpisodes(List<EpisodeData> episodes)
+    {
+        _episodes = episodes;
+    }
+
+    //set level id
+    public void SetLevelID(int levelID)
+    {
+        _levelID = levelID;
+    }
+    //get level id
+    public int GetLevelID()
+    {
+        return _levelID;
     }
     public int GetCurrentWins()
     {

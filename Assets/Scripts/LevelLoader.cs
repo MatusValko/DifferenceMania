@@ -6,6 +6,7 @@ using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 public class LevelLoader : MonoBehaviour
 {
@@ -156,6 +157,7 @@ public class LevelLoader : MonoBehaviour
                     //LOAD DATA FROM SERVER
                     DebugLogger.Log("Loading data from server");
                     StartCoroutine(LoadUserData());
+                    StartCoroutine(GetProgressData());
                     // GameManager.Instance.LoadDataFromServer();
                 }
                 else
@@ -193,6 +195,26 @@ public class LevelLoader : MonoBehaviour
         }
     }
 
+    IEnumerator GetProgressData()
+    {
+        UnityWebRequest request = UnityWebRequest.Get(GameManager.API_GET_USER_LEVEL_DATA);
+        request.SetRequestHeader("Authorization", "Bearer " + GameManager.Instance.GetToken());
+        request.SetRequestHeader("Accept", "application/json");
+        yield return request.SendWebRequest();
+        if (request.result == UnityWebRequest.Result.Success)
+        {
+
+
+            string jsonResponse = request.downloadHandler.text;
+            List<EpisodeData> episodes = JsonConvert.DeserializeObject<List<EpisodeData>>(jsonResponse);
+            GameManager.Instance.SetEpisodes(episodes);
+        }
+        else
+        {
+            Debug.LogError($"Error: {request.error}");
+        }
+    }
+
     public IEnumerator LoadUserData()
     {
         UnityWebRequest request = UnityWebRequest.Get(GameManager.API_LOAD_USER_DATA);
@@ -212,14 +234,12 @@ public class LevelLoader : MonoBehaviour
 
             if (userDataResponse != null && userDataResponse.status == "success")
             {
-                DebugLogger.Log("User Name: " + userDataResponse.data.device_name);
-                GameManager.Instance.SetDeviceName(userDataResponse.data.device_name);
+                DebugLogger.Log("Device Name: " + userDataResponse.data.name);
+                GameManager.Instance.SetDeviceName(userDataResponse.data.name);
                 DebugLogger.Log("Email: " + userDataResponse.data.email);
                 GameManager.Instance.SetEmail(userDataResponse.data.email);
                 DebugLogger.Log("Nickname: " + userDataResponse.data.nickname);
                 GameManager.Instance.SetNickname(userDataResponse.data.nickname);
-                DebugLogger.Log("Nickname: " + userDataResponse.data.device_name);
-                GameManager.Instance.SetDeviceName(userDataResponse.data.device_name);
                 DebugLogger.Log("Stars Collected: " + userDataResponse.data.stars_collected);
                 GameManager.Instance.SetStarsCollected(userDataResponse.data.stars_collected);
                 DebugLogger.Log("Finished Levels: " + userDataResponse.data.finished_levels);
@@ -285,6 +305,8 @@ public class LevelLoader : MonoBehaviour
                 foreach (var reward in userDataResponse.data.dailyRewards)
                 {
                     DebugLogger.Log($"Day {reward.day}: Reward {reward.reward}, Opened: {reward.opened}");
+                    // You can also set these values in your GameManager if needed
+                    // GameManager.Instance.SetDailyReward(reward.day, reward.reward, reward.opened);
                 }
             }
             else

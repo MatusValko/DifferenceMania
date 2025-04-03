@@ -3,8 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using Newtonsoft.Json;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 public class DifferencesManager : MonoBehaviour
@@ -27,10 +29,12 @@ public class DifferencesManager : MonoBehaviour
 
     [SerializeField]
     private bool _isHurryUp = false;
+    [SerializeField] private bool _isLoaded = false;
 
 
-    [System.Serializable]
-    private class DifferenceJSON
+
+    [Serializable]
+    public class DifferenceJSON
     {
         public float x;
         public float y;
@@ -38,11 +42,44 @@ public class DifferencesManager : MonoBehaviour
         public float height;
     }
 
-    [System.Serializable]
+    [Serializable]
     private class DifferencesData
     {
         public string image_id;
         public List<DifferenceJSON> differences;
+    }
+
+    [Serializable]
+    public class ImageData
+    {
+        public string name;
+        public string path;
+        public int differences;
+        public int difficulty;
+        [JsonProperty("json_diff")]
+        public List<DifferenceJSON> jsonDiff;
+        public string created_at;
+        public string updated_at;
+    }
+
+    [Serializable]
+    public class GameData
+    {
+        public int total_time_limit;
+        [JsonProperty("1_star")]
+        public int oneStar;
+        [JsonProperty("2_star")]
+        public int twoStar;
+        [JsonProperty("3_star")]
+        public int threeStar;
+        public int bonus_total_time_limit;
+        [JsonProperty("1_star_bonus_time")]
+        public int oneStarBonusTime;
+        [JsonProperty("2_star_bonus_time")]
+        public int twoStarBonusTime;
+        [JsonProperty("3_star_bonus_time")]
+        public int threeStarBonusTime;
+        public List<ImageData> images;
     }
 
     // Set the path to the JSON file/ ONLY FOR TESTING
@@ -70,6 +107,8 @@ public class DifferencesManager : MonoBehaviour
     [SerializeField] private GameObject _congratulationWindow;
     [SerializeField] private GameObject _youLoseWindow;
     [SerializeField] private GameObject _youLosePopUpWindow;
+
+    [SerializeField] private GameData _gameData;
 
 
 
@@ -125,11 +164,111 @@ public class DifferencesManager : MonoBehaviour
     private void Initialisation()
     {
         SoundManager.PlayThemeSound(SoundType.GAME_THEME);
-        //GET IMAGE COLLIDERS
-        // _firstImageCollider = _firstImage.GetComponent<BoxCollider2D>();
-        // _secondImageCollider = _secondImage.GetComponent<BoxCollider2D>();
+        StartCoroutine(SetUpGame(GameManager.Instance.GetLevelID()));
 
-        // Load and parse the JSON data and use try catch block to catch any exceptions
+    }
+
+    private void _setUpTimeAndDifferences()
+    {
+        // Set up the time and differences based on the level data
+        _totalTime = _gameData.total_time_limit;
+        _differencesCount = _gameData.images[0].differences;
+        DebugLogger.Log($"Total differences: {_differencesCount}");
+
+
+        int index = 0;
+        foreach (var diff in _gameData.images[0].jsonDiff)
+        {
+            Difference difference1 = Difference.CreateDifference(diff.x, diff.y, diff.width, diff.height, index, _firstImage);
+            _differences.Add(difference1);
+            Difference difference2 = Difference.CreateDifference(diff.x, diff.y, diff.width, diff.height, index, _secondImage);
+            _differences.Add(difference2);
+            // _differencesCount++;
+            index++;
+        }
+
+        // Load differences from JSON file
+    }
+
+    IEnumerator SetUpGame(int levelId)
+    {
+        string url = GameManager.Instance.GetLevelDataURL(levelId);
+
+        UnityWebRequest request = UnityWebRequest.Get(url);
+        request.SetRequestHeader("Authorization", "Bearer " + GameManager.Instance.GetToken());
+        request.SetRequestHeader("Accept", "application/json");
+        yield return request.SendWebRequest();
+
+        if (request.result == UnityWebRequest.Result.Success)
+        {
+            string jsonResponse = request.downloadHandler.text;
+            DebugLogger.LogWarning($"Level {levelId} data: {jsonResponse}");
+            _gameData = JsonConvert.DeserializeObject<GameData>(jsonResponse);
+
+
+            StartCoroutine(DownloadImage(_gameData.images[0].path, 1)); // Load first image
+            StartCoroutine(DownloadImage(_gameData.images[0].path, 2)); // Load first image
+
+            _setUpTimeAndDifferences();
+            // SHOW FOUND CIRCLES EQUAL TO NUMBER OF DIFFERENCES
+            _adjustCircles();
+            //GET TOTAL TIME TO SOLVE
+            _updateTimerUI();
+            _adjustBoosts();
+            _adjustTopBarUI();
+            _isLoaded = true;
+            // DebugLogger.LogWarning($"Total Time Limit: {data.total_time_limit}");
+            // DebugLogger.LogWarning($"First Image Name: {data.images[0].name}");
+            // DebugLogger.LogWarning($"First Difference Position: {data.images[0].jsonDiff[0].x}, {data.images[0].jsonDiff[0].y}");
+        }
+        else
+        {
+            DebugLogger.LogError($"Error: {request.error}");
+
+            // Parse the response and update the level data accordingly
+        }
+    }
+
+    IEnumerator DownloadImage(string url, int imageIndex)
+    {
+        string urlImage = $"https://diff.nconnect.sk/{url}/{imageIndex}.jpg";
+
+        using (UnityWebRequest request = UnityWebRequestTexture.GetTexture(urlImage))
+        {
+            request.SetRequestHeader("Authorization", "Bearer " + GameManager.Instance.GetToken());
+            request.SetRequestHeader("Accept", "application/json");
+            yield return request.SendWebRequest(); // Wait for response
+
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                Texture2D texture = ((DownloadHandlerTexture)request.downloadHandler).texture;
+                Sprite sprite = SpriteFromTexture(texture); // Convert and assign
+                if (imageIndex == 1)
+                {
+                    _firstImage.GetComponent<Image>().sprite = sprite;
+                }
+                else if (imageIndex == 2)
+                {
+                    _secondImage.GetComponent<Image>().sprite = sprite;
+                }
+                else
+                {
+                    DebugLogger.LogError("Invalid image index: " + imageIndex);
+                }
+            }
+            else
+            {
+                DebugLogger.LogError("Failed to load image: " + request.error);
+            }
+        }
+    }
+    Sprite SpriteFromTexture(Texture2D texture)
+    {
+        return Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+    }
+
+    private void LoadFromJson()
+    {
         try
         {
             //use reference from inspector for json file
@@ -164,35 +303,14 @@ public class DifferencesManager : MonoBehaviour
             _errorWindow.SetActive(true);
             _errorText.text = "Error loading or parsing JSON data: " + ex.Message;
         }
-
-
-        // string jsonContent = File.ReadAllText(jsonFilePath);
-        // DifferencesData data = JsonUtility.FromJson<DifferencesData>(jsonContent);
-        // // Debug.Log(data.image_id);
-        // // Generate colliders
-        // int index = 0;
-        // foreach (var diff in data.differences)
-        // {
-        //     Difference difference1 = Difference.CreateDifference(diff.x, diff.y, diff.width, diff.height, index, _firstImage);
-        //     _differences.Add(difference1);
-        //     Difference difference2 = Difference.CreateDifference(diff.x, diff.y, diff.width, diff.height, index, _secondImage);
-        //     _differences.Add(difference2);
-        //     _differencesCount++;
-        //     index++;
-        // }
-
-        // SHOW FOUND CIRCLES EQUAL TO NUMBER OF DIFFERENCES
-        _adjustCircles();
-
-        //GET TOTAL TIME TO SOLVE
-        _totalTime = _differencesCount * _timePerDifference;
-        _updateTimerUI();
-        _adjustBoosts();
-        _adjustTopBarUI();
     }
 
     void Update()
     {
+        if (_isLoaded == false)
+        {
+            return;
+        }
         if (_isGameOver)
             return;
 

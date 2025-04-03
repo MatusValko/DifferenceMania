@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4572927751972927999}
   - component: {fileID: 4546535040241576571}
   - component: {fileID: 8292547701143363719}
+  - component: {fileID: 8516435748183506945}
   m_Layer: 5
   m_Name: LockedLevel
   m_TagString: Untagged
@@ -137,6 +138,19 @@ MonoBehaviour:
   m_EffectColor: {r: 0.45911938, g: 0.45911938, b: 0.45911938, a: 0.5}
   m_EffectDistance: {x: -4, y: -4}
   m_UseGraphicAlpha: 1
+--- !u!114 &8516435748183506945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2602403851201323319}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16b6f5be94dded84ca0998670db9c333, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _levelNumberText: {fileID: 0}
 --- !u!1 &9029001776915711233
 GameObject:
   m_ObjectHideFlags: 0
