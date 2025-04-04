@@ -50,9 +50,9 @@ public class YouLose : MonoBehaviour
     {
         // StartCoroutine(_updateSlider());
         int currentWins = GameManager.Instance.GetCurrentWins();
-        int left = GameManager.WINS_NEED_TO_GIFT - currentWins;
+        int left = GameManager.WINS_NEEDED_TO_GIFT - currentWins;
         _winsNeededToGiftText.text = $"<color=#FAE729>{left}</color> levels left to get reward";
-        _completedXoutOfMaxText.text = $"Completed {currentWins}/{GameManager.WINS_NEED_TO_GIFT}";
+        _completedXoutOfMaxText.text = $"Completed {currentWins}/{GameManager.WINS_NEEDED_TO_GIFT}";
 
     }
     public void Repeat()

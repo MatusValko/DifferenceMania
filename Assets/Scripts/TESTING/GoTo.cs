@@ -5,10 +5,13 @@ using UnityEngine;
 using System.Diagnostics;
 using UnityEngine.Networking;
 using Newtonsoft.Json;
+using TMPro;
 
 public class GoTo : MonoBehaviour
 {
     public Transform levelSelectTransform;
+    public GameObject errorWindow;
+    public TextMeshProUGUI errorText;
 
     void Start()
     {
@@ -25,7 +28,7 @@ public class GoTo : MonoBehaviour
     }
 
     //if unity editor, load levels
-    [Conditional("UNITY_EDITOR")]
+    // [Conditional("UNITY_EDITOR")]
     public void StartLoadLevelsTEST()
     {
         StartCoroutine(LoadLevelsTEST());
@@ -55,6 +58,8 @@ public class GoTo : MonoBehaviour
         else
         {
             DebugLogger.LogError($"Error: {request.error}");
+            errorWindow.SetActive(true);
+            errorText.text = "Error: " + request.error;
         }
     }
 

@@ -61,7 +61,7 @@ public class LevelSelect : MonoBehaviour
 
             if (GameManager.Instance.GetStarsCollected() >= episodeData.unlock_stars)
             {
-                DebugLogger.Log($"Episode {episodeData.id} unlocked with {GameManager.Instance.GetStarsCollected()} stars");
+                // DebugLogger.Log($"Episode {episodeData.id} unlocked with {GameManager.Instance.GetStarsCollected()} stars");
                 episode.SetLockedTextOff();
                 episode.SetLockedButtonOFF();
 
@@ -84,7 +84,7 @@ public class LevelSelect : MonoBehaviour
             }
             else
             {
-                DebugLogger.Log($"Episode {episodeData.id} locked with {GameManager.Instance.GetStarsCollected()} stars");
+                // DebugLogger.Log($"Episode {episodeData.id} locked with {GameManager.Instance.GetStarsCollected()} stars");
                 episode.SetLockedText(GameManager.Instance.GetStarsCollected(), episodeData.unlock_stars);
                 episode.SetLockedTextOn();
                 episode.SetLockedButton(episodeData.unlock_coins);

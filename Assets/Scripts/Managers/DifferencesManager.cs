@@ -63,7 +63,7 @@ public class DifferencesManager : MonoBehaviour
     }
 
     [Serializable]
-    public class GameData
+    public class LevelDataGame
     {
         public int total_time_limit;
         [JsonProperty("1_star")]
@@ -82,16 +82,14 @@ public class DifferencesManager : MonoBehaviour
         public List<ImageData> images;
     }
 
-    // Set the path to the JSON file/ ONLY FOR TESTING
-    public string jsonFilePath = "differencesTest";
+    [SerializeField] private LevelDataGame _levelData;
+
     [SerializeField] private GameObject _firstImage;
-    // [SerializeField] private BoxCollider2D _firstImageCollider;
     [SerializeField] private GameObject _secondImage;
-    // [SerializeField] private BoxCollider2D _secondImageCollider;
 
     [SerializeField]
     private GameObject _foundCircle;
-    [SerializeField] private float _timePerDifference = 20f; // Time allocated per difference (in seconds)
+    // [SerializeField] private float _timePerDifference = 20f; // Time allocated per difference (in seconds)
 
 
 
@@ -108,7 +106,9 @@ public class DifferencesManager : MonoBehaviour
     [SerializeField] private GameObject _youLoseWindow;
     [SerializeField] private GameObject _youLosePopUpWindow;
 
-    [SerializeField] private GameData _gameData;
+    [Header("Testing")]
+    [SerializeField] private TextMeshProUGUI _levelIDText; // UI Text to display the level ID
+
 
 
 
@@ -117,6 +117,7 @@ public class DifferencesManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _timerText; // UI Text to display the timer
     [SerializeField] private TextMeshProUGUI _lifeText;
     [SerializeField] private TextMeshProUGUI _coinsText;
+    [SerializeField] private TextMeshProUGUI _levelText; // UI Text to display the level number
 
     [Header("Boosts")]
     //private variable for boost hint and boost add time text
@@ -143,8 +144,7 @@ public class DifferencesManager : MonoBehaviour
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
-            // Debug.LogWarning("DIFFERENCE MANAGER IS INSTANTIATED");
-            DebugLogger.LogWarning("DIFFERENCE MANAGER IS INSTANTIATED");
+            DebugLogger.Log("DIFFERENCE MANAGER IS INSTANTIATED");
         }
         else
         {
@@ -171,13 +171,13 @@ public class DifferencesManager : MonoBehaviour
     private void _setUpTimeAndDifferences()
     {
         // Set up the time and differences based on the level data
-        _totalTime = _gameData.total_time_limit;
-        _differencesCount = _gameData.images[0].differences;
+        _totalTime = _levelData.total_time_limit;
+        _differencesCount = _levelData.images[0].differences;
         DebugLogger.Log($"Total differences: {_differencesCount}");
 
 
         int index = 0;
-        foreach (var diff in _gameData.images[0].jsonDiff)
+        foreach (var diff in _levelData.images[0].jsonDiff)
         {
             Difference difference1 = Difference.CreateDifference(diff.x, diff.y, diff.width, diff.height, index, _firstImage);
             _differences.Add(difference1);
@@ -190,24 +190,48 @@ public class DifferencesManager : MonoBehaviour
         // Load differences from JSON file
     }
 
+    //get game data
+    public LevelDataGame GetLevelData()
+    {
+        return _levelData;
+    }
+    //get time, convert to int
+    public int GetTime()
+    {
+        return (int)_totalTime;
+    }
+
     IEnumerator SetUpGame(int levelId)
     {
         string url = GameManager.Instance.GetLevelDataURL(levelId);
 
         UnityWebRequest request = UnityWebRequest.Get(url);
-        request.SetRequestHeader("Authorization", "Bearer " + GameManager.Instance.GetToken());
+        string token = GameManager.Instance.GetToken();
+        if (string.IsNullOrEmpty(token))
+        {
+            DebugLogger.LogWarning("Token is null or empty.");
+            // #if UNITY_EDITOR
+            DebugLogger.LogWarning("Setting up default token for testing in Unity Editor.");
+            token = "WgvD656T9RzLsDGwjHnSO5fPRvl3fc3ULML6Dh2vfd0e853a";
+            // #endif
+        }
+        //if in unity editor, set token to empty string
+
+        request.SetRequestHeader("Authorization", "Bearer " + token);
         request.SetRequestHeader("Accept", "application/json");
         yield return request.SendWebRequest();
 
         if (request.result == UnityWebRequest.Result.Success)
         {
             string jsonResponse = request.downloadHandler.text;
-            DebugLogger.LogWarning($"Level {levelId} data: {jsonResponse}");
-            _gameData = JsonConvert.DeserializeObject<GameData>(jsonResponse);
+            DebugLogger.Log($"Level {levelId} data: {jsonResponse}");
+            _levelData = JsonConvert.DeserializeObject<LevelDataGame>(jsonResponse);
 
+            //TESTING
+            _levelIDText.text = $"Level ID: {_levelData.images[0].path}"; // Set the level ID text
 
-            StartCoroutine(DownloadImage(_gameData.images[0].path, 1)); // Load first image
-            StartCoroutine(DownloadImage(_gameData.images[0].path, 2)); // Load first image
+            StartCoroutine(DownloadImage(_levelData.images[0].path, 1)); // Load first image
+            StartCoroutine(DownloadImage(_levelData.images[0].path, 2)); // Load first image
 
             _setUpTimeAndDifferences();
             // SHOW FOUND CIRCLES EQUAL TO NUMBER OF DIFFERENCES
@@ -216,14 +240,13 @@ public class DifferencesManager : MonoBehaviour
             _updateTimerUI();
             _adjustBoosts();
             _adjustTopBarUI();
-            _isLoaded = true;
-            // DebugLogger.LogWarning($"Total Time Limit: {data.total_time_limit}");
-            // DebugLogger.LogWarning($"First Image Name: {data.images[0].name}");
-            // DebugLogger.LogWarning($"First Difference Position: {data.images[0].jsonDiff[0].x}, {data.images[0].jsonDiff[0].y}");
+            // _isLoaded = true;
         }
         else
         {
             DebugLogger.LogError($"Error: {request.error}");
+            _errorWindow.SetActive(true);
+            _errorText.text = "Error loading or parsing JSON data: " + request.error;
 
             // Parse the response and update the level data accordingly
         }
@@ -231,6 +254,7 @@ public class DifferencesManager : MonoBehaviour
 
     IEnumerator DownloadImage(string url, int imageIndex)
     {
+
         string urlImage = $"https://diff.nconnect.sk/{url}/{imageIndex}.jpg";
 
         using (UnityWebRequest request = UnityWebRequestTexture.GetTexture(urlImage))
@@ -250,16 +274,29 @@ public class DifferencesManager : MonoBehaviour
                 else if (imageIndex == 2)
                 {
                     _secondImage.GetComponent<Image>().sprite = sprite;
+                    _isLoaded = true;
+
                 }
                 else
                 {
                     DebugLogger.LogError("Invalid image index: " + imageIndex);
+                    _errorWindow.SetActive(true);
+                    _errorText.text = "Error loading image: " + request.error;
+
                 }
             }
             else
             {
                 DebugLogger.LogError("Failed to load image: " + request.error);
+
+                //show error window
+                _errorWindow.SetActive(true);
+                _errorText.text = "Error loading or parsing JSON data: " + request.error;
+
+
             }
+
+
         }
     }
     Sprite SpriteFromTexture(Texture2D texture)
@@ -267,43 +304,43 @@ public class DifferencesManager : MonoBehaviour
         return Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
     }
 
-    private void LoadFromJson()
-    {
-        try
-        {
-            //use reference from inspector for json file
-            TextAsset jsonFile = Resources.Load<TextAsset>(jsonFilePath);
-            if (jsonFile == null)
-            {
-                throw new Exception("JSON file not found at path: " + jsonFilePath);
+    // private void LoadFromJson()
+    // {
+    //     try
+    //     {
+    //         //use reference from inspector for json file
+    //         TextAsset jsonFile = Resources.Load<TextAsset>(jsonFilePath);
+    //         if (jsonFile == null)
+    //         {
+    //             throw new Exception("JSON file not found at path: " + jsonFilePath);
 
-            }
-            string jsonContent = jsonFile.text;
+    //         }
+    //         string jsonContent = jsonFile.text;
 
 
-            // string jsonContent = File.ReadAllText(jsonFilePath);
-            DifferencesData data = JsonUtility.FromJson<DifferencesData>(jsonContent);
-            // Debug.Log(data.image_id);
-            // Generate colliders
-            int index = 0;
-            foreach (var diff in data.differences)
-            {
-                Difference difference1 = Difference.CreateDifference(diff.x, diff.y, diff.width, diff.height, index, _firstImage);
-                _differences.Add(difference1);
-                Difference difference2 = Difference.CreateDifference(diff.x, diff.y, diff.width, diff.height, index, _secondImage);
-                _differences.Add(difference2);
-                _differencesCount++;
-                index++;
-            }
-        }
-        catch (Exception ex)
-        {
-            DebugLogger.LogError("Error loading or parsing JSON data: " + ex.Message);
-            //show error window
-            _errorWindow.SetActive(true);
-            _errorText.text = "Error loading or parsing JSON data: " + ex.Message;
-        }
-    }
+    //         // string jsonContent = File.ReadAllText(jsonFilePath);
+    //         DifferencesData data = JsonUtility.FromJson<DifferencesData>(jsonContent);
+    //         // Debug.Log(data.image_id);
+    //         // Generate colliders
+    //         int index = 0;
+    //         foreach (var diff in data.differences)
+    //         {
+    //             Difference difference1 = Difference.CreateDifference(diff.x, diff.y, diff.width, diff.height, index, _firstImage);
+    //             _differences.Add(difference1);
+    //             Difference difference2 = Difference.CreateDifference(diff.x, diff.y, diff.width, diff.height, index, _secondImage);
+    //             _differences.Add(difference2);
+    //             _differencesCount++;
+    //             index++;
+    //         }
+    //     }
+    //     catch (Exception ex)
+    //     {
+    //         DebugLogger.LogError("Error loading or parsing JSON data: " + ex.Message);
+    //         //show error window
+    //         _errorWindow.SetActive(true);
+    //         _errorText.text = "Error loading or parsing JSON data: " + ex.Message;
+    //     }
+    // }
 
     void Update()
     {
@@ -426,7 +463,7 @@ public class DifferencesManager : MonoBehaviour
 
     public void RestartGame()
     {
-        _totalTime = _differencesCount * _timePerDifference;
+        _totalTime = _levelData.total_time_limit;
         _isGameOver = false;
     }
 
@@ -443,7 +480,7 @@ public class DifferencesManager : MonoBehaviour
         {
             if (i > _differencesCount)
             {
-                DebugLogger.Log("Differences: " + _differencesCount);
+                // DebugLogger.Log("Differences: " + _differencesCount);
                 _bottomCircles[i - 1].transform.parent.gameObject.SetActive(false);
             }
         }
@@ -680,6 +717,8 @@ public class DifferencesManager : MonoBehaviour
         _coinsText.text = GameManager.Instance.GetCoins().ToString();
         //adjust lives text
         _lifeText.text = $"{GameManager.Instance.GetLives()}/{GameManager.Instance.GetMaxLiveConst()}";
+
+        _levelText.text = $"LEVEL {GameManager.Instance.GetLevelID()}";
     }
 
     // function _showDifference();

@@ -89,7 +89,7 @@ public class LevelLoader : MonoBehaviour
 
 
         //TESTING
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(1);
         //TESTING MAYBE UNCOMMENT IF ERROR IS NOT SHOWING
         // MAX = 1000;
         // for (int i = 0; i < MAX; i++)

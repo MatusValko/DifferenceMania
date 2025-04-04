@@ -36,8 +36,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -5}
-  m_SizeDelta: {x: 0, y: -10}
+  m_AnchoredPosition: {x: 0, y: -25.5}
+  m_SizeDelta: {x: 0, y: -51}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &5153881385382626120
 MonoBehaviour:
@@ -109,7 +109,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4827676818545557461
 RectTransform:
   m_ObjectHideFlags: 0
@@ -211,7 +211,7 @@ MonoBehaviour:
   Content: {fileID: 8075850505085927844}
   EpisodePrefab: {fileID: 7937348280415417376, guid: 7970e407575c60d4f81038ffa2027bea, type: 3}
   LevelPrefab: {fileID: 2653394100895977774, guid: b9bf8a796115cfc41815992cae112e33, type: 3}
-  children: []
+  LockedLevelPrefab: {fileID: 2602403851201323319, guid: 62905fabfec1d6f459b85ce06f387ffe, type: 3}
 --- !u!1 &3735126742901103530
 GameObject:
   m_ObjectHideFlags: 0
@@ -539,8 +539,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1080, y: 0}
+  m_AnchoredPosition: {x: 0, y: -0.0010986328}
+  m_SizeDelta: {x: 1080, y: 280}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &7865317150640080679
 MonoBehaviour:
@@ -557,7 +557,7 @@ MonoBehaviour:
   m_Padding:
     m_Left: 0
     m_Right: 0
-    m_Top: 20
+    m_Top: 0
     m_Bottom: 250
   m_ChildAlignment: 1
   m_Spacing: 40

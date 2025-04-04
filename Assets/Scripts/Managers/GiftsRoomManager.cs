@@ -196,7 +196,7 @@ public class GiftsRoomManager : MonoBehaviour
         {
             _giftAnimators.Remove(animator);
         }
-        DebugLogger.Log("Not found " + animatorName);
+        // DebugLogger.Log("Not found " + animatorName);
 
     }
 }

@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
 
     [SerializeField] private const int BUY_HINT_PRICE = 10;
 
-    [SerializeField] public const int WINS_NEED_TO_GIFT = 6;
+    [SerializeField] public const int WINS_NEEDED_TO_GIFT = 6;
 
 
 
@@ -78,7 +78,7 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
     [Header("Level data")]
     [SerializeField]
     private List<EpisodeData> _episodes;
-    private int _levelID = 1;
+    [SerializeField] private int _levelID = 1;
 
     private void Awake()
     {
