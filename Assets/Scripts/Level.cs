@@ -55,9 +55,7 @@ public class Level : MonoBehaviour
     }
     private void ClickLevelButton(int levelId)
     {
-        GameManager.Instance.SetLevelID(levelId);
-        //go to game scene
-        SceneManager.LoadScene(3);
+        GameManager.Instance.LoadLevel(levelId);
     }
 
 

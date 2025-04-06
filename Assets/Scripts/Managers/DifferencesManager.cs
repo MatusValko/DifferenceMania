@@ -30,6 +30,8 @@ public class DifferencesManager : MonoBehaviour
     [SerializeField]
     private bool _isHurryUp = false;
     [SerializeField] private bool _isLoaded = false;
+    [SerializeField] private int _downloadedImages = 0;
+
 
 
 
@@ -270,11 +272,13 @@ public class DifferencesManager : MonoBehaviour
                 if (imageIndex == 1)
                 {
                     _firstImage.GetComponent<Image>().sprite = sprite;
+                    _downloadedImages++;
                 }
                 else if (imageIndex == 2)
                 {
                     _secondImage.GetComponent<Image>().sprite = sprite;
-                    _isLoaded = true;
+                    _downloadedImages++;
+                    //pause in unity editor
 
                 }
                 else
@@ -297,6 +301,17 @@ public class DifferencesManager : MonoBehaviour
             }
 
 
+        }
+        StartPlaying();
+    }
+
+    //Start level
+    public void StartPlaying()
+    {
+        if (_downloadedImages >= 2)
+        {
+            _isLoaded = true;
+            GameManager.Instance.FadeInLevel();
         }
     }
     Sprite SpriteFromTexture(Texture2D texture)
@@ -360,7 +375,7 @@ public class DifferencesManager : MonoBehaviour
 
     private void _click()
     {
-        if (_isPaused)
+        if (_isPaused || !_isLoaded)
         {
             return;
         }
@@ -674,8 +689,11 @@ public class DifferencesManager : MonoBehaviour
             {
                 //play not enough coins animation
                 _topBarUIAnimator.SetTrigger("NotEnoughCoins");
+                //play not enough coins sound
                 return;
             }
+            SoundManager.PlaySound(SoundType.GAME_CORRECT_HINT, volume: 0.8f);
+
             //if player has enough of coins, buy hint and show difference
             _boostShowDifference();
             //adjust coinsUI

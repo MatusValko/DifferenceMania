@@ -48,7 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MAX_LIVES: 3
   ISLOGGEDIN: 0
-  _coins: 0
+  _coins: 3
   _lives: 0
   _starsCollected: 0
   _experience: 0
@@ -59,8 +59,8 @@ MonoBehaviour:
   _selectedPFP: 0
   _profileLevel: 0
   _unlockedPFP: 
-  _boostAddTimeCount: 5
-  _boostHintCount: 5
+  _boostAddTimeCount: 22
+  _boostHintCount: 0
   has_ads_removed: 0
   _rewardedForAccConnection: 0
   _hasAdsRemoved: 0

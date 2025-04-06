@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour, IDataPersistenceManager
 {
@@ -445,4 +446,19 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
         }
         return false;
     }
+
+    public void LoadLevel(int levelID)
+    {
+        Instance.SetLevelID(levelID);
+        ScreenFader fader = FindFirstObjectByType<ScreenFader>();
+        fader.FadeOut(3);
+    }
+    public void FadeInLevel()
+    {
+        ScreenFader fader = FindFirstObjectByType<ScreenFader>();
+        fader.FadeIn();
+    }
+
+
+
 }
