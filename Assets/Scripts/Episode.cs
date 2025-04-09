@@ -62,8 +62,17 @@ public class Episode : MonoBehaviour
     //set locked button
     public void SetLockedButton(int price)
     {
-        BuyEpisode.transform.parent.gameObject.SetActive(false);
+        BuyEpisode.transform.parent.gameObject.SetActive(true);
         BuyEpisodePrice.text = $"<sprite=\"COIN_ICO_184\" index=0> {price}";
+
+        BuyEpisode.interactable = false; //TODO set from backend data
+        //add funciotnality to buy episode button
+        BuyEpisode.onClick.RemoveAllListeners();
+        BuyEpisode.onClick.AddListener(() =>
+        {
+            DebugLogger.Log($"Buying episode {price}");
+            //TODO: add functionality to buy episode
+        });
     }
     public void SetLockedButtonOFF()
     {

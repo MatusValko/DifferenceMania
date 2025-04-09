@@ -23,6 +23,8 @@ public class FooterBar : MonoBehaviour
 
     public GameObject premiumWindow;
     public GameObject galleryWindow;
+    public GameObject levelSelectWindow;
+
 
     public GameObject topCanvas;
     void Start()
@@ -60,6 +62,10 @@ public class FooterBar : MonoBehaviour
     {
         if (index == 0)
         {
+            if (levelSelectWindow.activeSelf)
+            {
+                levelSelectWindow.SetActive(false);
+            }
             premiumWindow.SetActive(true);
             galleryWindow.SetActive(false);
             topCanvas.SetActive(false);

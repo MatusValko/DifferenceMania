@@ -90,7 +90,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3463334081414649626, guid: b2da00fb8064cdb49ac8868d7708f0a6, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5270691868844233359, guid: b2da00fb8064cdb49ac8868d7708f0a6, type: 3}
       propertyPath: m_Name
@@ -100,10 +100,6 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 9ef41fe3b4062d54f9bb780e02bef3ea, type: 3}
-    - target: {fileID: 6067674350272236964, guid: b2da00fb8064cdb49ac8868d7708f0a6, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 10
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
