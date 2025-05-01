@@ -16,11 +16,14 @@ public class Congratulation : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _completedXoutOfMaxText;
     [SerializeField] private TextMeshProUGUI _levelText;
     [SerializeField] private Button _continueButton;
-    [SerializeField] private Button _menuButton;
+    [SerializeField] private Button _levelsButton;
     [SerializeField] private GameObject _giftsRoomWindow;
     [SerializeField] private Animator _animator; // Animator for the gift animation
     //array of stars
     [SerializeField] private GameObject[] _stars;
+
+    [SerializeField] private Color32 _normalColor = new Color32(255, 255, 255, 255);
+    [SerializeField] private Color32 _disabledColor = new Color32(200, 200, 200, 128);
 
     // Start is called before the first frame update
     void Start()
@@ -62,8 +65,12 @@ public class Congratulation : MonoBehaviour
         //AK NEMA GIFT MOZE IST DALEJ/DO MENU INAK DISABLE NA TLACIDLA
         if (GameManager.Instance.GetCurrentWins() + 1 == GameManager.WINS_NEEDED_TO_GIFT)
         {
-            _menuButton.interactable = false;
+            _levelsButton.interactable = false;
+            _levelsButton.GetComponent<TextMeshProUGUI>().color = _disabledColor;
             _continueButton.interactable = false;
+            _continueButton.GetComponent<Image>().color = _disabledColor;
+            _continueButton.GetComponentInChildren<TextMeshProUGUI>().color = _disabledColor;
+
         }
         //prvy krat nastavi slider a texty
         _slider.value = GameManager.Instance.GetCurrentWins();
@@ -95,8 +102,12 @@ public class Congratulation : MonoBehaviour
             // Open gift window
             _giftsRoomWindow.SetActive(true);
 
-            _menuButton.interactable = true;
+            _levelsButton.interactable = true;
+            _levelsButton.GetComponent<TextMeshProUGUI>().color = _normalColor;
             _continueButton.interactable = true;
+            _continueButton.GetComponent<Image>().color = _normalColor;
+            _continueButton.GetComponentInChildren<TextMeshProUGUI>().color = _normalColor;
+
             // Set new maximum for gift/reset
             GameManager.Instance.ResetWins();
             _adjustSliderAndTexts();
@@ -141,21 +152,27 @@ public class Congratulation : MonoBehaviour
         {
             //play sound
             SoundManager.PlaySound(SoundType.CONGRATULATION_3STARS);
-            _activateStars(3);
+            StartCoroutine(_activateStars(3));
+            StartCoroutine(_starFallingDown(3));
             DebugLogger.Log("3 stars");
+
         }
         else if (spentTime <= levelData.twoStar)
         {
             //play sound
             SoundManager.PlaySound(SoundType.CONGRATULATION_2STARS);
-            _activateStars(2);
+            StartCoroutine(_activateStars(2));
+            StartCoroutine(_starFallingDown(2));
+
             DebugLogger.Log("2 stars");
         }
         else if (spentTime <= levelData.oneStar)
         {
             //play sound
             SoundManager.PlaySound(SoundType.CONGRATULATION_1STAR);
-            _activateStars(1);
+            StartCoroutine(_activateStars(1));
+            StartCoroutine(_starFallingDown(1));
+
             DebugLogger.Log("1 star");
         }
         else
@@ -167,11 +184,14 @@ public class Congratulation : MonoBehaviour
     }
 
     //activate stars according, take int as argument
-    private void _activateStars(int stars)
+    //wait for 0.5 seconds and then activate next star
+    private IEnumerator _activateStars(int stars)
     {
+        DebugLogger.Log("TU SOMM: " + stars);
         for (int i = 0; i < stars; i++)
         {
             _stars[i].SetActive(true);
+            yield return new WaitForSeconds(0.5f); // Wait for 0.5 seconds before activating the next star
         }
     }
 
@@ -202,6 +222,24 @@ public class Congratulation : MonoBehaviour
             }
         }
         _slider.value = currentWins;
+    }
+
+    private IEnumerator _starFallingDown(int stars)
+    {
+        yield return new WaitForSeconds(6f);
+        DebugLogger.Log("Falling down little stars");
+        //play sound
+        //select random star gameobject from array max is from argument
+        GameObject randomStar = _stars[Random.Range(0, stars)];
+        ParticleSystem myParticle = randomStar.GetComponentInChildren<ParticleSystem>();
+
+        myParticle.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear); // Optional: clear before replaying
+        var mainModule = myParticle.main;
+        mainModule.maxParticles = 3; // Optional: set max particles if needed
+        myParticle.Play();
+
+        // Restart the coroutine for the next star falling animation
+        StartCoroutine(_starFallingDown(stars));
     }
 
     public void ContinueButton()
