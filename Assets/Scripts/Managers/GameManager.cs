@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
     public const string API_REGISTER = GameConstants.API_REGISTER;
     public const string API_LOGIN = GameConstants.API_LOGIN;
     public const string API_DIFF_IMAGES = GameConstants.API_DIFF_IMAGES;
-    public const string API_LOAD_USER_DATA =    GameConstants.API_LOAD_USER_DATA;
+    public const string API_LOAD_USER_DATA = GameConstants.API_LOAD_USER_DATA;
     public const string API_GET_USER_LEVEL_DATA = GameConstants.API_GET_USER_LEVEL_DATA;
 
     public static GameManager Instance { get; private set; }//RENAME
@@ -449,6 +449,11 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
     public void FadeInLevel()
     {
         ScreenFader fader = FindFirstObjectByType<ScreenFader>();
+        if (fader == null)
+        {
+            Debug.LogError("ScreenFader not found in the scene.");
+            return;
+        }
         fader.FadeIn();
     }
 }

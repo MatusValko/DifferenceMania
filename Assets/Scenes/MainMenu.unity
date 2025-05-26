@@ -1603,6 +1603,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4042604032157665709, guid: 6045eca865809134589a41b4d3ac46d0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5108255385800795816, guid: 6045eca865809134589a41b4d3ac46d0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 6
@@ -2077,7 +2081,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 35.65
+  m_fontSize: 40
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -6200,7 +6204,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: "\u200B"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -6227,7 +6231,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18
+  m_fontSize: 72
   m_fontSizeBase: 14
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -6777,6 +6781,10 @@ PrefabInstance:
     - target: {fileID: 5029262059106926023, guid: a344b71a88e5bdd49959764996d586a1, type: 3}
       propertyPath: m_Name
       value: HouseEvent
+      objectReference: {fileID: 0}
+    - target: {fileID: 5029262059106926023, guid: a344b71a88e5bdd49959764996d586a1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7545,7 +7553,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5174142900270574401, guid: 24590f7d9a0d8b44f8ca07593ad92136, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5219155551305589644, guid: 24590f7d9a0d8b44f8ca07593ad92136, type: 3}
       propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
@@ -7569,7 +7577,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6683410663284956775, guid: 24590f7d9a0d8b44f8ca07593ad92136, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6762509785297288724, guid: 24590f7d9a0d8b44f8ca07593ad92136, type: 3}
       propertyPath: m_Camera
@@ -7585,7 +7593,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7263148338543664108, guid: 24590f7d9a0d8b44f8ca07593ad92136, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7473132746375976628, guid: 24590f7d9a0d8b44f8ca07593ad92136, type: 3}
       propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
@@ -7902,6 +7910,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 726767569}
     m_Modifications:
+    - target: {fileID: 507254258758739202, guid: 1a9e21e0559d0f240a395ba90b8bee32, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2001203204485672456, guid: 1a9e21e0559d0f240a395ba90b8bee32, type: 3}
       propertyPath: m_Pivot.x
       value: 1
@@ -9288,6 +9300,10 @@ PrefabInstance:
     - target: {fileID: 1626007635479572029, guid: 9e09dba81ca9ae247a90784318c6ce70, type: 3}
       propertyPath: m_Name
       value: DailyRewardsEvent
+      objectReference: {fileID: 0}
+    - target: {fileID: 5607064003915511397, guid: 9e09dba81ca9ae247a90784318c6ce70, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5845630228682046831, guid: 9e09dba81ca9ae247a90784318c6ce70, type: 3}
       propertyPath: m_Pivot.x

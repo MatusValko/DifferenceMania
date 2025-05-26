@@ -27,13 +27,15 @@ public class DifferencesManager : MonoBehaviour
     [SerializeField]
     private int _foundDifferences = 0;
 
+
+
     [SerializeField]
     private bool _isHurryUp = false;
     [SerializeField] private bool _isLoaded = false;
     [SerializeField] private int _downloadedImages = 0;
 
 
-
+    [SerializeField] public int GotStarsFromLevel = -1; // Number of stars collected
 
     [Serializable]
     public class DifferenceJSON
@@ -44,12 +46,12 @@ public class DifferencesManager : MonoBehaviour
         public float height;
     }
 
-    [Serializable]
-    private class DifferencesData
-    {
-        public string image_id;
-        public List<DifferenceJSON> differences;
-    }
+    // [Serializable]
+    // private class DifferencesData
+    // {
+    //     public string image_id;
+    //     public List<DifferenceJSON> differences;
+    // }
 
     [Serializable]
     public class ImageData
@@ -141,6 +143,7 @@ public class DifferencesManager : MonoBehaviour
 
 
 
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -211,11 +214,18 @@ public class DifferencesManager : MonoBehaviour
         string token = GameManager.Instance.GetToken();
         if (string.IsNullOrEmpty(token))
         {
-            DebugLogger.LogWarning("Token is null or empty.");
-            // #if UNITY_EDITOR
-            DebugLogger.LogWarning("Setting up default token for testing in Unity Editor.");
+#if UNITY_EDITOR
             token = "Ay0p5La74VhxJVcjCOA2K1YRWUYZ4ooumTkNs5lN49ca3267";
-            // #endif
+            DebugLogger.LogWarning($"Setting up default token for testing in Unity Editor. Token: {token}");
+#endif
+
+            if (string.IsNullOrEmpty(token))
+            {
+                DebugLogger.LogWarning("Token is null or empty.");
+                _errorWindow.SetActive(true);
+                _errorText.text = "Token is null or empty.";
+                yield break; // Exit the coroutine if token is not set
+            }
         }
         //if in unity editor, set token to empty string
 
@@ -319,44 +329,6 @@ public class DifferencesManager : MonoBehaviour
     {
         return Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
     }
-
-    // private void LoadFromJson()
-    // {
-    //     try
-    //     {
-    //         //use reference from inspector for json file
-    //         TextAsset jsonFile = Resources.Load<TextAsset>(jsonFilePath);
-    //         if (jsonFile == null)
-    //         {
-    //             throw new Exception("JSON file not found at path: " + jsonFilePath);
-
-    //         }
-    //         string jsonContent = jsonFile.text;
-
-
-    //         // string jsonContent = File.ReadAllText(jsonFilePath);
-    //         DifferencesData data = JsonUtility.FromJson<DifferencesData>(jsonContent);
-    //         // Debug.Log(data.image_id);
-    //         // Generate colliders
-    //         int index = 0;
-    //         foreach (var diff in data.differences)
-    //         {
-    //             Difference difference1 = Difference.CreateDifference(diff.x, diff.y, diff.width, diff.height, index, _firstImage);
-    //             _differences.Add(difference1);
-    //             Difference difference2 = Difference.CreateDifference(diff.x, diff.y, diff.width, diff.height, index, _secondImage);
-    //             _differences.Add(difference2);
-    //             _differencesCount++;
-    //             index++;
-    //         }
-    //     }
-    //     catch (Exception ex)
-    //     {
-    //         DebugLogger.LogError("Error loading or parsing JSON data: " + ex.Message);
-    //         //show error window
-    //         _errorWindow.SetActive(true);
-    //         _errorText.text = "Error loading or parsing JSON data: " + ex.Message;
-    //     }
-    // }
 
     void Update()
     {
@@ -587,9 +559,94 @@ public class DifferencesManager : MonoBehaviour
         SoundManager.StopClip();
         SoundManager.StopTheme();
         SoundManager.PlaySound(SoundType.GAME_WIN);
-        //start coroutine to next window, congratulations
 
+        //send lelvel won to server
+        StartCoroutine(_sendGameWonToServer());
+
+        //start coroutine to next window, congratulations
         StartCoroutine(_showCongratulation());
+    }
+
+    //parse string like images/20 and get only number after the last slash
+    private int _parseImageID(string path)
+    {
+        string[] parts = path.Split('/');
+        if (parts.Length > 0)
+        {
+            string lastPart = parts[parts.Length - 1];
+            if (int.TryParse(lastPart, out int imageID))
+            {
+                return imageID;
+            }
+        }
+        DebugLogger.LogError("Failed to parse image ID from path: " + path);
+        return -1; // Return -1 if parsing fails
+    }
+
+    IEnumerator _sendGameWonToServer()
+    {
+        string url = GameConstants.API_GET_LEVEL_WIN(GameManager.Instance.GetLevelID());
+        DebugLogger.Log($"Sending Game Won to {url}");
+        UnityWebRequest request = UnityWebRequest.Post(url, new WWWForm());
+        request.SetRequestHeader("Authorization", "Bearer " + GameManager.Instance.GetToken());
+        request.SetRequestHeader("Accept", "application/json");
+        request.SetRequestHeader("Content-Type", "application/json");
+        // Create the JSON data
+        // DebugLogger.LogError(_levelData.images[0].path);
+        var data = new
+        {
+            stars_collected = _getLeveLStars(),
+            score = 69, //TODO HOW TO CALCULATE SCORE?
+            images_finished = new List<int> { _parseImageID(_levelData.images[0].path) }
+        };
+        string jsonData = JsonConvert.SerializeObject(data);
+        request.uploadHandler = new UploadHandlerRaw(System.Text.Encoding.UTF8.GetBytes(jsonData));
+        request.downloadHandler = new DownloadHandlerBuffer();
+        yield return request.SendWebRequest();
+        if (request.result == UnityWebRequest.Result.Success)
+        {
+            DebugLogger.Log("Game Won data sent successfully: " + request.downloadHandler.text);
+            /*{
+                "message": "Level finished",
+                "level": {
+                    "level_up": false,
+                    "rewards": {
+                        "coins": 0
+                    }
+                }
+            }*/
+        }
+        else
+        {
+            DebugLogger.LogError("Error sending Game Won data: " + request.error);
+            _errorWindow.SetActive(true);
+            _errorText.text = "Error sending Game Won data: " + request.error;
+        }
+    }
+
+    private int _getLeveLStars()
+    {
+        int time = GetTime();
+        int spentTime = _levelData.total_time_limit - time;
+        DebugLogger.Log("Total Time: " + _levelData.total_time_limit + " Time spent: " + spentTime + " 3STARS: " + _levelData.threeStar + " 2STARS: " + _levelData.twoStar + " 1STAR: " + _levelData.oneStar);
+
+        if (spentTime <= _levelData.threeStar) //check if time is less than 0
+        {
+            GotStarsFromLevel = 3; // Set the number of stars collected
+        }
+        else if (spentTime <= _levelData.twoStar)
+        {
+            GotStarsFromLevel = 2; // Set the number of stars collected
+        }
+        else if (spentTime <= _levelData.oneStar)
+        {
+            GotStarsFromLevel = 1; // Set the number of stars collected
+        }
+        else
+        {
+            GotStarsFromLevel = 0; // Set the number of stars collected
+        }
+        return GotStarsFromLevel;
     }
 
     IEnumerator _showCongratulation()
@@ -659,7 +716,6 @@ public class DifferencesManager : MonoBehaviour
     }
 
     //Delete this after testing
-    [Conditional("UNITY_EDITOR")]
     public void TESTWinGame()
     {
         _gameWon();

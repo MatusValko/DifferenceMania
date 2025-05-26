@@ -53,10 +53,9 @@ public class Congratulation : MonoBehaviour
         //play sound confetti
         // SoundManager.PlaySound(SoundType.CONGRATULATION_FANFARE);
 
-        var levelData = DifferencesManager.Instance.GetLevelData(); // Ensure GetLevelData() returns a valid type
-        int currentTime = DifferencesManager.Instance.GetTime();
-
-        _adjustStars(currentTime, levelData);
+        // var levelData = DifferencesManager.Instance.GetLevelData(); // Ensure GetLevelData() returns a valid type
+        // int currentTime = DifferencesManager.Instance.GetTime();
+        _adjustStars();
 
         //set text to current level
         _levelText.text = $"<size=100>Level <color=#FAE729>{GameManager.Instance.GetLevelID()}</color></size><size=72> Completed!</size>";
@@ -114,41 +113,39 @@ public class Congratulation : MonoBehaviour
 
         }
     }
-    IEnumerator sendWinToServer()
-    {
-        //send game won to server
-        string url = GameConstants.GAMESERVER + $"/api/level/{GameManager.Instance.GetLevelID()}/win";
-        List<IMultipartFormSection> form = new()
-        {
-            new MultipartFormDataSection("stars", "3"),
-            new MultipartFormDataSection("time", "69"),
-        };
-        using UnityWebRequest request = UnityWebRequest.Post(url, form);
-        request.downloadHandler = new DownloadHandlerBuffer();
-        yield return request.SendWebRequest();
+    // IEnumerator sendWinToServer()
+    // {
+    //     //send game won to server
+    //     string url = GameConstants.GAMESERVER + $"/api/level/{GameManager.Instance.GetLevelID()}/win";
+    //     List<IMultipartFormSection> form = new()
+    //     {
+    //         new MultipartFormDataSection("stars", "3"),
+    //         new MultipartFormDataSection("time", "69"),
+    //     };
+    //     using UnityWebRequest request = UnityWebRequest.Post(url, form);
+    //     request.downloadHandler = new DownloadHandlerBuffer();
+    //     yield return request.SendWebRequest();
 
-        if (request.result != UnityWebRequest.Result.Success)
-        {
-            Debug.LogError("WEB REQUEST ERROR:" + request.error);
-            // StartCoroutine(ShowError(www.error));
-            // ShowErrorWindow(request.error);
-        }
-        else
-        {
-            Debug.Log("WEB REQUEST SUCCESS:" + request.downloadHandler.text);
-            // ShowSuccessWindow(request.downloadHandler.text);
-        }
+    //     if (request.result != UnityWebRequest.Result.Success)
+    //     {
+    //         Debug.LogError("WEB REQUEST ERROR:" + request.error);
+    //         // StartCoroutine(ShowError(www.error));
+    //         // ShowErrorWindow(request.error);
+    //     }
+    //     else
+    //     {
+    //         Debug.Log("WEB REQUEST SUCCESS:" + request.downloadHandler.text);
+    //         // ShowSuccessWindow(request.downloadHandler.text);
+    //     }
 
-    }
+    // }
 
     //adjust stars and sound according to time
-    private void _adjustStars(int time, LevelDataGame levelData)
+    private void _adjustStars()
     {
 
-        int spentTime = levelData.total_time_limit - time;
-        DebugLogger.Log("Total Time: " + levelData.total_time_limit + " Time spent: " + spentTime + " 3STARS: " + levelData.threeStar + " 2STARS: " + levelData.twoStar + " 1STAR: " + levelData.oneStar);
-
-        if (spentTime <= levelData.threeStar) //check if time is less than 0
+        int starsCollected = DifferencesManager.Instance.GotStarsFromLevel;
+        if (starsCollected == 3) //check if time is less than 0
         {
             //play sound
             SoundManager.PlaySound(SoundType.CONGRATULATION_3STARS);
@@ -157,7 +154,7 @@ public class Congratulation : MonoBehaviour
             DebugLogger.Log("3 stars");
 
         }
-        else if (spentTime <= levelData.twoStar)
+        else if (starsCollected == 2)
         {
             //play sound
             SoundManager.PlaySound(SoundType.CONGRATULATION_2STARS);
@@ -166,7 +163,7 @@ public class Congratulation : MonoBehaviour
 
             DebugLogger.Log("2 stars");
         }
-        else if (spentTime <= levelData.oneStar)
+        else if (starsCollected == 1)
         {
             //play sound
             SoundManager.PlaySound(SoundType.CONGRATULATION_1STAR);
@@ -227,7 +224,7 @@ public class Congratulation : MonoBehaviour
     private IEnumerator _starFallingDown(int stars)
     {
         yield return new WaitForSeconds(6f);
-        DebugLogger.Log("Falling down little stars");
+        // DebugLogger.Log("Falling down little stars");
         //play sound
         //select random star gameobject from array max is from argument
         GameObject randomStar = _stars[Random.Range(0, stars)];

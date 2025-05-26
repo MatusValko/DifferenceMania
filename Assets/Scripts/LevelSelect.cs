@@ -67,8 +67,9 @@ public class LevelSelect : MonoBehaviour
 
                 foreach (LevelData levelData in episodeData.levels)
                 {
-
-                    if (levelData.opened)
+                    //write all levelData parameters to debug log
+                    // DebugLogger.Log($"Level ID: {levelData.id}, Name: {levelData.name}, Stars: {levelData.stars_collected}, Opened: {levelData.opened}");
+                    if (levelData.opened || levelData.id == 1)
                     {
                         // Create a new button for the level
                         GameObject levelGO = Instantiate(LevelPrefab);
@@ -84,7 +85,7 @@ public class LevelSelect : MonoBehaviour
                         episode.AddLevel(lockedLevelGO);
                     }
 
-                    
+
                     // Set the button's text to the level name
                     // newButton.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = "Level " + level.id;
 
