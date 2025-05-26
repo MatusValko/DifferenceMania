@@ -39,7 +39,8 @@ public class GoTo : MonoBehaviour
         string url = GameManager.API_GET_USER_LEVEL_DATA;
         DebugLogger.Log($"Loading Levels from {url}");
         // string token = GameManager.Instance.GetToken();
-        string token = "RVsosZUJnTR5JEelr7qbymsvb7kHqUkhmGcy4vLf596842ba";
+        // string token = "hWpo2uBRWK1XAx7QfizQ0dPtgmRbpgbxcBStjRvh5fdbdcb5";
+        string token = GameManager.Instance.GetToken();
         DebugLogger.Log($"Loading Token: {token}");
 
 

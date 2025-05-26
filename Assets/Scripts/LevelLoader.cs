@@ -163,7 +163,10 @@ public class LevelLoader : MonoBehaviour
                 else
                 {
                     //LOAD DATA FROM LOCAL STORAGE
-                    DebugLogger.Log("Loading data from local storage");
+                    DebugLogger.Log("User is playing for the first time!");
+                    //start login scene
+                    SceneManager.LoadScene(2);
+
                     // GameManager.Instance.LoadDataFromLocalStorage();
                 }
             }
