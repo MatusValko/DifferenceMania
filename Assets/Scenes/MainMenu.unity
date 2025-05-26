@@ -7546,8 +7546,6 @@ PrefabInstance:
     - target: {fileID: 5174142900270574401, guid: 24590f7d9a0d8b44f8ca07593ad92136, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
-<<<<<<< HEAD
-=======
       objectReference: {fileID: 0}
     - target: {fileID: 5219155551305589644, guid: 24590f7d9a0d8b44f8ca07593ad92136, type: 3}
       propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
@@ -7568,7 +7566,6 @@ PrefabInstance:
     - target: {fileID: 6362691724186840162, guid: 24590f7d9a0d8b44f8ca07593ad92136, type: 3}
       propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
       value: 1801810542
->>>>>>> feature/register-anonymous
       objectReference: {fileID: 0}
     - target: {fileID: 6683410663284956775, guid: 24590f7d9a0d8b44f8ca07593ad92136, type: 3}
       propertyPath: m_AnchorMax.y
@@ -7589,8 +7586,6 @@ PrefabInstance:
     - target: {fileID: 7263148338543664108, guid: 24590f7d9a0d8b44f8ca07593ad92136, type: 3}
       propertyPath: m_IsActive
       value: 1
-<<<<<<< HEAD
-=======
       objectReference: {fileID: 0}
     - target: {fileID: 7473132746375976628, guid: 24590f7d9a0d8b44f8ca07593ad92136, type: 3}
       propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
@@ -7603,7 +7598,6 @@ PrefabInstance:
     - target: {fileID: 9093662483646276689, guid: 24590f7d9a0d8b44f8ca07593ad92136, type: 3}
       propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
       value: 1801810542
->>>>>>> feature/register-anonymous
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

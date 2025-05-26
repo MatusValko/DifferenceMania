@@ -1,7 +1,7 @@
 public static class GameConstants
 {
-    public const string GAMESERVER = "http://localhost";
-    // public const string GAMESERVER = "https://diff.nconnect.sk";
+    // public const string GAMESERVER = "http://localhost";
+    public const string GAMESERVER = "https://diff.nconnect.sk";
 
     public const string API_REGISTER = GAMESERVER + "/api/register";
     public const string API_LOGIN = GAMESERVER + "/api/login";
