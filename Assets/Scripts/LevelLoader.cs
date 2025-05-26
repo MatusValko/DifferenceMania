@@ -130,7 +130,7 @@ public class LevelLoader : MonoBehaviour
     // WHY STATIC public static IEnumerator CheckInternetConnection()
     public IEnumerator CheckServerConnection()
     {
-        UnityWebRequest request = new UnityWebRequest(GameManager.GAMESERVER);
+        UnityWebRequest request = UnityWebRequest.Get(GameManager.GAMESERVER);
         using (request)
         {
             request.timeout = 5;
@@ -163,7 +163,10 @@ public class LevelLoader : MonoBehaviour
                 else
                 {
                     //LOAD DATA FROM LOCAL STORAGE
-                    DebugLogger.Log("Loading data from local storage");
+                    DebugLogger.Log("User is playing for the first time!");
+                    //start login scene
+                    SceneManager.LoadScene(2);
+
                     // GameManager.Instance.LoadDataFromLocalStorage();
                 }
             }
@@ -171,26 +174,20 @@ public class LevelLoader : MonoBehaviour
     }
     public IEnumerator CheckInternetConnection()
     {
-        const string echoServer = "https://google.com";
-        UnityWebRequest request = new UnityWebRequest(echoServer);
-        using (request)
+        const string echoServer = "https://www.google.com";
+        using (UnityWebRequest request = UnityWebRequest.Get(echoServer))
         {
             request.timeout = 5;
             yield return request.SendWebRequest();
 
-            // NO CONNECTION TO SERVER, CHECK IF INTERNET IS AVAIBLE
-            if (request.error != null)
+            if (request.result != UnityWebRequest.Result.Success)
             {
                 _errorText = "No internet connection";
                 DebugLogger.LogError(_errorText);
-                // _loadingText.text = text;
-                // SERVER_ERROR = true;
-
             }
             else
             {
-                string text = "No internet connection";
-                DebugLogger.LogError(text);
+                DebugLogger.Log("Internet connection is available");
             }
         }
     }
@@ -198,6 +195,7 @@ public class LevelLoader : MonoBehaviour
     IEnumerator GetProgressData()
     {
         UnityWebRequest request = UnityWebRequest.Get(GameManager.API_GET_USER_LEVEL_DATA);
+        DebugLogger.Log($"Loading Levels from {GameManager.API_GET_USER_LEVEL_DATA}");
         request.SetRequestHeader("Authorization", "Bearer " + GameManager.Instance.GetToken());
         request.SetRequestHeader("Accept", "application/json");
         yield return request.SendWebRequest();

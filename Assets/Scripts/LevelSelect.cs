@@ -68,13 +68,23 @@ public class LevelSelect : MonoBehaviour
                 foreach (LevelData levelData in episodeData.levels)
                 {
 
-                    // Create a new button for the level
-                    GameObject levelGO = Instantiate(LevelPrefab);
-                    episode.AddLevel(levelGO);
-                    Level level = levelGO.GetComponent<Level>();
-                    level.SetLevelNumber(levelData.name);
-                    level.SetStars(levelData.stars_collected);
-                    level.SetOnClickEvent(levelData.id);
+                    if (levelData.opened)
+                    {
+                        // Create a new button for the level
+                        GameObject levelGO = Instantiate(LevelPrefab);
+                        episode.AddLevel(levelGO);
+                        Level level = levelGO.GetComponent<Level>();
+                        level.SetLevelNumber(levelData.name);
+                        level.SetStars(levelData.stars_collected);
+                        level.SetOnClickEvent(levelData.id);
+                    }
+                    else
+                    {
+                        GameObject lockedLevelGO = Instantiate(LockedLevelPrefab);
+                        episode.AddLevel(lockedLevelGO);
+                    }
+
+                    
                     // Set the button's text to the level name
                     // newButton.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = "Level " + level.id;
 

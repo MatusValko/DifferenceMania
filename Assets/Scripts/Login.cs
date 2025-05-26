@@ -302,6 +302,89 @@ public class Login : MonoBehaviour
         }
     }
 
+    // register default anonymous account user 
+    public void RegisterNewAnonymousUser()
+    {
+        //generate random uID
+        string randomUID = Guid.NewGuid().ToString();
+
+        StartCoroutine(UploadNewAnonymousUser(randomUID));
+
+    }
+
+    //TODO REWRITE 
+    IEnumerator UploadNewAnonymousUser(string gUID)
+    {
+        string randomEmail = "anonymous_" + gUID + "@sharkrise.com";
+        DebugLogger.Log("Registering new anonymous user with email: " + randomEmail);
+        string nickaname = "anonymous_" + gUID;
+        string password = gUID;
+
+        Debug.Log(SystemInfo.deviceModel);
+
+        List<IMultipartFormSection> form = new()
+        {
+            new MultipartFormDataSection("email", randomEmail),
+            new MultipartFormDataSection("password", password),
+            new MultipartFormDataSection("device_name", SystemInfo.deviceModel),
+            new MultipartFormDataSection("nickname", nickaname),
+            new MultipartFormDataSection("is_email_enabled", "1"  )
+        };
+        // Debug.Log(Convert.ToString(_checkbox.isOn ? 1 : 0));
+
+        using UnityWebRequest www = UnityWebRequest.Post(GameConstants.API_REGISTER, form);
+        www.downloadHandler = new DownloadHandlerBuffer();
+
+        yield return www.SendWebRequest();
+
+        if (www.result != UnityWebRequest.Result.Success)
+        {
+            Debug.LogError("WEB REQUEST ERROR:" + www.error);
+            // StartCoroutine(ShowError(www.error));
+            ShowErrorWindow(www.error);
+        }
+        else
+        {
+            Debug.Log(www.result + " Form upload complete!");
+            string responseText = www.downloadHandler.text;
+            Debug.Log("Response Text:" + responseText);
+
+            CreateAccountResponse response;
+            try
+            {
+                response = JsonUtility.FromJson<CreateAccountResponse>(responseText);
+            }
+            catch (Exception e)
+            {
+                // StartCoroutine(ShowError(e.Message));
+                Debug.LogError("TRY CATCH ERROR:" + e.Message);
+                ShowErrorWindow(e.Message);
+                throw;
+            }
+            // Debug.Log("Response: " + response);
+
+            Debug.Log(response.token);
+            //MOZEME SA POSUNUT DALEJ JEEJ
+            //ULOZIT DATA O POUZIVATELOVI
+            //POSLAT DATA DO DATABAZY
+
+            GameManager.Instance.SetToken(response.token);
+            GameManager.Instance.SetEmail(randomEmail);
+            GameManager.Instance.SetNickname(nickaname);
+            GameManager.Instance.SetFreeNickName(true);
+            GameManager.Instance.ISLOGGEDIN = true;
+            DataPersistenceManager.Instance.SaveGame(); //NOT SAVING DATA LOCALLY, JUST ON SERVER
+            // _password.text
+
+            //ZISKAT
+
+            _profileCanvas.SetActive(true);
+            UpdateProfileMenu();
+            _createAccountCanvas.SetActive(false);
+
+        }
+    }
+
     void OnEnable()
     {
         CreateAccountValidation();
@@ -576,6 +659,9 @@ public class Login : MonoBehaviour
             return;
         }
     }
+
+
+
 
 
     public void TogglePasswordVisibility()

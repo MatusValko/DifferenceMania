@@ -117,7 +117,7 @@ public class Congratulation : MonoBehaviour
     IEnumerator sendWinToServer()
     {
         //send game won to server
-        string url = $"https://diff.nconnect.sk/api/level/{GameManager.Instance.GetLevelID()}/win";
+        string url = GameConstants.GAMESERVER + $"/api/level/{GameManager.Instance.GetLevelID()}/win";
         List<IMultipartFormSection> form = new()
         {
             new MultipartFormDataSection("stars", "3"),
