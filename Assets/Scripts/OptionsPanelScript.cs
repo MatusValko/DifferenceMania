@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 using TMPro;
+using System.Collections;
 
 public class OptionsPanelScript : MonoBehaviour
 {
@@ -22,14 +23,31 @@ public class OptionsPanelScript : MonoBehaviour
 
   public void SendEmail()
   {
+    StartCoroutine(SendEmailCoroutine());
+  }
+
+  IEnumerator SendEmailCoroutine()
+  {
     if (string.IsNullOrEmpty(emailInputField.text) || !System.Text.RegularExpressions.Regex.IsMatch(emailInputField.text, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
     {
       Debug.LogWarning("Invalid email address.");
-      return;
+      yield break;
     }
+    form = new WWWForm();
     form.AddField("email", emailInputField.text);
-    using UnityWebRequest www = UnityWebRequest.Post(GameConstants.API_ADD_EMAIL, form);
-    www.SetRequestHeader("Accept", "application/json");
-    
+    using UnityWebRequest request = UnityWebRequest.Post(GameConstants.API_ADD_EMAIL, form);
+    request.SetRequestHeader("Accept", "application/json");
+    request.SetRequestHeader("Authorization", "Bearer " + GameManager.Instance.GetToken());
+    yield return request.SendWebRequest();
+
+    if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
+    {
+      Debug.LogError("Error sending email: " + request.error);
+    }
+    else
+    {
+      Debug.Log("Email sent successfully: " + request.downloadHandler.text);
+      emailInputField.text = ""; // Clear the input field after sending
+    }
   }
 }
