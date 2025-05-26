@@ -214,11 +214,12 @@ public class DifferencesManager : MonoBehaviour
             DebugLogger.LogWarning("Token is null or empty.");
             // #if UNITY_EDITOR
             DebugLogger.LogWarning("Setting up default token for testing in Unity Editor.");
-            token = "WgvD656T9RzLsDGwjHnSO5fPRvl3fc3ULML6Dh2vfd0e853a";
+            token = "Ay0p5La74VhxJVcjCOA2K1YRWUYZ4ooumTkNs5lN49ca3267";
             // #endif
         }
         //if in unity editor, set token to empty string
 
+        DebugLogger.Log($"Loading Level Data from {url} with token: {token}");
         request.SetRequestHeader("Authorization", "Bearer " + token);
         request.SetRequestHeader("Accept", "application/json");
         yield return request.SendWebRequest();
@@ -257,7 +258,7 @@ public class DifferencesManager : MonoBehaviour
     IEnumerator DownloadImage(string url, int imageIndex)
     {
 
-        string urlImage = $"https://diff.nconnect.sk/{url}/{imageIndex}.jpg";
+        string urlImage = GameConstants.GAMESERVER + $"/{url}/{imageIndex}.jpg";
 
         using (UnityWebRequest request = UnityWebRequestTexture.GetTexture(urlImage))
         {

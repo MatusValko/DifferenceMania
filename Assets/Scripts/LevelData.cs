@@ -8,6 +8,7 @@ public class LevelData
     public int name;
     public int reward_coins;
     public int stars_collected;
+    public bool opened;
 }
 
 [System.Serializable]

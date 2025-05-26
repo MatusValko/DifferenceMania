@@ -9,16 +9,12 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
     public const int MAX_LIVES_COUNT_CONST = 5;
 
     public bool ISLOGGEDIN = false;
-    public const string GAMESERVER = "https://diff.nconnect.sk";
-    public const string API_REGISTER = "https://diff.nconnect.sk/api/register";
-
-    public const string API_LOGIN = "https://diff.nconnect.sk/api/login";
-    public const string API_DIFF_IMAGES = "https://diff.nconnect.sk/api/diff-iamges";
-
-    public const string API_LOAD_USER_DATA = "https://diff.nconnect.sk/api/load_user_data";
-    public const string API_GET_USER_LEVEL_DATA = "https://diff.nconnect.sk/api/progress";
-
-
+    public const string GAMESERVER = GameConstants.GAMESERVER;
+    public const string API_REGISTER = GameConstants.API_REGISTER;
+    public const string API_LOGIN = GameConstants.API_LOGIN;
+    public const string API_DIFF_IMAGES = GameConstants.API_DIFF_IMAGES;
+    public const string API_LOAD_USER_DATA =    GameConstants.API_LOAD_USER_DATA;
+    public const string API_GET_USER_LEVEL_DATA = GameConstants.API_GET_USER_LEVEL_DATA;
 
     public static GameManager Instance { get; private set; }//RENAME
 
@@ -59,9 +55,6 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
 
     [SerializeField] public const int WINS_NEEDED_TO_GIFT = 6;
 
-
-
-
     [Header("Account details")]
     [SerializeField]
     private string _token;
@@ -97,8 +90,8 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
     private void Start()
     {
         _setTargetFrameRate();
-        // CheckIfIsLoggedIn();
-        // _device_name = SystemInfo.deviceModel;
+        CheckIfIsLoggedIn();
+        _device_name = SystemInfo.deviceModel;
     }
 
     //set target frame rate to 60
@@ -128,7 +121,7 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
     //get level data url adress
     public string GetLevelDataURL(int levelID)
     {
-        string url = $"https://diff.nconnect.sk/api/level/{levelID}";
+        string url = $"{GAMESERVER}/api/level/{levelID}";
         return url;
     }
 
@@ -458,7 +451,4 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
         ScreenFader fader = FindFirstObjectByType<ScreenFader>();
         fader.FadeIn();
     }
-
-
-
 }

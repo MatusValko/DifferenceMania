@@ -15,16 +15,6 @@ public class Level : MonoBehaviour
     // Level Button
     [SerializeField]
     private Button _levelButton; // Level button
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     //set level number
     public void SetLevelNumber(int levelNumber)
@@ -53,11 +43,9 @@ public class Level : MonoBehaviour
     {
         _levelButton.onClick.AddListener(() => ClickLevelButton(levelId));
     }
+
     private void ClickLevelButton(int levelId)
     {
         GameManager.Instance.LoadLevel(levelId);
     }
-
-
-
 }

@@ -19996,6 +19996,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4701705742013619808, guid: 47209bd8d1e95bc488a82d8607c36733, type: 3}
+      propertyPath: _token
+      value: RVsosZUJnTR5JEelr7qbymsvb7kHqUkhmGcy4vLf596842ba
+      objectReference: {fileID: 0}
+    - target: {fileID: 4701705742013619808, guid: 47209bd8d1e95bc488a82d8607c36733, type: 3}
       propertyPath: _currentWins
       value: 3
       objectReference: {fileID: 0}
