@@ -12,9 +12,7 @@ public class Events : MonoBehaviour
     [SerializeField]
     private Animator[] _eventAnimators = new Animator[4];
     // Start is called before the first frame update
-    void Start()
-    {
-    }
+
     void OnEnable()
     {
         StartCoroutine(playAnimations());
@@ -22,26 +20,19 @@ public class Events : MonoBehaviour
 
     IEnumerator playAnimations()
     {
-        // Debug.Log("TU");
         while (true)
         {
             foreach (var animator in _eventAnimators)
             {
                 // Debug.Log(animator.name);
+                if (animator.gameObject.activeSelf == false)
+                {
+                    // Skip this animator if it is not active
+                    continue;
+                }
                 animator.Play("Event", -1, 0);
                 yield return new WaitForSeconds(5);
             }
         }
-    }
-
-    public void PlayAnimation(string animationName)
-    {
-        // Play the specific animation, ignoring the state machine transitions
-        // animator.Play(animationName);
-    }
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 }

@@ -242,12 +242,20 @@ public class Congratulation : MonoBehaviour
     public void ContinueButton()
     {
         int nextLevelID = GameManager.Instance.GetLevelID() + 1;
-        GameManager.Instance.SetLevelID(nextLevelID);
-
-        SceneManager.LoadScene("Game");
+        // GameManager.Instance.SetLevelID(nextLevelID);
+        // SceneManager.LoadScene("Game");
+        GameManager.Instance.LoadLevel(nextLevelID); // Reset wins after continuing to the next level
     }
     public void MenuButton()
     {
-        SceneManager.LoadScene("MainMenu");
+        // Load main menu scene asynchronously and fetch level data, when done, load main menu
+        StartCoroutine(_fetchLevelData());
+        SceneManager.LoadSceneAsync("MainMenu");
+    }
+
+    private IEnumerator _fetchLevelData()
+    {
+        yield return StartCoroutine(LevelLoader.GetProgressData());
+
     }
 }

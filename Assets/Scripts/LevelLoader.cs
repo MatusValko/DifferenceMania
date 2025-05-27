@@ -192,7 +192,7 @@ public class LevelLoader : MonoBehaviour
         }
     }
 
-    IEnumerator GetProgressData()
+    public static IEnumerator GetProgressData()
     {
         UnityWebRequest request = UnityWebRequest.Get(GameManager.API_GET_USER_LEVEL_DATA);
         DebugLogger.Log($"Loading Levels from {GameManager.API_GET_USER_LEVEL_DATA}");

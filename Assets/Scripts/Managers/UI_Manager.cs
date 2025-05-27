@@ -2,16 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UI_Manager : MonoBehaviour
 {
     public static UI_Manager Instance;
 
-    [SerializeField]
-    private TextMeshProUGUI _livesText;
+    [SerializeField] private TextMeshProUGUI _livesText;
 
-    [SerializeField]
-    private TextMeshProUGUI _coinsText;
+    [SerializeField] private TextMeshProUGUI _coinsText;
+
+    [SerializeField] private TextMeshProUGUI _profileLevelText;
+    [SerializeField] private Image _profileLevelImage;
+
+
 
     public int GetLives()
     {
@@ -20,15 +24,8 @@ public class UI_Manager : MonoBehaviour
 
     public void UpdateLives()
     {
+
         if (GetLives() == GameManager.Instance.GetMaxLiveConst())
-        {
-            _livesText.text = "FULL";
-        }
-        else if (GetLives() == 0)
-        {
-            _livesText.text = "0/" + GameManager.Instance.GetMaxLiveConst();
-        }
-        else if (GetLives() == GameManager.Instance.GetMaxLiveConst())
         {
             _livesText.text = "FULL";
         }
@@ -42,11 +39,18 @@ public class UI_Manager : MonoBehaviour
     {
         _coinsText.text = $"{GameManager.Instance.GetCoins()}";
     }
+    //Update the profile level text and image
+    public void UpdateProfileLevel()
+    {
+        _profileLevelText.text = $"LVL {GameManager.Instance.GetProfileLevel()}";
+        _profileLevelImage.sprite = GameManager.Instance.GetProfileImageSprite();
+    }
 
     private void InitializeUI()
     {
         UpdateCoins();
         UpdateLives();
+        UpdateProfileLevel();
     }
     private void Awake()
     {

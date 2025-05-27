@@ -6335,7 +6335,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &683776926
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18797,6 +18797,7 @@ MonoBehaviour:
   _isHurryUp: 0
   _isLoaded: 0
   _downloadedImages: 0
+  GotStarsFromLevel: -1
   _levelData:
     total_time_limit: 0
     oneStar: 0

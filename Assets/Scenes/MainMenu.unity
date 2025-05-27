@@ -150,6 +150,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _livesText: {fileID: 1937484647}
   _coinsText: {fileID: 376791094}
+  _profileLevelText: {fileID: 635462827}
+  _profileLevelImage: {fileID: 1822819183}
 --- !u!4 &16248118
 Transform:
   m_ObjectHideFlags: 0
@@ -744,7 +746,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &220406985
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,4 +1,6 @@
+using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -18,7 +20,7 @@ public class LevelSelect : MonoBehaviour
 
     void Awake()
     {
-        GenerateLevels();
+        StartCoroutine(GenerateLevelsAsync());
     }
 
 
@@ -44,10 +46,23 @@ public class LevelSelect : MonoBehaviour
 
 
     //generate levels based on level data from game manager
-    public void GenerateLevels()
+    public IEnumerator GenerateLevelsAsync()
     {
         // Get the level data from the GameManager
         List<EpisodeData> episodes = GameManager.Instance.GetEpisodes();
+
+        // If no episodes are found get episodes from the server, MAINLY FOR TESTING
+        if (episodes == null || episodes.Count == 0)
+        {
+            DebugLogger.LogError("No episodes found. Please load levels first.");
+            yield return StartCoroutine(LevelLoader.GetProgressData());
+            // After loading progress data, try to get episodes again
+            episodes = GameManager.Instance.GetEpisodes();
+            if (episodes == null || episodes.Count == 0)
+            {
+                yield break;
+            }
+        }
 
         // Loop through the level data and create buttons for each level
         foreach (EpisodeData episodeData in episodes)
@@ -104,11 +119,6 @@ public class LevelSelect : MonoBehaviour
                     // Create a new button for the level
                     GameObject levelGO = Instantiate(LockedLevelPrefab);
                     episode.AddLevel(levelGO);
-                    // Set the button's text to the level name
-                    // newButton.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = "Level " + level.id;
-
-                    // Add a listener to the button to load the level when clicked
-                    // newButton.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => LoadLevel(level.id));
                 }
             }
             // episode.SetLevelsHeight();
@@ -125,6 +135,7 @@ public class LevelSelect : MonoBehaviour
             // Add a listener to the button to load the level when clicked
             // newButton.GetComponent<Button>().onClick.AddListener(() => LoadLevel(level.id));
         }
+
     }
 
     private void LoadLevel(int levelId)

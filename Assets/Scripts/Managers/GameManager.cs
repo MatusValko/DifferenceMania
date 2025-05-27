@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Microsoft.Unity.VisualStudio.Editor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -185,6 +186,12 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
     public string GetToken()
     {
         return _token;
+    }
+    //TODO IMPLEMENT GETTING PROFILE IMAGE
+    public Sprite GetProfileImageSprite()
+    {
+
+        return Resources.Load<Sprite>($"ProfileLevels/Level{_profileLevel}");
     }
     public void SetToken(string token)
     {

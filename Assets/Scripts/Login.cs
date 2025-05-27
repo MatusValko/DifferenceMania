@@ -175,14 +175,14 @@ public class Login : MonoBehaviour
     public void CreateAccount()
     {
         _createAccountButton.interactable = false;
-        StartCoroutine(Upload());
+        StartCoroutine(UploadRegisterForm());
     }
 
 
     public void LoginToAccount()
     {
         _createAccountButton.interactable = false;
-        StartCoroutine(Upload());
+        StartCoroutine(UploadRegisterForm());
     }
     IEnumerator ShowError(string errorText)
     {
@@ -233,21 +233,57 @@ public class Login : MonoBehaviour
         ChangeNickname();
 
     }
-    IEnumerator Upload()
+    IEnumerator UploadRegisterForm(bool randomAccount = false)
     {
-        Debug.Log(SystemInfo.deviceModel);
 
-        List<IMultipartFormSection> form = new()
+        string email;
+        string nickname;
+        string password;
+        string isEmailEnabled;
+        if (randomAccount)
         {
-            new MultipartFormDataSection("email", _email.text),
-            new MultipartFormDataSection("password", _password.text),
-            new MultipartFormDataSection("device_name", SystemInfo.deviceModel),
-            new MultipartFormDataSection("nickname", _nickname.text),
-            new MultipartFormDataSection("is_email_enabled", Convert.ToString(_checkbox.isOn ? 1 : 0)  )
+            //generateGUID but not that long 
+            // Use a shorter random string for anonymous accounts
+            string randomGUID = Guid.NewGuid().ToString("N").Substring(0, 12);
+            // string randomGUID = Guid.NewGuid().ToString();
+            email = "anonymous_" + randomGUID + "@sharkrise.com";
+            nickname = "anonymous_" + randomGUID;
+            password = randomGUID;
+            isEmailEnabled = "0";
+            DebugLogger.Log("Registering new anonymous user with email: " + email);
+            // form = new List<IMultipartFormSection>
+            // {
+            //     new MultipartFormDataSection("email", email),
+            //     new MultipartFormDataSection("password", password),
+            //     new MultipartFormDataSection("device_name", SystemInfo.deviceModel),
+            //     new MultipartFormDataSection("nickname", nickname),
+            //     new MultipartFormDataSection("is_email_enabled",  "0")
+            // };
+        }
+        else
+        {
+            email = _email.text;
+            nickname = _nickname.text;
+            password = _password.text;
+            isEmailEnabled = Convert.ToString(_checkbox.isOn ? 1 : 0);
+            // form = new List<IMultipartFormSection>
+            // {
+            //     new MultipartFormDataSection("email", _email.text),
+            //     new MultipartFormDataSection("password", _password.text),
+            //     new MultipartFormDataSection("device_name", SystemInfo.deviceModel),
+            //     new MultipartFormDataSection("nickname", _nickname.text),
+            //     new MultipartFormDataSection("is_email_enabled", Convert.ToString(_checkbox.isOn ? 1 : 0))
+            // };
+        }
 
-        };
-
-        Debug.Log(Convert.ToString(_checkbox.isOn ? 1 : 0));
+        List<IMultipartFormSection> form = new List<IMultipartFormSection>
+            {
+                new MultipartFormDataSection("email", email),
+                new MultipartFormDataSection("password", password),
+                new MultipartFormDataSection("device_name", SystemInfo.deviceModel),
+                new MultipartFormDataSection("nickname", nickname),
+                new MultipartFormDataSection("is_email_enabled",  isEmailEnabled)
+            };
 
         using UnityWebRequest www = UnityWebRequest.Post(GameManager.API_REGISTER, form);
         www.downloadHandler = new DownloadHandlerBuffer();
@@ -256,15 +292,15 @@ public class Login : MonoBehaviour
 
         if (www.result != UnityWebRequest.Result.Success)
         {
-            Debug.LogError("WEB REQUEST ERROR:" + www.error);
+            DebugLogger.LogError("WEB REQUEST ERROR:" + www.error);
             // StartCoroutine(ShowError(www.error));
             ShowErrorWindow(www.error);
         }
         else
         {
-            Debug.Log(www.result + " Form upload complete!");
+            DebugLogger.Log(www.result + " Form upload complete!");
             string responseText = www.downloadHandler.text;
-            Debug.Log("Response Text:" + responseText);
+            DebugLogger.Log("Response Text:" + responseText);
 
             CreateAccountResponse response;
             try
@@ -274,27 +310,27 @@ public class Login : MonoBehaviour
             catch (Exception e)
             {
                 // StartCoroutine(ShowError(e.Message));
-                Debug.LogError("TRY CATCH ERROR:" + e.Message);
+                DebugLogger.LogError("TRY CATCH ERROR:" + e.Message);
                 ShowErrorWindow(e.Message);
                 throw;
             }
-            // Debug.Log("Response: " + response);
 
-            Debug.Log(response.token);
+            DebugLogger.Log(response.token);
             //MOZEME SA POSUNUT DALEJ JEEJ
             //ULOZIT DATA O POUZIVATELOVI
             //POSLAT DATA DO DATABAZY
-
             GameManager.Instance.SetToken(response.token);
-            GameManager.Instance.SetEmail(_email.text);
-            GameManager.Instance.SetNickname(_nickname.text);
+            GameManager.Instance.SetEmail(email);
+            GameManager.Instance.SetNickname(nickname);
             GameManager.Instance.SetFreeNickName(true);
             GameManager.Instance.ISLOGGEDIN = true;
+
+            StartCoroutine(_fetchLevelData());
+
             DataPersistenceManager.Instance.SaveGame();
             // _password.text
 
-            //ZISKAT
-
+            //ZISKAT UDAJE ZO SERVERA
             _profileCanvas.SetActive(true);
             UpdateProfileMenu();
             _createAccountCanvas.SetActive(false);
@@ -302,13 +338,18 @@ public class Login : MonoBehaviour
         }
     }
 
-    // register default anonymous account user 
+
+
+    private IEnumerator _fetchLevelData()
+    {
+        yield return StartCoroutine(LevelLoader.GetProgressData());
+
+    }
+    // ON BUTTON, register default anonymous account user //OBSOLETE
     public void RegisterNewAnonymousUser()
     {
         //generate random uID
-        string randomUID = Guid.NewGuid().ToString();
-
-        StartCoroutine(UploadNewAnonymousUser(randomUID));
+        StartCoroutine(UploadRegisterForm(true));
 
     }
 
@@ -316,11 +357,10 @@ public class Login : MonoBehaviour
     IEnumerator UploadNewAnonymousUser(string gUID)
     {
         string randomEmail = "anonymous_" + gUID + "@sharkrise.com";
-        DebugLogger.Log("Registering new anonymous user with email: " + randomEmail);
         string nickaname = "anonymous_" + gUID;
         string password = gUID;
+        DebugLogger.Log("Registering new anonymous user with email: " + randomEmail);
 
-        Debug.Log(SystemInfo.deviceModel);
 
         List<IMultipartFormSection> form = new()
         {
@@ -685,6 +725,7 @@ public class Login : MonoBehaviour
         // Apply the change immediately
         _password.ForceLabelUpdate();
     }
+#if UNITY_EDITOR
 
     #region TESTING, CAN BE DELETED LATER
     private const string chars = "abcdefghijklmnopqrstuvwxyz0123456789";
@@ -714,6 +755,8 @@ public class Login : MonoBehaviour
         return result.ToString();
     }
     #endregion
+
+#endif
 }
 
 
