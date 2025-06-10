@@ -14,7 +14,7 @@ Shader "Custom/ImageReveal"
     }
     SubShader
     {
-        Tags { "Queue"="Transparent" "RenderType"="Transparent" }
+        Tags { "Queue"="Transparent"  "RenderType"="Transparent" }
         Blend SrcAlpha OneMinusSrcAlpha
         LOD 200
 

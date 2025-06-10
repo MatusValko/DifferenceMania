@@ -6970,7 +6970,7 @@ MonoBehaviour:
   _profileCanvas: {fileID: 2005583129}
   _nicknameText: {fileID: 605794031}
   _emailText: {fileID: 1484665699}
-  _profilePicture: {fileID: 0}
+  _profilePicture: {fileID: 1008430309}
   _freeText: {fileID: 2087582598}
   _cost50Text: {fileID: 1005169547}
   _freeButton: {fileID: 223037704}

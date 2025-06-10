@@ -133,7 +133,7 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
             return;
         }
         _lives += live;
-        UI_Manager.Instance.UpdateLives();
+        UI_Manager.Instance.UpdateLivesUI();
     }
     //get hints and time
     public int GetBoostAddTimeCount()
@@ -147,7 +147,7 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
     public void AddCoins(int coin)
     {
         _coins += coin;
-        UI_Manager.Instance.UpdateCoins();
+        UI_Manager.Instance.UpdateCoinsUI();
     }
     // get level data
     public List<EpisodeData> GetEpisodes()
@@ -240,6 +240,10 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
     public int GetExperience()
     {
         return _experience;
+    }
+    public int GetExperienceToNextLevel()
+    {
+        return _experienceToNextLevel;
     }
     public int GetUnlockedLevels()
     {

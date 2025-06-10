@@ -13,8 +13,15 @@ public class UI_Manager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _coinsText;
 
     [SerializeField] private TextMeshProUGUI _profileLevelText;
-    [SerializeField] private Image _profileLevelImage;
+    [SerializeField] private Image _profileAvatarImage;
+    [SerializeField] private Sprite _currentProfileAvatarSprite;
 
+    [Header("Avatars Data")]
+    public Sprite[] avatarSprites; // Array to hold avatar sprites
+    public ProfileOneAvatarImage[] avatars; // Array to hold avatar GameObjects
+
+    [SerializeField] private ProfileOneAvatarImage _oneAvatarPrefab; // Index of the currently selected avatar
+    [SerializeField] private Transform _contentTransform; // Transform for the content area where avatars will be instantiated
 
 
     public int GetLives()
@@ -22,47 +29,71 @@ public class UI_Manager : MonoBehaviour
         return GameManager.Instance.GetLives();
     }
 
-    public void UpdateLives()
+    public void UpdateLivesUI()
     {
-
-        if (GetLives() == GameManager.Instance.GetMaxLiveConst())
+        if (_livesText != null)
         {
-            _livesText.text = "FULL";
-        }
-        else
-        {
-            _livesText.text = $"{GameManager.Instance.GetLives() + "/" + GameManager.Instance.GetMaxLiveConst()}";
+            if (GetLives() == GameManager.Instance.GetMaxLiveConst())
+            {
+                _livesText.text = "FULL";
+            }
+            else
+            {
+                _livesText.text = $"{GameManager.Instance.GetLives() + "/" + GameManager.Instance.GetMaxLiveConst()}";
 
+            }
         }
     }
-    public void UpdateCoins()
+    public void UpdateCoinsUI()
     {
-        _coinsText.text = $"{GameManager.Instance.GetCoins()}";
+        //if not null
+        if (_coinsText != null)
+        {
+            _coinsText.text = $"{GameManager.Instance.GetCoins()}";
+        }
     }
-    //Update the profile level text and image
     public void UpdateProfileLevel()
     {
+        if (_profileLevelText == null || _profileAvatarImage == null)
+        {
+            Debug.LogError("Profile UI elements are not assigned.");
+            return;
+        }
         _profileLevelText.text = $"LVL {GameManager.Instance.GetProfileLevel()}";
-        _profileLevelImage.sprite = GameManager.Instance.GetProfileImageSprite();
+        int i = GameManager.Instance.GetSelectedPFP() - 1;
+        _currentProfileAvatarSprite = avatarSprites[i];
+        _profileAvatarImage.sprite = _currentProfileAvatarSprite;
     }
 
+    public Sprite GetCurrentProfileAvatarSprite()
+    {
+        int i = GameManager.Instance.GetSelectedPFP() - 1;
+        _currentProfileAvatarSprite = avatarSprites[i];
+        if (_currentProfileAvatarSprite == null)
+        {
+            DebugLogger.LogError("Current profile avatar sprite is not set.");
+            return null;
+        }
+        // Return the current profile avatar sprite
+        return _currentProfileAvatarSprite;
+    }
     private void InitializeUI()
     {
-        UpdateCoins();
-        UpdateLives();
+        UpdateCoinsUI();
+        UpdateLivesUI();
         UpdateProfileLevel();
     }
     private void Awake()
     {
         if (Instance != null && Instance != this)
         {
-            Destroy(this);
+            Destroy(gameObject);
         }
         else
         {
             Instance = this;
+            DontDestroyOnLoad(Instance);
         }
-
     }
 
     void Start()
@@ -71,9 +102,10 @@ public class UI_Manager : MonoBehaviour
         SoundManager.PlayThemeSound(SoundType.MAIN_MENU_THEME); //IF QUICKLY LOADED THIS WILL MAKE SURE THE MUSIC IS PLAYING
     }
 
-    // Update is called once per frame
-    void Update()
+    //on enable
+    private void OnEnable()
     {
+        InitializeUI();
 
     }
 }

@@ -444,7 +444,7 @@ public class Login : MonoBehaviour
     {
         _nicknameText.text = GameManager.Instance.GetNickname();
         _emailText.text = GameManager.Instance.GetEmail();
-        // _emailText.text = GameManager.Instance.GetprofilePicture();
+        _profilePicture.sprite = UI_Manager.Instance.GetCurrentProfileAvatarSprite();
     }
     private void CheckIfLoggedInAndChangeWindows()
     {

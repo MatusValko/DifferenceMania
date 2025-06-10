@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using ntw.CurvedTextMeshPro;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Premium : MonoBehaviour
 {
-    public GameObject PremiumWindow;
     public GameObject Content;
 
     public Animator[] CoinAnimators;
@@ -14,7 +15,6 @@ public class Premium : MonoBehaviour
     public Image SelectedCoinImage;
 
     public Material spriteMaterial;
-    public Material emptyMaterial;
 
 
     private float shinePositon = 0;
@@ -63,7 +63,6 @@ public class Premium : MonoBehaviour
             }
 
             SelectedCoinImage.material = null;
-
             yield return new WaitForSeconds(1.5f);
         }
 
@@ -81,8 +80,32 @@ public class Premium : MonoBehaviour
     {
         //GO TO TOP OF WINDOW
         Content.transform.position = new Vector3(transform.position.x, 0f, transform.position.z);
-
+        TextProOnACircle component = GetComponentInChildren<TextProOnACircle>();
+        // turn off and on the component to force it to update the curvature
+        if (component != null)
+        {
+            StartCoroutine(refreshTextProOnACircle(component));
+        }
         StartCoroutine(PlayAnimationAfterDelay());
+    }
+
+    private IEnumerator refreshTextProOnACircle(TextProOnACircle component)
+    {
+        TextMeshProUGUI text = component.GetComponent<TextMeshProUGUI>();
+        Color tempColor = text.color;
+        tempColor.a = 0f; // Set alpha to 0 to force the component to update
+        text.color = tempColor;
+        DebugLogger.Log("TextProOnACircle component found and re-enabled.");
+        float waitedFrames = 0f;
+        while (tempColor.a <= 1f)
+        {
+            waitedFrames += 0.001f;
+            tempColor.a += waitedFrames; // Set alpha to 0 to force the component to update
+            text.color = tempColor;
+            // component.enabled = false; // Disable the component
+            // component.enabled = true; // Re-enable the component
+            yield return new WaitForEndOfFrame(); // Wait for the end of the frame
+        }
     }
 
     void OnDisable()
@@ -92,9 +115,7 @@ public class Premium : MonoBehaviour
         if (SelectedCoinImage != null)
         {
             SelectedCoinImage.material = null;
-
         }
-
     }
     private float ShineCurve(float lerpProgress)
     {
