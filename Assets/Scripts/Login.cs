@@ -138,7 +138,9 @@ public class Login : MonoBehaviour
         _passwordLoginFormInputImage = _passwordLogin.gameObject.GetComponent<Image>();
 
         //ONLY FOR TESTING
+#if UNITY_EDITOR
         GenerateRandomCredentials();
+#endif
     }
 
     public void CheckInputField()
@@ -184,14 +186,14 @@ public class Login : MonoBehaviour
         _createAccountButton.interactable = false;
         StartCoroutine(UploadRegisterForm());
     }
-    IEnumerator ShowError(string errorText)
-    {
-        _errorWindow.SetActive(true);
-        _errorResponseText.text = errorText;
-        yield return new WaitForSeconds(3);
-        _errorWindow.SetActive(false);
-        yield return null;
-    }
+    // IEnumerator ShowError(string errorText)
+    // {
+    //     _errorWindow.SetActive(true);
+    //     _errorResponseText.text = errorText;
+    //     yield return new WaitForSeconds(3);
+    //     _errorWindow.SetActive(false);
+    //     yield return null;
+    // }
 
     public void CheckIfFreeOrCostNew()
     {
@@ -240,25 +242,19 @@ public class Login : MonoBehaviour
         string nickname;
         string password;
         string isEmailEnabled;
+        string randomGUID = Guid.NewGuid().ToString("N").Substring(0, 12);
         if (randomAccount)
         {
             //generateGUID but not that long 
             // Use a shorter random string for anonymous accounts
-            string randomGUID = Guid.NewGuid().ToString("N").Substring(0, 12);
+            GameManager.Instance.SetPlayerID(randomGUID);
             // string randomGUID = Guid.NewGuid().ToString();
-            email = "anonymous_" + randomGUID + "@sharkrise.com";
-            nickname = "anonymous_" + randomGUID;
+            email = "Player_" + randomGUID + "@sharkrise.com";
             password = randomGUID;
+            string shortRandomGUID = randomGUID.Substring(0, 6);
+            nickname = "Player_" + shortRandomGUID;
             isEmailEnabled = "0";
-            DebugLogger.Log("Registering new anonymous user with email: " + email);
-            // form = new List<IMultipartFormSection>
-            // {
-            //     new MultipartFormDataSection("email", email),
-            //     new MultipartFormDataSection("password", password),
-            //     new MultipartFormDataSection("device_name", SystemInfo.deviceModel),
-            //     new MultipartFormDataSection("nickname", nickname),
-            //     new MultipartFormDataSection("is_email_enabled",  "0")
-            // };
+            DebugLogger.Log("Registering new anonymous player with email: " + email);
         }
         else
         {
@@ -266,14 +262,6 @@ public class Login : MonoBehaviour
             nickname = _nickname.text;
             password = _password.text;
             isEmailEnabled = Convert.ToString(_checkbox.isOn ? 1 : 0);
-            // form = new List<IMultipartFormSection>
-            // {
-            //     new MultipartFormDataSection("email", _email.text),
-            //     new MultipartFormDataSection("password", _password.text),
-            //     new MultipartFormDataSection("device_name", SystemInfo.deviceModel),
-            //     new MultipartFormDataSection("nickname", _nickname.text),
-            //     new MultipartFormDataSection("is_email_enabled", Convert.ToString(_checkbox.isOn ? 1 : 0))
-            // };
         }
 
         List<IMultipartFormSection> form = new List<IMultipartFormSection>
@@ -283,6 +271,8 @@ public class Login : MonoBehaviour
                 new MultipartFormDataSection("device_name", SystemInfo.deviceModel),
                 new MultipartFormDataSection("nickname", nickname),
                 new MultipartFormDataSection("is_email_enabled",  isEmailEnabled)
+                //TODO POSIELAT AJ PLAYER ID NA SERVER
+                // new MultipartFormDataSection("player_id", randomGUID)
             };
 
         using UnityWebRequest www = UnityWebRequest.Post(GameManager.API_REGISTER, form);
@@ -315,7 +305,7 @@ public class Login : MonoBehaviour
                 throw;
             }
 
-            DebugLogger.Log(response.token);
+            DebugLogger.Log("TOKEN: " + response.token);
             //MOZEME SA POSUNUT DALEJ JEEJ
             //ULOZIT DATA O POUZIVATELOVI
             //POSLAT DATA DO DATABAZY
@@ -323,6 +313,9 @@ public class Login : MonoBehaviour
             GameManager.Instance.SetEmail(email);
             GameManager.Instance.SetNickname(nickname);
             GameManager.Instance.SetFreeNickName(true);
+            GameManager.Instance.SetPlayerID(randomGUID);
+
+
             GameManager.Instance.ISLOGGEDIN = true;
 
             StartCoroutine(_fetchLevelData());
@@ -444,7 +437,7 @@ public class Login : MonoBehaviour
     {
         _nicknameText.text = GameManager.Instance.GetNickname();
         _emailText.text = GameManager.Instance.GetEmail();
-        _profilePicture.sprite = UI_Manager.Instance.GetCurrentProfileAvatarSprite();
+        _profilePicture.sprite = GameManager.Instance.GetCurrentProfileAvatarSprite();
     }
     private void CheckIfLoggedInAndChangeWindows()
     {

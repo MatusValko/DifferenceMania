@@ -1,6 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using Microsoft.Unity.VisualStudio.Editor;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -41,14 +42,11 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
     private int _selectedPFP;
     [SerializeField]
     private int _profileLevel;
-    [SerializeField]
-    private List<int> _unlockedPFP;
     [SerializeField] private int _boostAddTimeCount;
     [SerializeField] private int _boostHintCount;
 
-    [SerializeField] private bool has_ads_removed;
-    [SerializeField] private bool _rewardedForAccConnection;
     [SerializeField] private bool _hasAdsRemoved;
+    [SerializeField] private bool _rewardedForAccConnection;
     [SerializeField] private int last_refill_timestamp;
     [SerializeField] private int? _life_refill_time;
 
@@ -57,16 +55,13 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
     [SerializeField] public const int WINS_NEEDED_TO_GIFT = 6;
 
     [Header("Account details")]
-    [SerializeField]
-    private string _token;
-    [SerializeField]
-    private string _nickname;
-    [SerializeField]
-    private string _email;
-    [SerializeField]
-    private bool _hasFreeNickName;
-    [SerializeField]
-    private string _device_name;
+    [SerializeField] private string _token;
+    [SerializeField] private string _nickname;
+    [SerializeField] private string _email;
+    [SerializeField] private bool _hasFreeNickName;
+    [SerializeField] private string _device_name;
+    [SerializeField] private string _playerID;
+
     // [SerializeField]
     // private string _password;
 
@@ -74,6 +69,12 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
     [SerializeField]
     private List<EpisodeData> _episodes;
     [SerializeField] private int _levelID = 1;
+
+    [Header("Avatars Data")]
+    [SerializeField] private Sprite[] _avatarSprites; // Array to hold avatar sprites
+    [SerializeField] private List<int> _unlockedPFP;
+    [SerializeField] private Sprite _currentProfileAvatarSprite;
+
 
     private void Awake()
     {
@@ -109,6 +110,18 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
             Instance.ISLOGGEDIN = false;
             return;
         }
+        Debug.Log("Has token and email. Logging in");
+        Instance.ISLOGGEDIN = true;
+    }
+    //TODO USE THIS INSTEAD
+    public bool CheckIfIsLoggedInNEW()
+    {
+        if (string.IsNullOrEmpty(_token))
+        {
+            Debug.LogWarning("Token is empty!");
+            // Instance.ISLOGGEDIN = false;
+            return false;
+        }
         // if (string.IsNullOrEmpty(_email))
         // {
         //     Debug.LogWarning("Email is empty!");
@@ -116,7 +129,8 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
         //     return;
         // }
         Debug.Log("Has token and email. Logging in");
-        Instance.ISLOGGEDIN = true;
+        return true;
+        // Instance.ISLOGGEDIN = true;
     }
 
     //get level data url adress
@@ -126,6 +140,21 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
         return url;
     }
 
+
+    //get player ID
+    public string GetPlayerID()
+    {
+        if (string.IsNullOrEmpty(_playerID))
+        {
+            Debug.LogWarning("Player ID is empty!");
+            return "Unknown Player";
+        }
+        return _playerID;
+    }
+    public void SetPlayerID(string playerID)
+    {
+        _playerID = playerID;
+    }
     public void AddLive(int live = 1)
     {
         if (_lives == MAX_LIVES)
@@ -134,6 +163,11 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
         }
         _lives += live;
         UI_Manager.Instance.UpdateLivesUI();
+    }
+    public void AddCoins(int coin)
+    {
+        _coins += coin;
+        UI_Manager.Instance.UpdateCoinsUI();
     }
     //get hints and time
     public int GetBoostAddTimeCount()
@@ -144,17 +178,12 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
     {
         return _boostHintCount;
     }
-    public void AddCoins(int coin)
-    {
-        _coins += coin;
-        UI_Manager.Instance.UpdateCoinsUI();
-    }
+
     // get level data
     public List<EpisodeData> GetEpisodes()
     {
         return _episodes;
     }
-    //set level data
     public void SetEpisodes(List<EpisodeData> episodes)
     {
         _episodes = episodes;
@@ -253,6 +282,18 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
     {
         return _selectedPFP;
     }
+    public Sprite GetCurrentProfileAvatarSprite()
+    {
+        if (_currentProfileAvatarSprite == null)
+        {
+            DebugLogger.LogError("Current profile avatar sprite is not set. Setting Default Avatar.");
+            _currentProfileAvatarSprite = _avatarSprites[0]; // Set to default avatar if not set
+            return _currentProfileAvatarSprite;
+        }
+        // Return the current profile avatar sprite
+        return _currentProfileAvatarSprite;
+    }
+
     public int GetProfileLevel()
     {
         return _profileLevel;
@@ -318,7 +359,7 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
     {
         return MAX_LIVES_COUNT_CONST;
     }
-    //set current wins
+    //set current wins for GIFT ROOM
     public void SetCurrentWins(int currentWins)
     {
         _currentWins = currentWins;
@@ -331,10 +372,35 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
     public void SetSelectedPFP(int selectedPFP)
     {
         _selectedPFP = selectedPFP;
+        // GET CURRENT PROFILE AVATAR SPRITE
+        int i = selectedPFP - 1;
+        if (i >= 0 && i < _avatarSprites.Length)
+        {
+            _currentProfileAvatarSprite = _avatarSprites[i];
+        }
+        else
+        {
+            DebugLogger.LogError("Selected PFP index is out of bounds.");
+        }
     }
-    public void SetUnlockedPFP(int unlockedPFP)
+    //get avatar sprites length
+    public int GetAvatarSpritesLength()
     {
-        _unlockedPFP.Add(unlockedPFP);
+        return _avatarSprites.Length;
+    }
+    //return avatar sprite based on index
+    public Sprite GetAvatarSprite(int index)
+    {
+        if (index < 0 || index >= _avatarSprites.Length)
+        {
+            DebugLogger.LogError("Avatar sprite index is out of bounds.");
+            return null;
+        }
+        return _avatarSprites[index];
+    }
+    public void SetUnlockedPFP(List<int> list)
+    {
+        _unlockedPFP = list;
     }
     public List<int> GetUnlockedPFP()
     {
@@ -347,7 +413,7 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
     //Set has ads removed
     public void SetHasAdsRemoved(bool hasAdsRemoved)
     {
-        has_ads_removed = hasAdsRemoved;
+        _hasAdsRemoved = hasAdsRemoved;
     }
     //set free nickname available
     public void SetFreeNickNameAvailable(bool freeNickNameAvailable)
@@ -400,6 +466,7 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
         _currentWins = gameData.CurrentWins;
 
         _token = gameData.Token;
+        _playerID = gameData.PlayerID;
         _email = gameData.Email;
         _nickname = gameData.Nickname;
         _hasFreeNickName = gameData.HasFreeNickName;
@@ -417,6 +484,7 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
 
 
         gameData.Token = _token;
+        gameData.PlayerID = _playerID;
         gameData.Email = _email;
         gameData.Nickname = _nickname;
         gameData.HasFreeNickName = _hasFreeNickName;
@@ -467,4 +535,5 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
         }
         fader.FadeIn();
     }
+
 }

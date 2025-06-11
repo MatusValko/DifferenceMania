@@ -16,6 +16,8 @@ public class Premium : MonoBehaviour
 
     public Material spriteMaterial;
 
+    [SerializeField] private TextMeshProUGUI _coinsText;
+
 
     private float shinePositon = 0;
     float shineSpeed = 1f;
@@ -78,6 +80,7 @@ public class Premium : MonoBehaviour
     }
     void OnEnable()
     {
+        _updateUI();
         //GO TO TOP OF WINDOW
         Content.transform.position = new Vector3(transform.position.x, 0f, transform.position.z);
         TextProOnACircle component = GetComponentInChildren<TextProOnACircle>();
@@ -89,13 +92,18 @@ public class Premium : MonoBehaviour
         StartCoroutine(PlayAnimationAfterDelay());
     }
 
+    private void _updateUI()
+    {
+        _coinsText.text = $"{GameManager.Instance.GetCoins()}";
+    }
+
     private IEnumerator refreshTextProOnACircle(TextProOnACircle component)
     {
         TextMeshProUGUI text = component.GetComponent<TextMeshProUGUI>();
         Color tempColor = text.color;
         tempColor.a = 0f; // Set alpha to 0 to force the component to update
         text.color = tempColor;
-        DebugLogger.Log("TextProOnACircle component found and re-enabled.");
+        // DebugLogger.Log("TextProOnACircle component found and re-enabled.");
         float waitedFrames = 0f;
         while (tempColor.a <= 1f)
         {

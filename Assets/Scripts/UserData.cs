@@ -41,3 +41,10 @@ public class DailyReward
     public int reward;
     public bool opened;
 }
+
+[Serializable]
+public class LevelLostResponse
+{
+    public string message;
+    public int lives;
+}

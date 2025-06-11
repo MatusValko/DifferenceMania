@@ -526,6 +526,7 @@ public class DifferencesManager : MonoBehaviour
         _timerText.text = "00:00"; // Display zero time
         _totalTime = 0;
         DebugLogger.Log("Game Over!");
+        StartCoroutine(_sendGameLostToServer());
         _youLosePopUpWindow.SetActive(true);
     }
     public void YouLoseContinueButton()
@@ -581,6 +582,55 @@ public class DifferencesManager : MonoBehaviour
         }
         DebugLogger.LogError("Failed to parse image ID from path: " + path);
         return -1; // Return -1 if parsing fails
+    }
+
+    IEnumerator _sendGameLostToServer()
+    {
+        string url = GameConstants.API_GET_LEVEL_LOSS(GameManager.Instance.GetLevelID());
+        DebugLogger.Log($"Sending Game Lost to {url}");
+        UnityWebRequest request = UnityWebRequest.Post(url, new WWWForm());
+        request.SetRequestHeader("Authorization", "Bearer " + GameManager.Instance.GetToken());
+        request.SetRequestHeader("Accept", "application/json");
+        request.SetRequestHeader("Content-Type", "application/json");
+        // Create the JSON data
+        // DebugLogger.LogError(_levelData.images[0].path);
+        // var data = new
+        // {
+        //     stars_collected = _getLeveLStars(),
+        //     score = 69, //TODO HOW TO CALCULATE SCORE?
+        //     images_finished = new List<int> { _parseImageID(_levelData.images[0].path) }
+        // };
+        // string jsonData = JsonConvert.SerializeObject(data);
+        // request.uploadHandler = new UploadHandlerRaw(System.Text.Encoding.UTF8.GetBytes(jsonData));
+        request.downloadHandler = new DownloadHandlerBuffer();
+        yield return request.SendWebRequest();
+        if (request.result == UnityWebRequest.Result.Success)
+        {
+            DebugLogger.Log("Game Lost sent successfully: " + request.downloadHandler.text);
+            /*{
+                "message": "Level lost",
+                "lives": 4
+            }*/
+            // Access response data
+            var responseJson = request.downloadHandler.text;
+            LevelLostResponse levelLostResponse = JsonConvert.DeserializeObject<LevelLostResponse>(responseJson);
+            if (levelLostResponse != null)
+            {
+                DebugLogger.Log("Message: " + levelLostResponse.message);
+                DebugLogger.Log("Lives left after loss: " + levelLostResponse.lives);
+                GameManager.Instance.SetLives(levelLostResponse.lives);
+            }
+            else
+            {
+                DebugLogger.LogError("Failed to parse user data.");
+            }
+        }
+        else
+        {
+            DebugLogger.LogError("Error sending Game Won data: " + request.error);
+            _errorWindow.SetActive(true);
+            _errorText.text = "Error sending Game Won data: " + request.error;
+        }
     }
 
     IEnumerator _sendGameWonToServer()

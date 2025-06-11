@@ -18,6 +18,7 @@ public class GameData
 
     //LOGIN/REGISTER DATA
     public string Token;
+    public string PlayerID;
     public string Nickname;
     public string Email;
     public string Device_name;
@@ -39,9 +40,8 @@ public class GameData
         Device_name = null;
         Email = null;
         Token = null;
+        PlayerID = null;
         Nickname = null;
-        //TODO: Generate random nickname 
-        Nickname = "Anonymous_";
         HasFreeNickName = true;
         // UnlockedLevels = new List<int>();
 

@@ -83,7 +83,6 @@ public class LevelLoader : MonoBehaviour
 
         //IF CONNECTED TO SERVER THEN LOAD SAVED DATA
         //IF ACCOUNT IS LOGGED IN THEN GET GAMED DATA FROM SERVER
-        //OTHERWISE GET DATA FROM LOCAL STORAGE
 
 
 
@@ -127,7 +126,6 @@ public class LevelLoader : MonoBehaviour
 
 
     }
-    // WHY STATIC public static IEnumerator CheckInternetConnection()
     public IEnumerator CheckServerConnection()
     {
         UnityWebRequest request = UnityWebRequest.Get(GameManager.GAMESERVER);
@@ -238,6 +236,15 @@ public class LevelLoader : MonoBehaviour
                 GameManager.Instance.SetEmail(userDataResponse.data.email);
                 DebugLogger.Log("Nickname: " + userDataResponse.data.nickname);
                 GameManager.Instance.SetNickname(userDataResponse.data.nickname);
+                DebugLogger.Log("Nickname: " + userDataResponse.data.nickname);
+
+                //TODO GET FROM SERVER
+                List<int> list = new List<int> { 1, 2, 5 };
+                DebugLogger.Log("Unlocked PFP: " + list);
+                GameManager.Instance.SetUnlockedPFP(list);
+                DebugLogger.Log("Selected PFP: " + 1);
+                GameManager.Instance.SetSelectedPFP(1);
+
                 DebugLogger.Log("Stars Collected: " + userDataResponse.data.stars_collected);
                 GameManager.Instance.SetStarsCollected(userDataResponse.data.stars_collected);
                 DebugLogger.Log("Finished Levels: " + userDataResponse.data.finished_levels);

@@ -24,24 +24,21 @@ public class UI_Manager : MonoBehaviour
     [SerializeField] private Transform _contentTransform; // Transform for the content area where avatars will be instantiated
 
 
-    public int GetLives()
-    {
-        return GameManager.Instance.GetLives();
-    }
-
     public void UpdateLivesUI()
     {
         if (_livesText != null)
         {
-            if (GetLives() == GameManager.Instance.GetMaxLiveConst())
-            {
-                _livesText.text = "FULL";
-            }
-            else
-            {
-                _livesText.text = $"{GameManager.Instance.GetLives() + "/" + GameManager.Instance.GetMaxLiveConst()}";
+            // if (GameManager.Instance.GetLives() == GameManager.Instance.GetMaxLiveConst())
+            // {
+            //     _livesText.text = "FULL";
+            // }
+            // else
+            // {
+            //     _livesText.text = $"{GameManager.Instance.GetLives() + "/" + GameManager.Instance.GetMaxLiveConst()}";
 
-            }
+            // }
+
+            _livesText.text = $"{GameManager.Instance.GetLives() + "/" + GameManager.Instance.GetMaxLiveConst()}";
         }
     }
     public void UpdateCoinsUI()
@@ -52,7 +49,7 @@ public class UI_Manager : MonoBehaviour
             _coinsText.text = $"{GameManager.Instance.GetCoins()}";
         }
     }
-    public void UpdateProfileLevel()
+    public void UpdateProfileLevelAndAvatar()
     {
         if (_profileLevelText == null || _profileAvatarImage == null)
         {
@@ -60,28 +57,26 @@ public class UI_Manager : MonoBehaviour
             return;
         }
         _profileLevelText.text = $"LVL {GameManager.Instance.GetProfileLevel()}";
-        int i = GameManager.Instance.GetSelectedPFP() - 1;
-        _currentProfileAvatarSprite = avatarSprites[i];
-        _profileAvatarImage.sprite = _currentProfileAvatarSprite;
+        _profileAvatarImage.sprite = GameManager.Instance.GetCurrentProfileAvatarSprite();
     }
 
-    public Sprite GetCurrentProfileAvatarSprite()
-    {
-        int i = GameManager.Instance.GetSelectedPFP() - 1;
-        _currentProfileAvatarSprite = avatarSprites[i];
-        if (_currentProfileAvatarSprite == null)
-        {
-            DebugLogger.LogError("Current profile avatar sprite is not set.");
-            return null;
-        }
-        // Return the current profile avatar sprite
-        return _currentProfileAvatarSprite;
-    }
+    // public Sprite GetCurrentProfileAvatarSprite()
+    // {
+    //     int i = GameManager.Instance.GetSelectedPFP() - 1;
+    //     _currentProfileAvatarSprite = avatarSprites[i];
+    //     if (_currentProfileAvatarSprite == null)
+    //     {
+    //         DebugLogger.LogError("Current profile avatar sprite is not set.");
+    //         return null;
+    //     }
+    //     // Return the current profile avatar sprite
+    //     return _currentProfileAvatarSprite;
+    // }
     private void InitializeUI()
     {
         UpdateCoinsUI();
         UpdateLivesUI();
-        UpdateProfileLevel();
+        UpdateProfileLevelAndAvatar();
     }
     private void Awake()
     {
@@ -92,7 +87,6 @@ public class UI_Manager : MonoBehaviour
         else
         {
             Instance = this;
-            DontDestroyOnLoad(Instance);
         }
     }
 

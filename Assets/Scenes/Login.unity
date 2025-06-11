@@ -2969,7 +2969,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1080, y: 2400}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0.7
+  m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -9848,9 +9848,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c249b7f985f03ae4ebd8b6c6515d9f61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _nicknameText: {fileID: 605794031}
-  _emailText: {fileID: 1484665699}
-  _profilePicture: {fileID: 1008430309}
 --- !u!114 &2021022906 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5428560032450415520, guid: 869f87e752743ba478076eb60637e38b, type: 3}
