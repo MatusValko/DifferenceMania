@@ -81,7 +81,7 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
-            Debug.LogWarning("GAME MANAGER IS INSTANTIATED");
+            // Debug.LogWarning("GAME MANAGER IS INSTANTIATED");
         }
         else
         {
@@ -214,6 +214,12 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
     //get token
     public string GetToken()
     {
+        if (string.IsNullOrEmpty(_token))
+        {
+            DebugLogger.LogWarning("Token is empty!");
+            return null;
+        }
+        // DebugLogger.Log($"Token: {_token}");
         return _token;
     }
     //TODO IMPLEMENT GETTING PROFILE IMAGE
@@ -533,7 +539,14 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
             Debug.LogError("ScreenFader not found in the scene.");
             return;
         }
+        fader.gameObject.SetActive(true);
         fader.FadeIn();
+    }
+
+    public void FadeOutToMainMenu()
+    {
+        ScreenFader fader = FindFirstObjectByType<ScreenFader>();
+        fader.FadeOut(1);
     }
 
 }

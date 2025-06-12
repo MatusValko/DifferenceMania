@@ -52,7 +52,7 @@ public class LevelLoader : MonoBehaviour
         _sharRiseCanvas.SetActive(false);
         _diffManiaCanvas.SetActive(true);
         _loadingCanvas.SetActive(true);
-        SoundManager.PlayThemeSound(SoundType.MAIN_MENU_THEME);
+        SoundManager.PlayThemeSound(SoundType.MAIN_MENU_THEME, 0.8f);
     }
 
     IEnumerator LoadAsynchronously(int sceneIndex)
@@ -194,13 +194,18 @@ public class LevelLoader : MonoBehaviour
     {
         UnityWebRequest request = UnityWebRequest.Get(GameManager.API_GET_USER_LEVEL_DATA);
         DebugLogger.Log($"Loading Levels from {GameManager.API_GET_USER_LEVEL_DATA}");
+
+        if (GameManager.Instance.GetToken() == null || GameManager.Instance.GetToken() == "")
+        {
+            DebugLogger.LogWarning("Waiting for token to be available");
+            yield return new WaitUntil(() => GameManager.Instance.GetToken() != null && GameManager.Instance.GetToken() != "");
+        }
+        DebugLogger.Log($"Token IS LOADED !!!");
         request.SetRequestHeader("Authorization", "Bearer " + GameManager.Instance.GetToken());
         request.SetRequestHeader("Accept", "application/json");
         yield return request.SendWebRequest();
         if (request.result == UnityWebRequest.Result.Success)
         {
-
-
             string jsonResponse = request.downloadHandler.text;
             List<EpisodeData> episodes = JsonConvert.DeserializeObject<List<EpisodeData>>(jsonResponse);
             GameManager.Instance.SetEpisodes(episodes);

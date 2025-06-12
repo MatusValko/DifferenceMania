@@ -22,7 +22,7 @@ public class SoundManager : MonoBehaviour
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
-            Debug.LogWarning("SOUND MANAGER IS INSTANTIATED");
+            // Debug.LogWarning("SOUND MANAGER IS INSTANTIATED");
         }
         else
         {
@@ -31,18 +31,14 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    void Start()
-    {
-        // PlaySound(SoundType.LOGIN_THEME);
-    }
 
     void Update()
     {
         //if left mouse button is clicked, play button click sound
-        if (Input.GetMouseButtonDown(0))
-        {
-            PlaySound(SoundType.BUTTON_CLICK);
-        }
+        // if (Input.GetMouseButtonDown(0))
+        // {
+        //     PlaySound(SoundType.BUTTON_CLICK);
+        // }
     }
 
 

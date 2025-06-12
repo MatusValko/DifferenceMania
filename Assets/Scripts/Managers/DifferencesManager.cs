@@ -149,7 +149,7 @@ public class DifferencesManager : MonoBehaviour
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
-            DebugLogger.Log("DIFFERENCE MANAGER IS INSTANTIATED");
+            // DebugLogger.Log("DIFFERENCE MANAGER IS INSTANTIATED");
         }
         else
         {
@@ -385,7 +385,10 @@ public class DifferencesManager : MonoBehaviour
                 Vector3 position = new Vector3(mousePosition.x, mousePosition.y, 0);
                 Instantiate(_xImage, position, Quaternion.identity, _secondImage.transform);
                 //play incorrect click sound with 50% lower volume
-                SoundManager.PlaySound(SoundType.GAME_INCORRECT_CLICK, volume: 0.5f);
+                SoundManager.PlaySound(SoundType.GAME_INCORRECT_CLICK, volume: 0.6f);
+                //vibrate the phone
+                Handheld.Vibrate();
+
             }
         }
     }
@@ -559,7 +562,7 @@ public class DifferencesManager : MonoBehaviour
         //play level complete sound
         SoundManager.StopClip();
         SoundManager.StopTheme();
-        SoundManager.PlaySound(SoundType.GAME_WIN);
+        SoundManager.PlaySound(SoundType.GAME_WIN, 0.9f);
 
         //send lelvel won to server
         StartCoroutine(_sendGameWonToServer());
@@ -723,12 +726,10 @@ public class DifferencesManager : MonoBehaviour
     //function to quit level, onclick button
     public void QuitLevel()
     {
-        if (Time.timeScale == 0)
-        {
-            Time.timeScale = 1;
-        }
+        _isLoaded = false;
+        Time.timeScale = 1;
         SoundManager.StopTheme();
-        SceneManager.LoadScene("MainMenu");
+        GameManager.Instance.FadeOutToMainMenu();
     }
 
     //function to show boosts texts if gamemanager has enough of them, otherwise show ribbon

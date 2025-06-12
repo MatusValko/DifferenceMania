@@ -9,36 +9,117 @@ public class UI_Manager : MonoBehaviour
     public static UI_Manager Instance;
 
     [SerializeField] private TextMeshProUGUI _livesText;
+    [SerializeField] private TextMeshProUGUI _refillLivesText; // Text for refill lives button
 
     [SerializeField] private TextMeshProUGUI _coinsText;
 
     [SerializeField] private TextMeshProUGUI _profileLevelText;
     [SerializeField] private Image _profileAvatarImage;
-    [SerializeField] private Sprite _currentProfileAvatarSprite;
 
-    [Header("Avatars Data")]
-    public Sprite[] avatarSprites; // Array to hold avatar sprites
-    public ProfileOneAvatarImage[] avatars; // Array to hold avatar GameObjects
+    // [Header("Avatars Data")]
+    // public ProfileOneAvatarImage[] avatars; // Array to hold avatar GameObjects
 
-    [SerializeField] private ProfileOneAvatarImage _oneAvatarPrefab; // Index of the currently selected avatar
-    [SerializeField] private Transform _contentTransform; // Transform for the content area where avatars will be instantiated
+    // [SerializeField] private ProfileOneAvatarImage _oneAvatarPrefab; // Index of the currently selected avatar
+    // [SerializeField] private Transform _contentTransform; // Transform for the content area where avatars will be instantiated
+
+    [Header("Level Select Window")]
+
+    public GameObject Content;
+
+    public GameObject EpisodePrefab; // Prefab for the level button
+    public GameObject LevelPrefab; // Prefab for the level button
+    public GameObject LockedLevelPrefab; // Prefab for the level button
 
 
+
+    //generate levels based on level data from game manager
+    public IEnumerator GenerateLevelsAsync()
+    {
+        List<EpisodeData> episodes;
+
+        yield return StartCoroutine(LevelLoader.GetProgressData());
+        // After loading progress data, try to get episodes again
+        episodes = GameManager.Instance.GetEpisodes();
+        if (episodes == null || episodes.Count == 0)
+        {
+            yield break;
+        }
+
+        // Loop through the level data and create buttons for each level
+        foreach (EpisodeData episodeData in episodes)
+        {
+            // instantiate the episode prefab
+            GameObject episodeGO = Instantiate(EpisodePrefab);
+            //set parent to content
+            episodeGO.transform.SetParent(Content.transform, false);
+            Episode episode = episodeGO.GetComponent<Episode>();
+            episode.SetName("Episode " + episodeData.id);
+
+            if (GameManager.Instance.GetStarsCollected() >= episodeData.unlock_stars)
+            {
+                // DebugLogger.Log($"Episode {episodeData.id} unlocked with {GameManager.Instance.GetStarsCollected()} stars");
+                episode.SetLockedTextOff();
+                episode.SetLockedButtonOFF();
+
+                foreach (LevelData levelData in episodeData.levels)
+                {
+                    //write all levelData parameters to debug log
+                    // DebugLogger.Log($"Level ID: {levelData.id}, Name: {levelData.name}, Stars: {levelData.stars_collected}, Opened: {levelData.opened}");
+                    if (levelData.opened || levelData.id == 1)
+                    {
+                        // Create a new button for the level
+                        GameObject levelGO = Instantiate(LevelPrefab);
+                        episode.AddLevel(levelGO);
+                        Level level = levelGO.GetComponent<Level>();
+                        level.SetLevelNumber(levelData.name);
+                        level.SetStars(levelData.stars_collected);
+                        level.SetOnClickEvent(levelData.id);
+                    }
+                    else
+                    {
+                        GameObject lockedLevelGO = Instantiate(LockedLevelPrefab);
+                        episode.AddLevel(lockedLevelGO);
+                    }
+
+                }
+            }
+            else
+            {
+                // DebugLogger.Log($"Episode {episodeData.id} locked with {GameManager.Instance.GetStarsCollected()} stars");
+                episode.SetLockedText(GameManager.Instance.GetStarsCollected(), episodeData.unlock_stars);
+                episode.SetLockedTextOn();
+                episode.SetLockedButton(episodeData.unlock_coins);
+                foreach (LevelData levelData in episodeData.levels)
+                {
+                    // Create a new button for the level
+                    GameObject levelGO = Instantiate(LockedLevelPrefab);
+                    episode.AddLevel(levelGO);
+                }
+            }
+        }
+
+    }
+
+    public void UpdateRefillLivesUI()
+    {
+        if (_refillLivesText != null)
+        {
+            _refillLivesText.text = GameManager.Instance.GetLives().ToString();
+        }
+    }
     public void UpdateLivesUI()
     {
         if (_livesText != null)
         {
-            // if (GameManager.Instance.GetLives() == GameManager.Instance.GetMaxLiveConst())
-            // {
-            //     _livesText.text = "FULL";
-            // }
-            // else
-            // {
-            //     _livesText.text = $"{GameManager.Instance.GetLives() + "/" + GameManager.Instance.GetMaxLiveConst()}";
-
-            // }
-
-            _livesText.text = $"{GameManager.Instance.GetLives() + "/" + GameManager.Instance.GetMaxLiveConst()}";
+            if (GameManager.Instance.GetLives() == GameManager.Instance.GetMaxLiveConst())
+            {
+                _livesText.text = "FULL";
+            }
+            else
+            {
+                _livesText.text = $"{GameManager.Instance.GetLives() + "/" + GameManager.Instance.GetMaxLiveConst()}";
+            }
+            // _livesText.text = $"{GameManager.Instance.GetLives() + "/" + GameManager.Instance.GetMaxLiveConst()}";
         }
     }
     public void UpdateCoinsUI()
@@ -72,10 +153,14 @@ public class UI_Manager : MonoBehaviour
     //     // Return the current profile avatar sprite
     //     return _currentProfileAvatarSprite;
     // }
-    private void InitializeUI()
+    private IEnumerator InitializeUI()
     {
+        // Wait for GameManager to be ready
+        yield return new WaitUntil(() => GameManager.Instance.GetToken() != null && GameManager.Instance.GetToken() != "");
         UpdateCoinsUI();
         UpdateLivesUI();
+        UpdateRefillLivesUI();
+
         UpdateProfileLevelAndAvatar();
     }
     private void Awake()
@@ -90,10 +175,14 @@ public class UI_Manager : MonoBehaviour
         }
     }
 
+
+
     void Start()
     {
-        InitializeUI();
-        SoundManager.PlayThemeSound(SoundType.MAIN_MENU_THEME); //IF QUICKLY LOADED THIS WILL MAKE SURE THE MUSIC IS PLAYING
+        StartCoroutine(InitializeUI());
+        StartCoroutine(GenerateLevelsAsync());
+        GameManager.Instance.FadeInLevel();
+        SoundManager.PlayThemeSound(SoundType.MAIN_MENU_THEME, 0.8f); //IF QUICKLY LOADED THIS WILL MAKE SURE THE MUSIC IS PLAYING
     }
 
     //on enable

@@ -2868,17 +2868,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1863688273247430326, guid: 32586db4c81ba034f8ee61fb2479e92b, type: 3}
-      propertyPath: Mute
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2067963250522349459, guid: 32586db4c81ba034f8ee61fb2479e92b, type: 3}
       propertyPath: m_Name
       value: SoundManager
-      objectReference: {fileID: 0}
-    - target: {fileID: 4288890889141270765, guid: 32586db4c81ba034f8ee61fb2479e92b, type: 3}
-      propertyPath: Mute
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6022601347220491413, guid: 32586db4c81ba034f8ee61fb2479e92b, type: 3}
       propertyPath: m_LocalPosition.x

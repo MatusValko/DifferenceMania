@@ -68,6 +68,7 @@ MonoBehaviour:
   _email: 
   _hasFreeNickName: 0
   _device_name: 
+  _playerID: 
   _episodes: []
   _levelID: 1
   _avatarSprites:
