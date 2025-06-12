@@ -344,8 +344,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Continue?
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 1aca755691035b742acae71166cc334e, type: 2}
-  m_sharedMaterial: {fileID: 5121587541444851039, guid: 1aca755691035b742acae71166cc334e, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: a14a6afcb544b924ba8632500f38f5b9, type: 2}
+  m_sharedMaterial: {fileID: 6653310886688823195, guid: a14a6afcb544b924ba8632500f38f5b9, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -385,15 +385,17 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_TextWrappingMode: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
+  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
+  m_EmojiFallbackSupport: 1
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0
@@ -478,8 +480,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Play on
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 1aca755691035b742acae71166cc334e, type: 2}
-  m_sharedMaterial: {fileID: 5121587541444851039, guid: 1aca755691035b742acae71166cc334e, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: a14a6afcb544b924ba8632500f38f5b9, type: 2}
+  m_sharedMaterial: {fileID: 6653310886688823195, guid: a14a6afcb544b924ba8632500f38f5b9, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -519,15 +521,17 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 0
+  m_TextWrappingMode: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
+  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
+  m_EmojiFallbackSupport: 1
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0
@@ -647,7 +651,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 0
 --- !u!1 &4956561671615778743
 GameObject:
   m_ObjectHideFlags: 0
@@ -816,6 +820,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: DifferencesManager, Assembly-CSharp
+        m_MethodName: TogglePause
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6544734926684536448
 GameObject:
   m_ObjectHideFlags: 0
@@ -959,8 +975,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Add <color=#FAE729>1 minute</color> to keep playing?
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 1aca755691035b742acae71166cc334e, type: 2}
-  m_sharedMaterial: {fileID: 5121587541444851039, guid: 1aca755691035b742acae71166cc334e, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: a14a6afcb544b924ba8632500f38f5b9, type: 2}
+  m_sharedMaterial: {fileID: 6653310886688823195, guid: a14a6afcb544b924ba8632500f38f5b9, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1000,15 +1016,17 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_TextWrappingMode: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
+  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
+  m_EmojiFallbackSupport: 1
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0
@@ -1109,6 +1127,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1648025064962878762}
     m_Modifications:
+    - target: {fileID: 2638653374234400000, guid: 6b386f1f31287fb41b7e331d46eb5639, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2901155348128306932, guid: 6b386f1f31287fb41b7e331d46eb5639, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1151,7 +1173,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2901155348128306932, guid: 6b386f1f31287fb41b7e331d46eb5639, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2901155348128306932, guid: 6b386f1f31287fb41b7e331d46eb5639, type: 3}
       propertyPath: m_LocalRotation.w

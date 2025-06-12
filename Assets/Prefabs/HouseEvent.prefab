@@ -92,6 +92,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4268320248518563204, guid: b2da00fb8064cdb49ac8868d7708f0a6, type: 3}
+      propertyPath: m_characterSpacing
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5270691868844233359, guid: b2da00fb8064cdb49ac8868d7708f0a6, type: 3}
       propertyPath: m_Name
       value: HouseEvent

@@ -478,8 +478,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Spot the Twists!
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 1aca755691035b742acae71166cc334e, type: 2}
-  m_sharedMaterial: {fileID: 5121587541444851039, guid: 1aca755691035b742acae71166cc334e, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8bea1d1c5c28f4343b96717c8f0ccb97, type: 2}
+  m_sharedMaterial: {fileID: 9180668588391565803, guid: 8bea1d1c5c28f4343b96717c8f0ccb97, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -519,15 +519,17 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_TextWrappingMode: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
+  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
+  m_EmojiFallbackSupport: 1
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0
@@ -612,8 +614,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: '?'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 1aca755691035b742acae71166cc334e, type: 2}
-  m_sharedMaterial: {fileID: 5121587541444851039, guid: 1aca755691035b742acae71166cc334e, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: a14a6afcb544b924ba8632500f38f5b9, type: 2}
+  m_sharedMaterial: {fileID: 6653310886688823195, guid: a14a6afcb544b924ba8632500f38f5b9, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -653,15 +655,17 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 0
+  m_TextWrappingMode: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
+  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
+  m_EmojiFallbackSupport: 1
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0
@@ -943,8 +947,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Mirror Mismatch
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 1bd54897c2e2da14e94455bf5a49d656, type: 2}
-  m_sharedMaterial: {fileID: 5121587541444851039, guid: 1bd54897c2e2da14e94455bf5a49d656, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 3aa81c8c0f32b224fb469e9a176e6941, type: 2}
+  m_sharedMaterial: {fileID: 6653310886688823195, guid: 3aa81c8c0f32b224fb469e9a176e6941, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -984,15 +988,17 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_TextWrappingMode: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
+  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
+  m_EmojiFallbackSupport: 1
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0
@@ -1077,8 +1083,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Play
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 1aca755691035b742acae71166cc334e, type: 2}
-  m_sharedMaterial: {fileID: 5121587541444851039, guid: 1aca755691035b742acae71166cc334e, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: a14a6afcb544b924ba8632500f38f5b9, type: 2}
+  m_sharedMaterial: {fileID: 6653310886688823195, guid: a14a6afcb544b924ba8632500f38f5b9, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1118,15 +1124,17 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 0
+  m_TextWrappingMode: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
+  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
+  m_EmojiFallbackSupport: 1
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0

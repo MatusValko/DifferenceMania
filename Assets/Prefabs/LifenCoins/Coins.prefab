@@ -313,8 +313,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 6900
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 1aca755691035b742acae71166cc334e, type: 2}
-  m_sharedMaterial: {fileID: 5121587541444851039, guid: 1aca755691035b742acae71166cc334e, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: a14a6afcb544b924ba8632500f38f5b9, type: 2}
+  m_sharedMaterial: {fileID: 6653310886688823195, guid: a14a6afcb544b924ba8632500f38f5b9, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -348,7 +348,7 @@ MonoBehaviour:
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 4096
   m_textAlignment: 65535
-  m_characterSpacing: 0
+  m_characterSpacing: 2
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -570,6 +570,18 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 5183979327933852186, guid: f755d9cbb51e7d84e9ddd63d57e6fe76, type: 3}
+      propertyPath: m_fontSize
+      value: 71.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5183979327933852186, guid: f755d9cbb51e7d84e9ddd63d57e6fe76, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+    - target: {fileID: 5183979327933852186, guid: f755d9cbb51e7d84e9ddd63d57e6fe76, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
     - target: {fileID: 5183979327933852186, guid: f755d9cbb51e7d84e9ddd63d57e6fe76, type: 3}
       propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
       value: 1801810542

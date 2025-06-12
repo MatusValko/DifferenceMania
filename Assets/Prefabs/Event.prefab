@@ -67,8 +67,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'END: 2d5h'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: fdb2a658eae0b0644a48ef558853c96c, type: 2}
-  m_sharedMaterial: {fileID: 5121587541444851039, guid: fdb2a658eae0b0644a48ef558853c96c, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d8d8eb3337f61984987ef85f851a3e0b, type: 2}
+  m_sharedMaterial: {fileID: 6653310886688823195, guid: d8d8eb3337f61984987ef85f851a3e0b, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

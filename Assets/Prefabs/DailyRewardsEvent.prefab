@@ -88,6 +88,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4268320248518563204, guid: b2da00fb8064cdb49ac8868d7708f0a6, type: 3}
+      propertyPath: m_fontSize
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 4268320248518563204, guid: b2da00fb8064cdb49ac8868d7708f0a6, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: d8d8eb3337f61984987ef85f851a3e0b, type: 2}
+    - target: {fileID: 4268320248518563204, guid: b2da00fb8064cdb49ac8868d7708f0a6, type: 3}
+      propertyPath: m_fontStyle
+      value: 32
+      objectReference: {fileID: 0}
+    - target: {fileID: 4268320248518563204, guid: b2da00fb8064cdb49ac8868d7708f0a6, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 6653310886688823195, guid: d8d8eb3337f61984987ef85f851a3e0b, type: 2}
+    - target: {fileID: 4268320248518563204, guid: b2da00fb8064cdb49ac8868d7708f0a6, type: 3}
+      propertyPath: m_characterSpacing
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4268320248518563204, guid: b2da00fb8064cdb49ac8868d7708f0a6, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5270691868844233359, guid: b2da00fb8064cdb49ac8868d7708f0a6, type: 3}
       propertyPath: m_Name
       value: DailyRewardsEvent

@@ -1262,8 +1262,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Go to main menu
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 1aca755691035b742acae71166cc334e, type: 2}
-  m_sharedMaterial: {fileID: 5121587541444851039, guid: 1aca755691035b742acae71166cc334e, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: a14a6afcb544b924ba8632500f38f5b9, type: 2}
+  m_sharedMaterial: {fileID: 6653310886688823195, guid: a14a6afcb544b924ba8632500f38f5b9, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1663,8 +1663,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: WWW.SHARKRISE.COM
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8bea1d1c5c28f4343b96717c8f0ccb97, type: 2}
+  m_sharedMaterial: {fileID: 9180668588391565803, guid: 8bea1d1c5c28f4343b96717c8f0ccb97, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2764,8 +2764,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Loading 69%
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: fdb2a658eae0b0644a48ef558853c96c, type: 2}
-  m_sharedMaterial: {fileID: 5121587541444851039, guid: fdb2a658eae0b0644a48ef558853c96c, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d8d8eb3337f61984987ef85f851a3e0b, type: 2}
+  m_sharedMaterial: {fileID: 6653310886688823195, guid: d8d8eb3337f61984987ef85f851a3e0b, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

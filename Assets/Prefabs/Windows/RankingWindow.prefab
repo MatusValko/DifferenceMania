@@ -221,8 +221,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Season
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 01caecc4e63351e4992bfff09eaa3077, type: 2}
-  m_sharedMaterial: {fileID: -3186943377329053283, guid: 01caecc4e63351e4992bfff09eaa3077, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8bea1d1c5c28f4343b96717c8f0ccb97, type: 2}
+  m_sharedMaterial: {fileID: 9180668588391565803, guid: 8bea1d1c5c28f4343b96717c8f0ccb97, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -432,8 +432,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Global
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8bea1d1c5c28f4343b96717c8f0ccb97, type: 2}
+  m_sharedMaterial: {fileID: 9180668588391565803, guid: 8bea1d1c5c28f4343b96717c8f0ccb97, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1149,8 +1149,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Erik furst
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: fdb2a658eae0b0644a48ef558853c96c, type: 2}
-  m_sharedMaterial: {fileID: 5121587541444851039, guid: fdb2a658eae0b0644a48ef558853c96c, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d8d8eb3337f61984987ef85f851a3e0b, type: 2}
+  m_sharedMaterial: {fileID: 6653310886688823195, guid: d8d8eb3337f61984987ef85f851a3e0b, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1174,7 +1174,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 32
+  m_fontSize: 31.7
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1363,8 +1363,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Ranking
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 1aca755691035b742acae71166cc334e, type: 2}
-  m_sharedMaterial: {fileID: 5121587541444851039, guid: 1aca755691035b742acae71166cc334e, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: a14a6afcb544b924ba8632500f38f5b9, type: 2}
+  m_sharedMaterial: {fileID: 6653310886688823195, guid: a14a6afcb544b924ba8632500f38f5b9, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1706,8 +1706,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Erik furst
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: fdb2a658eae0b0644a48ef558853c96c, type: 2}
-  m_sharedMaterial: {fileID: 5121587541444851039, guid: fdb2a658eae0b0644a48ef558853c96c, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d8d8eb3337f61984987ef85f851a3e0b, type: 2}
+  m_sharedMaterial: {fileID: 6653310886688823195, guid: d8d8eb3337f61984987ef85f851a3e0b, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1731,7 +1731,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 32
+  m_fontSize: 31.7
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2018,7 +2018,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: 230}
+  m_AnchoredPosition: {x: 0, y: 255.05652}
   m_SizeDelta: {x: 576, y: 256}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &6270166313542634013
@@ -2126,8 +2126,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Erik furst
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: fdb2a658eae0b0644a48ef558853c96c, type: 2}
-  m_sharedMaterial: {fileID: 5121587541444851039, guid: fdb2a658eae0b0644a48ef558853c96c, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d8d8eb3337f61984987ef85f851a3e0b, type: 2}
+  m_sharedMaterial: {fileID: 6653310886688823195, guid: d8d8eb3337f61984987ef85f851a3e0b, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2151,7 +2151,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 32
+  m_fontSize: 31.7
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1

@@ -241,15 +241,17 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_TextWrappingMode: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
+  m_ActiveFontFeatures: 00000000
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
+  m_EmojiFallbackSupport: 1
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0
@@ -286,7 +288,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4125127059763661170
 RectTransform:
   m_ObjectHideFlags: 0
@@ -867,7 +869,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1080, y: 2400}
+  m_SizeDelta: {x: 1080, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &2986918753542821329
 MonoBehaviour:
@@ -1301,6 +1303,14 @@ PrefabInstance:
     - target: {fileID: 2160195675382477841, guid: cb8317c626b4fa8439ca61c9dbb03338, type: 3}
       propertyPath: m_Name
       value: MirrorMismatch
+      objectReference: {fileID: 0}
+    - target: {fileID: 4726769705166681574, guid: cb8317c626b4fa8439ca61c9dbb03338, type: 3}
+      propertyPath: m_text
+      value: MIRROR MISMATCH
+      objectReference: {fileID: 0}
+    - target: {fileID: 4726769705166681574, guid: cb8317c626b4fa8439ca61c9dbb03338, type: 3}
+      propertyPath: m_fontStyle
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7460429326493463012, guid: cb8317c626b4fa8439ca61c9dbb03338, type: 3}
       propertyPath: m_Pivot.x
