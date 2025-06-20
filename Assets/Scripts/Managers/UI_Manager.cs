@@ -182,7 +182,7 @@ public class UI_Manager : MonoBehaviour
         StartCoroutine(InitializeUI());
         StartCoroutine(GenerateLevelsAsync());
         GameManager.Instance.FadeInLevel();
-        SoundManager.PlayThemeSound(SoundType.MAIN_MENU_THEME, 0.8f); //IF QUICKLY LOADED THIS WILL MAKE SURE THE MUSIC IS PLAYING
+        SoundManager.PlayThemeSound(SoundType.MAIN_MENU_THEME, 0.7f); //IF QUICKLY LOADED THIS WILL MAKE SURE THE MUSIC IS PLAYING
     }
 
     //on enable

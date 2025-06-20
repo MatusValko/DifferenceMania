@@ -12,14 +12,12 @@ public class LevelLoader : MonoBehaviour
 {
 
     // public GameObject loadingScreen;
-    [SerializeField]
-    private Slider _leftSlider;
-    [SerializeField]
-    private Slider _rightSlider;
-    [SerializeField]
-    private TextMeshProUGUI _loadingText;
-    [SerializeField]
-    private string _errorText = "ERROR";
+    [SerializeField] private Slider _leftSlider;
+    // [SerializeField] private Slider _rightSlider;
+    [SerializeField] private TextMeshProUGUI _versionText;
+    [SerializeField] private TextMeshProUGUI _loadingText;
+
+    [SerializeField] private string _errorText = "ERROR";
 
 
     [SerializeField]
@@ -27,8 +25,8 @@ public class LevelLoader : MonoBehaviour
 
 
     [Header("SharRise")]
-    [SerializeField] private GameObject _sharRiseCanvas;
-    [SerializeField] private GameObject _diffManiaCanvas;
+    [SerializeField] private GameObject _logoCanvas;
+    [SerializeField] private GameObject _backgroundSecondCanvas;
     [SerializeField] private GameObject _loadingCanvas;
     // [SerializeField] private bool isIntro = true;
 
@@ -49,10 +47,11 @@ public class LevelLoader : MonoBehaviour
         SoundManager.PlaySound(SoundType.LOGIN_THEME, 3, 1);
         yield return new WaitForSeconds(1);
 
-        _sharRiseCanvas.SetActive(false);
-        _diffManiaCanvas.SetActive(true);
+        _logoCanvas.SetActive(false);
+        _backgroundSecondCanvas.SetActive(true);
         _loadingCanvas.SetActive(true);
-        SoundManager.PlayThemeSound(SoundType.MAIN_MENU_THEME, 0.8f);
+        _versionText.text = "VER " + Application.version;
+        SoundManager.PlayThemeSound(SoundType.MAIN_MENU_THEME, 0.7f);
     }
 
     IEnumerator LoadAsynchronously(int sceneIndex)
@@ -215,7 +214,6 @@ public class LevelLoader : MonoBehaviour
             Debug.LogError($"Error: {request.error}");
         }
     }
-
     public IEnumerator LoadUserData()
     {
         UnityWebRequest request = UnityWebRequest.Get(GameManager.API_LOAD_USER_DATA);
@@ -338,9 +336,9 @@ public class LevelLoader : MonoBehaviour
             return;
         }
         _leftSlider.value = value;
-        _rightSlider.value = value;
+        // _rightSlider.value = value;
 
-        _loadingText.text = "Loading " + Math.Round(value * 100) + "%";
+        _loadingText.text = "Loading " + Math.Round(value * 100) + "<b>%</b>";
     }
 
     // Start is called before the first frame update
@@ -348,12 +346,6 @@ public class LevelLoader : MonoBehaviour
     {
         StartCoroutine(IntroLogo());
         LoadGame();
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
 
     }
 }

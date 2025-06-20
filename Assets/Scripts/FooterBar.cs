@@ -24,6 +24,8 @@ public class FooterBar : MonoBehaviour
     public GameObject premiumWindow;
     public GameObject galleryWindow;
     public GameObject levelSelectWindow;
+    public GameObject levelSelectSpecialModesWindow;
+
 
 
     public GameObject topCanvas;
@@ -37,11 +39,6 @@ public class FooterBar : MonoBehaviour
         SelectButton(1);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     public void SelectButton(int index)
     {
@@ -66,6 +63,11 @@ public class FooterBar : MonoBehaviour
             {
                 levelSelectWindow.SetActive(false);
             }
+            else if (levelSelectSpecialModesWindow.activeSelf)
+            {
+                levelSelectSpecialModesWindow.SetActive(false);
+            }
+
             premiumWindow.SetActive(true);
             galleryWindow.SetActive(false);
             topCanvas.SetActive(false);

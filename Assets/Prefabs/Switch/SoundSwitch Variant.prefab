@@ -12,6 +12,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: SoundSwitch Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 5381799233356732081, guid: 4484565f62a461b49aa0d6ebf57e8bcd, type: 3}
+      propertyPath: m_fontSize
+      value: 36
+      objectReference: {fileID: 0}
+    - target: {fileID: 5381799233356732081, guid: 4484565f62a461b49aa0d6ebf57e8bcd, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: a14a6afcb544b924ba8632500f38f5b9, type: 2}
+    - target: {fileID: 5381799233356732081, guid: 4484565f62a461b49aa0d6ebf57e8bcd, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 6653310886688823195, guid: a14a6afcb544b924ba8632500f38f5b9, type: 2}
+    - target: {fileID: 5381799233356732081, guid: 4484565f62a461b49aa0d6ebf57e8bcd, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5381799233356732081, guid: 4484565f62a461b49aa0d6ebf57e8bcd, type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
+      objectReference: {fileID: 0}
     - target: {fileID: 6134596823262815328, guid: 4484565f62a461b49aa0d6ebf57e8bcd, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -95,6 +115,14 @@ PrefabInstance:
     - target: {fileID: 6440744667095031484, guid: 4484565f62a461b49aa0d6ebf57e8bcd, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8576160071229344949, guid: 4484565f62a461b49aa0d6ebf57e8bcd, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: a14a6afcb544b924ba8632500f38f5b9, type: 2}
+    - target: {fileID: 8576160071229344949, guid: 4484565f62a461b49aa0d6ebf57e8bcd, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -168,7 +168,7 @@ public class DifferencesManager : MonoBehaviour
     }
     private void Initialisation()
     {
-        SoundManager.PlayThemeSound(SoundType.GAME_THEME);
+        SoundManager.PlayThemeSound(SoundType.GAME_THEME, 0.7f);
         StartCoroutine(SetUpGame(GameManager.Instance.GetLevelID()));
 
     }
@@ -599,7 +599,7 @@ public class DifferencesManager : MonoBehaviour
         // DebugLogger.LogError(_levelData.images[0].path);
         // var data = new
         // {
-        //     stars_collected = _getLeveLStars(),
+        //      stars_collected = _getLeveLStars(),
         //     score = 69, //TODO HOW TO CALCULATE SCORE?
         //     images_finished = new List<int> { _parseImageID(_levelData.images[0].path) }
         // };
