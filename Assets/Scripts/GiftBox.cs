@@ -7,28 +7,20 @@ using UnityEngine.UI;
 
 public class GiftBox : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject _giftBox;
+    [SerializeField] private GameObject _giftBox;
 
-    [SerializeField]
-    private GameObject _CoinwText;
+    [SerializeField] private Sprite _giftBoxBestRewardBackground;
+    [SerializeField] private GameObject _giftBoxBestReward;
+    [SerializeField] private Image _giftBoxBestRewardIcon;
+    [SerializeField] private TextMeshProUGUI _giftBoxBestRewardText;
 
-    [SerializeField]
-    private TextMeshProUGUI _coinValue;
+    [SerializeField] private GameObject _coinwText;
 
-    [SerializeField]
-    private GiftsRoomManager _giftsRoomManager;
-    // Start is called before the first frame update
-    void Start()
-    {
+    [SerializeField] private TextMeshProUGUI _coinValue;
 
-    }
+    [SerializeField] private GiftsRoomManager _giftsRoomManager;
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
+    [SerializeField] private bool _isBestReward = false;
 
     public void ClickOnBox()
     {
@@ -40,39 +32,54 @@ public class GiftBox : MonoBehaviour
         }
         //play sound
         SoundManager.PlaySound(SoundType.GIFT_OPEN);
+
+        //cannot click on box anymore, disable button
+        Button button = gameObject.GetComponent<Button>();
+        button.interactable = false;
+
+
         _giftsRoomManager.FreeSlotsToUnlock -= 1;
         _giftsRoomManager.UpdateFreeSlotsText();
-
-
         _giftsRoomManager.GiftCounter += 1;
-
         if (_giftsRoomManager.FreeSlotsToUnlock == 0)
         {
             _giftsRoomManager.ShowButtonsHideText();
         }
-
-
-
-        // GENERATE RANDOM NUMBER BETWEEN  1 AND 10
-        Button button = gameObject.GetComponent<Button>();
-        button.interactable = false;
-        int randomNumber = UnityEngine.Random.Range(1, 11);
-        _coinValue.text = randomNumber.ToString();
-
-        _giftsRoomManager.SetLastCoinValue(randomNumber);
-        _giftsRoomManager.SetLastCardText(_coinValue);
-
-        _giftsRoomManager.SwitchRooms();
-        _giftsRoomManager.SetRewardCoinText(randomNumber);
-        _giftsRoomManager.TotalCoinReward += randomNumber;
-
-        // ADD VALUE TO TOTAL COINS OBTAINED DURING GIFTS ROOM 
         _giftBox.SetActive(false);
-        //remove from animator array to not show animations on gift
         _giftsRoomManager.RemoveAnimator(_giftBox.transform.parent.name);
-        _CoinwText.SetActive(true);
+
+        if (_isBestReward)
+        {
+            _giftBoxBestReward.SetActive(true);
+            Image giftBoxImage = gameObject.GetComponent<Image>();
+            giftBoxImage.sprite = _giftBoxBestRewardBackground;
+            _giftsRoomManager.SwitchRooms();
+            _giftsRoomManager.FoundCollections = 1;
+            // set that the best reward is claimed
+            // _giftsRoomManager.SetBestRewardClaimed(true);
+        }
+        else
+        {
+            //COIN REWARD
+            int randomNumber = UnityEngine.Random.Range(2, 11);
+            _coinValue.text = randomNumber.ToString();
+            _giftsRoomManager.TotalCoinReward += randomNumber;
+            _coinwText.SetActive(true);
+        }
 
 
 
+    }
+    public void SetGiftAsBestRewardGift(Sprite sprite)
+    {
+        _isBestReward = true;
+        _giftBoxBestRewardIcon.sprite = sprite;
+        _giftBoxBestRewardIcon.SetNativeSize();
+    }
+
+    public void SetHowManyPiecesFound(int piecesFound)
+    {
+        _giftBoxBestRewardText.text = $"{piecesFound} " +
+            $"{(_giftsRoomManager.FoundCollections == 1 ? "part" : "parts")}";
     }
 }

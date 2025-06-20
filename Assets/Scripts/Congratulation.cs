@@ -44,17 +44,8 @@ public class Congratulation : MonoBehaviour
 
     private IEnumerator _setUpWindow()
     {
-        //send game won to server
-        // GameManager.Instance.SendGameWonToServer(GameManager.Instance.GetLevelID(), GameManager.Instance.GetCurrentWins(), GameManager.Instance.GetTime());
-        //play sound confetti
-
         SoundManager.PlaySound(SoundType.CONGRATULATION_CONFETTI);
 
-        //play sound confetti
-        // SoundManager.PlaySound(SoundType.CONGRATULATION_FANFARE);
-
-        // var levelData = DifferencesManager.Instance.GetLevelData(); // Ensure GetLevelData() returns a valid type
-        // int currentTime = DifferencesManager.Instance.GetTime();
         _adjustStars();
 
         //set text to current level
@@ -113,32 +104,6 @@ public class Congratulation : MonoBehaviour
 
         }
     }
-    // IEnumerator sendWinToServer()
-    // {
-    //     //send game won to server
-    //     string url = GameConstants.GAMESERVER + $"/api/level/{GameManager.Instance.GetLevelID()}/win";
-    //     List<IMultipartFormSection> form = new()
-    //     {
-    //         new MultipartFormDataSection("stars", "3"),
-    //         new MultipartFormDataSection("time", "69"),
-    //     };
-    //     using UnityWebRequest request = UnityWebRequest.Post(url, form);
-    //     request.downloadHandler = new DownloadHandlerBuffer();
-    //     yield return request.SendWebRequest();
-
-    //     if (request.result != UnityWebRequest.Result.Success)
-    //     {
-    //         Debug.LogError("WEB REQUEST ERROR:" + request.error);
-    //         // StartCoroutine(ShowError(www.error));
-    //         // ShowErrorWindow(request.error);
-    //     }
-    //     else
-    //     {
-    //         Debug.Log("WEB REQUEST SUCCESS:" + request.downloadHandler.text);
-    //         // ShowSuccessWindow(request.downloadHandler.text);
-    //     }
-
-    // }
 
     //adjust stars and sound according to time
     private void _adjustStars()

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 
@@ -13,50 +14,68 @@ public class GiftsRoomManager : MonoBehaviour
     public int FreeSlotsToUnlock = 3;
 
     public int TotalCoinReward = 0;
+    public int CollectionBestRewardIndex = -1;
+    public int FoundCollections = -1;
 
-    [SerializeField]
-    private GameObject _buttons;
-    [SerializeField]
-    private GameObject _collectAllRewardsButton;
-    [SerializeField]
-    private GameObject _freeSlots;
-    [SerializeField]
-    private TextMeshProUGUI _freeSlotsText;
-    [SerializeField]
-    private GameObject _getMoreSlotsForUnlock;
-    [SerializeField]
-    private TextMeshProUGUI _rewardCoinText;
+    [SerializeField] private GameObject _buttons;
+    [SerializeField] private GameObject _collectAllRewardsButton;
+    [SerializeField] private GameObject _freeSlots;
+    [SerializeField] private GameObject _getMoreSlotsForUnlock;
+    [SerializeField] private GameObject _rewardRoom;
+    [SerializeField] private GameObject _giftRoom;
+    [SerializeField] private Image _bestRewardImageSmall;
+    [SerializeField] private Image _bestRewardImageBig;
 
-    [SerializeField]
-    private GameObject _rewardRoom;
-
-    [SerializeField]
-    private GameObject _giftRoom;
-
-
-    [SerializeField]
-    private TextMeshProUGUI _lastCardText;
-    [SerializeField]
-    private int _lastCoinValue;
+    [SerializeField] private GiftBox _giftBoxBestReward;
 
     public int GiftCounter = 0;
 
     //(array)list for all gift animators
     [SerializeField] private List<Animator> _giftAnimators = new List<Animator>();
 
-    void OnEnable()
-    {
-        FreeSlotsToUnlock = MAXFreeSlotsToUnlock;
-    }
+    [SerializeField] private Sprite[] _collectionItemSprites;
 
-    // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(playAnimations());
+        FreeSlotsToUnlock = MAXFreeSlotsToUnlock;
+
+        _setUpGiftBoxes();
+        StartCoroutine(_playAnimations());
     }
 
-    //iNumerator to play animations on gift boxes
-    IEnumerator playAnimations()
+    private void _setUpGiftBoxes()
+    {
+        //select one random gift box to be the best reward
+        if (_giftAnimators.Count == 0)
+        {
+            DebugLogger.LogError("No gift animators found in GiftsRoomManager");
+            return;
+        }
+        int randomIndex = Random.Range(0, _giftAnimators.Count);
+        _giftBoxBestReward = _giftAnimators[randomIndex].GetComponent<GiftBox>();
+
+        if (_giftBoxBestReward == null)
+        {
+            DebugLogger.LogError("No GiftBox component found on animator at index: " + randomIndex);
+            return;
+        }
+
+        //Select random sprite from collection item sprites
+        CollectionBestRewardIndex = Random.Range(0, _collectionItemSprites.Length);
+        Sprite bestRewardSprite = _collectionItemSprites[CollectionBestRewardIndex];
+        // Set the sprite of the best reward image
+        _bestRewardImageSmall.sprite = bestRewardSprite;
+        _bestRewardImageSmall.SetNativeSize();
+        _bestRewardImageBig.sprite = bestRewardSprite;
+        _bestRewardImageBig.SetNativeSize();
+        _giftBoxBestReward.SetGiftAsBestRewardGift(bestRewardSprite);
+
+
+        //TODO: Set up gift boxes to have values inside them
+
+    }
+
+    private IEnumerator _playAnimations()
     {
         int lastIndex = -1;
         while (true)
@@ -64,6 +83,7 @@ public class GiftsRoomManager : MonoBehaviour
             //if the list is less than 2, break the loop
             if (_giftAnimators.Count < 2)
             {
+                DebugLogger.Log("Not enough animators to play animations: " + _giftAnimators.Count);
                 break;
             }
             //pick random animator from array and play animation trigger
@@ -75,12 +95,6 @@ public class GiftsRoomManager : MonoBehaviour
                 yield return new WaitForSeconds(2);
             }
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
     public void ShowButtonsHideText()
@@ -109,6 +123,19 @@ public class GiftsRoomManager : MonoBehaviour
     }
     public void UpdateFreeSlotsText()
     {
+        //get the text component from _freeSlots
+        if (_freeSlots == null)
+        {
+            DebugLogger.LogError("Free slots text is not assigned in GiftsRoomManager.");
+            return;
+        }
+        TextMeshProUGUI _freeSlotsText = _freeSlots.GetComponentInChildren<TextMeshProUGUI>();
+        if (FreeSlotsToUnlock <= 0)
+        {
+            _freeSlotsText.text = "No free slots to unlock";
+            return;
+        }
+        // Update the text to show the number of free slots to unlock
         _freeSlotsText.text = $"<color=yellow>{FreeSlotsToUnlock}</color>  free slots to unlock";
     }
 
@@ -116,10 +143,6 @@ public class GiftsRoomManager : MonoBehaviour
     {
         _getMoreSlotsForUnlock.SetActive(true);
         // Invoke("HideGetMoreSlotsForUnlock", 2);
-    }
-    public void SetRewardCoinText(int coinValue)
-    {
-        _rewardCoinText.text = coinValue.ToString() + "X";
     }
 
     public void SwitchRooms()
@@ -136,11 +159,11 @@ public class GiftsRoomManager : MonoBehaviour
             _giftRoom.SetActive(false);
         }
     }
-    public void Claim2XCoins()
+    public void Claim2XCollection()
     {
-        // SHOW ADVERT AND GIVE 2X COINS
-        _lastCoinValue = _lastCoinValue * 2;
-        _lastCardText.text = _lastCoinValue.ToString();
+        // SHOW ADVERT AND GIVE 2X COLLECTIONS
+        FoundCollections = 2;
+        _giftBoxBestReward.SetHowManyPiecesFound(FoundCollections);
         SwitchRooms();
     }
 
@@ -152,31 +175,35 @@ public class GiftsRoomManager : MonoBehaviour
         ShowButtonsHideText();
         // SwitchRooms();
     }
-    public void Claim(int coinValue)
+    public void Claim()
     {
         SwitchRooms();
-        // ADD COINS
     }
-    public void NoThanks()
-    {
+    // public void NoThanks()
+    // {
 
-        gameObject.SetActive(false);
-        // SwitchRooms();
-        // ADD COINS
-    }
+    //     gameObject.SetActive(false);
+    //     // SwitchRooms();
+    //     // ADD COINS
+    // }
 
-    public void SetLastCardText(TextMeshProUGUI text)
-    {
-        _lastCardText = text;
-    }
-    public void SetLastCoinValue(int value)
-    {
-        _lastCoinValue = value;
-    }
+    //FROM BUTTON
     private void CollectAllRewards()
     {
-
+        //get all rewards from gift boxes
+        // TODO SEND COINS TO GAME MANAGER AND SERVER
+        GameManager.Instance.AddCoins(TotalCoinReward);
+        DebugLogger.Log("Collected all rewards: " + TotalCoinReward + " coins");
+        // TODO SEND BEST REWARD TO GAME MANAGER AND SERVER
+        //for found collections, add them to the game manager
+        for (int i = 0; i < FoundCollections; i++)
+        {
+            // GameManager.Instance.AddCollection(CollectionBestRewardIndex);
+            DebugLogger.Log("Collected collection: " + i);
+        }
     }
+
+
 
     public void RemoveAnimator(string animatorName)
     {

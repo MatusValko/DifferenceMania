@@ -7,9 +7,12 @@ using System.Collections.Generic;
 public class ButtonReplacer : EditorWindow
 {
     [MenuItem("Tools/Replace Buttons with UIButtonWithSound")]
+    [System.Obsolete]
     public static void ReplaceButtons()
     {
-        var buttons = GameObject.FindObjectsByType<Button>(FindObjectsSortMode.None);
+        // Find all Button components in the scene, including inactive ones
+        var buttons = GameObject.FindObjectsOfType<Button>(true); // Include inactive buttons
+
         int replacedCount = 0;
 
         foreach (var button in buttons)

@@ -6,17 +6,28 @@ public class UIButtonWithSound : Button
 {
     // public AudioClip clickSound;
     // private AudioSource audioSource;
-
-    protected override void Start()
+    protected override void Awake()
     {
-        base.Start();
+        base.Awake();
+        // Add sound listener automatically
+        onClick.AddListener(PlayClickSound);
     }
 
-    public override void OnPointerClick(PointerEventData eventData)
+    private void PlayClickSound()
     {
-        base.OnPointerClick(eventData);
-
         SoundManager.PlaySound(SoundType.BUTTON_CLICK);
-        DebugLogger.Log("UIButtonWithSound: Button clicked: " + name);
+        // DebugLogger.Log("UIButtonWithSound: Button clicked: " + name);
     }
+    // protected override void Start()
+    // {
+    //     base.Start();
+    // }
+
+    // public override void OnPointerClick(PointerEventData eventData)
+    // {
+    //     base.OnPointerClick(eventData);
+
+    //     SoundManager.PlaySound(SoundType.BUTTON_CLICK);
+    //     DebugLogger.Log("UIButtonWithSound: Button clicked: " + name);
+    // }
 }
