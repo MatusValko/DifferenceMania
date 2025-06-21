@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1197897212081936572}
   - component: {fileID: 1773520737888380775}
   - component: {fileID: 114970572722395991}
-  - component: {fileID: 910373403001085477}
+  - component: {fileID: 7666281290190304615}
   m_Layer: 5
   m_Name: RefillwAD
   m_TagString: Untagged
@@ -78,7 +78,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &910373403001085477
+--- !u!114 &7666281290190304615
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -87,7 +87,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 130118742583292130}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 623d2d308411ce8459b231587950d654, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -567,7 +567,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1648025064962878762
 RectTransform:
   m_ObjectHideFlags: 0
@@ -628,7 +628,7 @@ MonoBehaviour:
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1080, y: 2400}
-  m_ScreenMatchMode: 0
+  m_ScreenMatchMode: 1
   m_MatchWidthOrHeight: 0.463
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
@@ -699,7 +699,7 @@ GameObject:
   - component: {fileID: 5130558543830740169}
   - component: {fileID: 162788885639311172}
   - component: {fileID: 6428965222528941060}
-  - component: {fileID: 6540007035475968556}
+  - component: {fileID: 2162896703162099827}
   m_Layer: 5
   m_Name: QuitButton
   m_TagString: Untagged
@@ -764,7 +764,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &6540007035475968556
+--- !u!114 &2162896703162099827
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -773,7 +773,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5276918510705679609}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 623d2d308411ce8459b231587950d654, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:

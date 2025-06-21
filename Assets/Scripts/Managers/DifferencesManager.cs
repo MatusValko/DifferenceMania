@@ -387,7 +387,12 @@ public class DifferencesManager : MonoBehaviour
                 //play incorrect click sound with 50% lower volume
                 SoundManager.PlaySound(SoundType.GAME_INCORRECT_CLICK, volume: 0.6f);
                 //vibrate the phone
-                Handheld.Vibrate();
+                if (Application.isMobilePlatform)
+                {
+                    Handheld.Vibrate();
+                }
+
+
 
             }
         }

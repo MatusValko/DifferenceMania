@@ -19,7 +19,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4354599314203620280
 RectTransform:
   m_ObjectHideFlags: 0
@@ -61,8 +61,8 @@ Canvas:
   m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
-  m_SortingLayerID: 100181293
-  m_SortingOrder: 0
+  m_SortingLayerID: 521680627
+  m_SortingOrder: 10
   m_TargetDisplay: 0
 --- !u!114 &4049231827576553385
 MonoBehaviour:
@@ -80,7 +80,7 @@ MonoBehaviour:
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1080, y: 2400}
-  m_ScreenMatchMode: 0
+  m_ScreenMatchMode: 1
   m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
@@ -319,8 +319,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: An error occured has occured while registering a new user!
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: a14a6afcb544b924ba8632500f38f5b9, type: 2}
+  m_sharedMaterial: {fileID: 6653310886688823195, guid: a14a6afcb544b924ba8632500f38f5b9, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -479,7 +479,7 @@ GameObject:
   - component: {fileID: 3464150089473016973}
   - component: {fileID: 2788991775031674978}
   - component: {fileID: 690410121217204427}
-  - component: {fileID: 7900630375930922105}
+  - component: {fileID: 3705360827025746123}
   m_Layer: 5
   m_Name: RefillwCoins
   m_TagString: Untagged
@@ -547,7 +547,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7900630375930922105
+--- !u!114 &3705360827025746123
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -556,7 +556,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4598840193274383542}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 623d2d308411ce8459b231587950d654, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -714,7 +714,7 @@ GameObject:
   - component: {fileID: 5463943477805271522}
   - component: {fileID: 1383162545809989352}
   - component: {fileID: 340788730575575719}
-  - component: {fileID: 6997696586034961261}
+  - component: {fileID: 3049008103450003243}
   m_Layer: 5
   m_Name: LogoutButton
   m_TagString: Untagged
@@ -780,7 +780,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &6997696586034961261
+--- !u!114 &3049008103450003243
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -789,7 +789,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5598436900931855674}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 623d2d308411ce8459b231587950d654, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -915,8 +915,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: ERROR!
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8bea1d1c5c28f4343b96717c8f0ccb97, type: 2}
+  m_sharedMaterial: {fileID: 9180668588391565803, guid: 8bea1d1c5c28f4343b96717c8f0ccb97, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -995,7 +995,7 @@ GameObject:
   - component: {fileID: 1134232413056837429}
   - component: {fileID: 443731044001758925}
   - component: {fileID: 8540418398762139042}
-  - component: {fileID: 2204764854911196988}
+  - component: {fileID: 8435690168657536889}
   m_Layer: 5
   m_Name: QuitButton
   m_TagString: Untagged
@@ -1060,7 +1060,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &2204764854911196988
+--- !u!114 &8435690168657536889
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1069,7 +1069,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7342415461953112063}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 623d2d308411ce8459b231587950d654, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:

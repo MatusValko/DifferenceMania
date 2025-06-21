@@ -497,7 +497,7 @@ GameObject:
   - component: {fileID: 4226375419399591546}
   - component: {fileID: 7999789580106025088}
   - component: {fileID: 6155409798319018546}
-  - component: {fileID: 6678860294577328297}
+  - component: {fileID: 6412482354176811401}
   m_Layer: 5
   m_Name: QuitButton
   m_TagString: Untagged
@@ -562,7 +562,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &6678860294577328297
+--- !u!114 &6412482354176811401
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -571,7 +571,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 864858786168453287}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 623d2d308411ce8459b231587950d654, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -1208,7 +1208,7 @@ GameObject:
   - component: {fileID: 6959785809494512526}
   - component: {fileID: 92088101218985947}
   - component: {fileID: 3492408488559724391}
-  - component: {fileID: 8330381199367411783}
+  - component: {fileID: 3633513813389438312}
   m_Layer: 5
   m_Name: RefillwCoins
   m_TagString: Untagged
@@ -1275,7 +1275,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &8330381199367411783
+--- !u!114 &3633513813389438312
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1284,7 +1284,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6516027780621882331}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 623d2d308411ce8459b231587950d654, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -1466,7 +1466,7 @@ GameObject:
   - component: {fileID: 5688487361095207207}
   - component: {fileID: 2079718056024736400}
   - component: {fileID: 6370642657311069093}
-  - component: {fileID: 1944195611288403158}
+  - component: {fileID: 5832239713674417056}
   m_Layer: 5
   m_Name: RefillwAD
   m_TagString: Untagged
@@ -1533,7 +1533,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &1944195611288403158
+--- !u!114 &5832239713674417056
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1542,7 +1542,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7032882570096407851}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 623d2d308411ce8459b231587950d654, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -1595,7 +1595,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2741430364046077604
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1656,7 +1656,7 @@ MonoBehaviour:
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1080, y: 2400}
-  m_ScreenMatchMode: 0
+  m_ScreenMatchMode: 1
   m_MatchWidthOrHeight: 0.8
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96

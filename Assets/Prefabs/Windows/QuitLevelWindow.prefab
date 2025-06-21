@@ -574,7 +574,7 @@ GameObject:
   - component: {fileID: 993634896356064633}
   - component: {fileID: 1520704309646804597}
   - component: {fileID: 7295057050209517975}
-  - component: {fileID: 4443970991147324732}
+  - component: {fileID: 2606579597350091760}
   m_Layer: 5
   m_Name: Quit
   m_TagString: Untagged
@@ -640,7 +640,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4443970991147324732
+--- !u!114 &2606579597350091760
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -649,7 +649,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4596609605520796913}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 623d2d308411ce8459b231587950d654, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -783,7 +783,7 @@ GameObject:
   - component: {fileID: 968202305744414280}
   - component: {fileID: 5007322132881781161}
   - component: {fileID: 6789004855247679514}
-  - component: {fileID: 2162677847587248539}
+  - component: {fileID: 4950352640774868574}
   m_Layer: 5
   m_Name: QuitButton
   m_TagString: Untagged
@@ -848,7 +848,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &2162677847587248539
+--- !u!114 &4950352640774868574
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -857,7 +857,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4652684295752967568}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 623d2d308411ce8459b231587950d654, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -927,7 +927,7 @@ GameObject:
   - component: {fileID: 11161194345892331}
   - component: {fileID: 5368147418347520608}
   - component: {fileID: 1813277442328547877}
-  - component: {fileID: 3754644524528460396}
+  - component: {fileID: 8219340317241474778}
   m_Layer: 5
   m_Name: Continue
   m_TagString: Untagged
@@ -993,7 +993,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &3754644524528460396
+--- !u!114 &8219340317241474778
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1002,7 +1002,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5346347612953952034}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 623d2d308411ce8459b231587950d654, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -1252,7 +1252,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3854801045580975136
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1313,7 +1313,7 @@ MonoBehaviour:
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1080, y: 2400}
-  m_ScreenMatchMode: 0
+  m_ScreenMatchMode: 1
   m_MatchWidthOrHeight: 0.463
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96

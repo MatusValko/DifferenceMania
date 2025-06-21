@@ -209,8 +209,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Select your avatar
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 3aa81c8c0f32b224fb469e9a176e6941, type: 2}
-  m_sharedMaterial: {fileID: 6653310886688823195, guid: 3aa81c8c0f32b224fb469e9a176e6941, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d8d8eb3337f61984987ef85f851a3e0b, type: 2}
+  m_sharedMaterial: {fileID: 6653310886688823195, guid: d8d8eb3337f61984987ef85f851a3e0b, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -420,8 +420,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Save
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: a14a6afcb544b924ba8632500f38f5b9, type: 2}
+  m_sharedMaterial: {fileID: 6653310886688823195, guid: a14a6afcb544b924ba8632500f38f5b9, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -467,7 +467,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_ActiveFontFeatures: 00000000
+  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
@@ -733,7 +733,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3215717803330528968}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -859,7 +859,7 @@ GameObject:
   - component: {fileID: 1007392326441686603}
   - component: {fileID: 6366143514045368497}
   - component: {fileID: 7075589801453294083}
-  - component: {fileID: 7777144792126689432}
+  - component: {fileID: 5543352394673670024}
   m_Layer: 5
   m_Name: QuitButton
   m_TagString: Untagged
@@ -924,7 +924,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7777144792126689432
+--- !u!114 &5543352394673670024
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -933,7 +933,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4277711067224848534}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 623d2d308411ce8459b231587950d654, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -1182,7 +1182,7 @@ GameObject:
   - component: {fileID: 7428091650111423701}
   - component: {fileID: 573892205915802435}
   - component: {fileID: 8662668102313660417}
-  - component: {fileID: 3799875752803658522}
+  - component: {fileID: 1455475696815649030}
   m_Layer: 5
   m_Name: SaveButton
   m_TagString: Untagged
@@ -1248,7 +1248,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &3799875752803658522
+--- !u!114 &1455475696815649030
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1257,7 +1257,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6479464650076764073}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 623d2d308411ce8459b231587950d654, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -1460,7 +1460,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1249299826872168085
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1520,7 +1520,7 @@ MonoBehaviour:
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1080, y: 2400}
-  m_ScreenMatchMode: 0
+  m_ScreenMatchMode: 1
   m_MatchWidthOrHeight: 0.8
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
@@ -1883,7 +1883,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 890, y: 85}
+  m_SizeDelta: {x: 890, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &5561682692151729612
 MonoBehaviour:

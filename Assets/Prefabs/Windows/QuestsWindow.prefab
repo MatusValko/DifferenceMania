@@ -402,7 +402,7 @@ GameObject:
   - component: {fileID: 2431096636721534664}
   - component: {fileID: 8301171182088431651}
   - component: {fileID: 3315098265255809552}
-  - component: {fileID: 1058982670848304357}
+  - component: {fileID: 3655312613216141393}
   m_Layer: 5
   m_Name: Quest
   m_TagString: Untagged
@@ -469,16 +469,16 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &1058982670848304357
+--- !u!114 &3655312613216141393
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 984324617856976582}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 623d2d308411ce8459b231587950d654, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -956,7 +956,7 @@ MonoBehaviour:
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1080, y: 2400}
-  m_ScreenMatchMode: 0
+  m_ScreenMatchMode: 1
   m_MatchWidthOrHeight: 0.8
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
@@ -991,7 +991,7 @@ GameObject:
   - component: {fileID: 5373565914491736597}
   - component: {fileID: 4805527402934583401}
   - component: {fileID: 1004963473764077221}
-  - component: {fileID: 3911838298734656412}
+  - component: {fileID: 7077985742072547542}
   m_Layer: 5
   m_Name: Quest (2)
   m_TagString: Untagged
@@ -1058,16 +1058,16 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &3911838298734656412
+--- !u!114 &7077985742072547542
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2020163563505242890}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 623d2d308411ce8459b231587950d654, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -1672,7 +1672,7 @@ GameObject:
   - component: {fileID: 4737511945013671965}
   - component: {fileID: 4093759546060334460}
   - component: {fileID: 3133650165414352410}
-  - component: {fileID: 4103243786905310620}
+  - component: {fileID: 345314612320113750}
   m_Layer: 5
   m_Name: QuitButton
   m_TagString: Untagged
@@ -1737,7 +1737,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4103243786905310620
+--- !u!114 &345314612320113750
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1746,7 +1746,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3007578598931802434}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 623d2d308411ce8459b231587950d654, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -2241,7 +2241,7 @@ GameObject:
   - component: {fileID: 3279829004044572472}
   - component: {fileID: 5949643327274051011}
   - component: {fileID: 7575668702882350279}
-  - component: {fileID: 7681050176482098589}
+  - component: {fileID: 19446224689784896}
   m_Layer: 5
   m_Name: Quest (1)
   m_TagString: Untagged
@@ -2308,16 +2308,16 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7681050176482098589
+--- !u!114 &19446224689784896
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3750944707883186894}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 623d2d308411ce8459b231587950d654, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -4066,7 +4066,7 @@ GameObject:
   - component: {fileID: 1300951370845020410}
   - component: {fileID: 3943417121503537425}
   - component: {fileID: 7303383520253131132}
-  - component: {fileID: 2866321702679608430}
+  - component: {fileID: 7292182623521884679}
   m_Layer: 5
   m_Name: LOGIN Quest
   m_TagString: Untagged
@@ -4133,16 +4133,16 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &2866321702679608430
+--- !u!114 &7292182623521884679
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7722157534476307961}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 623d2d308411ce8459b231587950d654, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
