@@ -16,19 +16,6 @@ public class Episode : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI BuyEpisodePrice; // Prefab for locked level button
 
-
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
     //set parent of levels Parent to have same height as the parent of the levels
     public void SetLevelsParentHeight(float height)
     {
@@ -44,9 +31,6 @@ public class Episode : MonoBehaviour
         DebugLogger.Log($"Setting levels height to {levelsRT.sizeDelta.y}");
         parentRT.sizeDelta = new Vector2(levelsRT.sizeDelta.x, levelsRT.sizeDelta.y);
     }
-
-
-    //set parent of levels to have same height as levels
 
     //set name
     public void SetName(string name)

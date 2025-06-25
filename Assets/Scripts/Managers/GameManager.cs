@@ -528,7 +528,27 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
     public void LoadLevel(int levelID)
     {
         Instance.SetLevelID(levelID);
+        // // Find ScreenFader in the scene even if it is not active
+        // ScreenFader[] faders = Resources.FindObjectsOfTypeAll<ScreenFader>();
+        // ScreenFader faderObj = null;
+        // foreach (var f in faders)
+        // {
+        //     if (f.gameObject.hideFlags == HideFlags.None)
+        //     {
+        //         faderObj = f;
+        //         break;
+        //     }
+        // }
+        // if (faderObj != null && !faderObj.gameObject.activeInHierarchy)
+        // {
+        //     faderObj.gameObject.SetActive(true);
+        // }
+
         ScreenFader fader = FindFirstObjectByType<ScreenFader>();
+        if (fader == null)
+        {
+            Debug.LogError("ScreenFader not found in the scene.");
+        }
         fader.FadeOut(3);
     }
     public void FadeInLevel()

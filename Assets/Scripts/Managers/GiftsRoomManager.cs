@@ -187,8 +187,8 @@ public class GiftsRoomManager : MonoBehaviour
     //     // ADD COINS
     // }
 
-    //FROM BUTTON
-    private void CollectAllRewards()
+    //FROM BUTTONS
+    public void CollectAllRewardsAndQuit()
     {
         //get all rewards from gift boxes
         // TODO SEND COINS TO GAME MANAGER AND SERVER
@@ -199,8 +199,9 @@ public class GiftsRoomManager : MonoBehaviour
         for (int i = 0; i < FoundCollections; i++)
         {
             // GameManager.Instance.AddCollection(CollectionBestRewardIndex);
-            DebugLogger.Log("Collected collection: " + i);
+            // DebugLogger.Log("Collected collection: " + i);
         }
+        gameObject.SetActive(false);
     }
 
 

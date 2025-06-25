@@ -59,7 +59,14 @@ public class UI_Manager : MonoBehaviour
             {
                 // DebugLogger.Log($"Episode {episodeData.id} unlocked with {GameManager.Instance.GetStarsCollected()} stars");
                 episode.SetLockedTextOff();
-                episode.SetLockedButtonOFF();
+                if (episodeData.unlock_coins == 0)
+                {
+                    episode.SetLockedButtonOFF();
+                }
+                else
+                {
+                    episode.SetLockedButton(episodeData.unlock_coins);
+                }
 
                 foreach (LevelData levelData in episodeData.levels)
                 {
@@ -88,7 +95,8 @@ public class UI_Manager : MonoBehaviour
                 // DebugLogger.Log($"Episode {episodeData.id} locked with {GameManager.Instance.GetStarsCollected()} stars");
                 episode.SetLockedText(GameManager.Instance.GetStarsCollected(), episodeData.unlock_stars);
                 episode.SetLockedTextOn();
-                episode.SetLockedButton(episodeData.unlock_coins);
+                // episode.SetLockedButton(episodeData.unlock_coins);
+                episode.SetLockedButtonOFF();
                 foreach (LevelData levelData in episodeData.levels)
                 {
                     // Create a new button for the level

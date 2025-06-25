@@ -53,7 +53,7 @@ public class Congratulation : MonoBehaviour
 
 
         //AK NEMA GIFT MOZE IST DALEJ/DO MENU INAK DISABLE NA TLACIDLA
-        if (GameManager.Instance.GetCurrentWins() + 1 == GameManager.WINS_NEEDED_TO_GIFT)
+        if (GameManager.Instance.GetCurrentWins() + 1 >= GameManager.WINS_NEEDED_TO_GIFT)
         {
             _levelsButton.interactable = false;
             _levelsButton.GetComponent<TextMeshProUGUI>().color = _disabledColor;
@@ -81,7 +81,7 @@ public class Congratulation : MonoBehaviour
         //Wait for animation
         yield return new WaitForSeconds(1);
 
-        if (GameManager.Instance.GetCurrentWins() == GameManager.WINS_NEEDED_TO_GIFT)
+        if (GameManager.Instance.GetCurrentWins() >= GameManager.WINS_NEEDED_TO_GIFT)
         {
             //play sound
             SoundManager.PlaySound(SoundType.CONGRATULATION_GIFT_UNLOCK);
@@ -149,11 +149,19 @@ public class Congratulation : MonoBehaviour
     //wait for 0.5 seconds and then activate next star
     private IEnumerator _activateStars(int stars)
     {
-        DebugLogger.Log("TU SOMM: " + stars);
+        // DebugLogger.Log("TU SOMM: " + stars);
         for (int i = 0; i < stars; i++)
         {
             _stars[i].SetActive(true);
+            //play particle system
+            ParticleSystem myParticle = _stars[i].GetComponentInChildren<ParticleSystem>();
+            if (myParticle != null)
+            {
+                myParticle.Emit(5);
+
+            }
             yield return new WaitForSeconds(0.5f); // Wait for 0.5 seconds before activating the next star
+            //get particle system from star and play it
         }
     }
 
@@ -171,12 +179,12 @@ public class Congratulation : MonoBehaviour
 
 
         float fillSpeed = 1f;
-        if (_slider.value < currentWins)
+        if (_slider.value < currentWins && _slider.value < _slider.maxValue)
         {
             //play text animation
             _animator.SetTrigger("ProgressCompletedText");
 
-            while (_slider.value < currentWins)
+            while (_slider.value < currentWins && _slider.value < _slider.maxValue)
             {
                 _slider.value += fillSpeed * Time.deltaTime;
                 // DebugLogger.Log(_slider.value);
@@ -188,20 +196,34 @@ public class Congratulation : MonoBehaviour
 
     private IEnumerator _starFallingDown(int stars)
     {
-        yield return new WaitForSeconds(6f);
+        yield return new WaitForSeconds(5f);
         // DebugLogger.Log("Falling down little stars");
         //play sound
         //select random star gameobject from array max is from argument
         GameObject randomStar = _stars[Random.Range(0, stars)];
         ParticleSystem myParticle = randomStar.GetComponentInChildren<ParticleSystem>();
-
-        myParticle.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear); // Optional: clear before replaying
-        var mainModule = myParticle.main;
-        mainModule.maxParticles = 3; // Optional: set max particles if needed
-        myParticle.Play();
+        // var mainModule = myParticle.main;
+        // mainModule.maxParticles = 30; // Set the maximum number of particles to emit
+        myParticle.Emit(3);
 
         // Restart the coroutine for the next star falling animation
         StartCoroutine(_starFallingDown(stars));
+    }
+
+    //FROM BUTON CLICK
+    public void ClickOnStar()
+    {
+        // Play sound when clicking on star
+        // SoundManager.PlaySound(SoundType.CONGRATULATION_STAR_CLICK);
+        //get gameobject that was clicked
+        GameObject clickedStar = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
+        ParticleSystem myParticle = clickedStar.GetComponentInChildren<ParticleSystem>();
+        if (myParticle == null)
+        {
+            DebugLogger.LogError("Particle system not found on the game object.");
+            return;
+        }
+        myParticle.Emit(3); // Emit 3 particles immediately
     }
 
     public void ContinueButton()

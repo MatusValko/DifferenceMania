@@ -214,10 +214,10 @@ public class DifferencesManager : MonoBehaviour
         string token = GameManager.Instance.GetToken();
         if (string.IsNullOrEmpty(token))
         {
-#if UNITY_EDITOR
-            token = "Ay0p5La74VhxJVcjCOA2K1YRWUYZ4ooumTkNs5lN49ca3267";
-            DebugLogger.LogWarning($"Setting up default token for testing in Unity Editor. Token: {token}");
-#endif
+            // #if UNITY_EDITOR
+            //             token = "Ay0p5La74VhxJVcjCOA2K1YRWUYZ4ooumTkNs5lN49ca3267";
+            //             DebugLogger.LogWarning($"Setting up default token for testing in Unity Editor. Token: {token}");
+            // #endif
 
             if (string.IsNullOrEmpty(token))
             {
@@ -477,7 +477,7 @@ public class DifferencesManager : MonoBehaviour
             if (i > _differencesCount)
             {
                 // DebugLogger.Log("Differences: " + _differencesCount);
-                _bottomCircles[i - 1].transform.parent.gameObject.SetActive(false);
+                _bottomCircles[i - 1].transform.parent.parent.gameObject.SetActive(false);
             }
         }
     }
@@ -571,6 +571,8 @@ public class DifferencesManager : MonoBehaviour
 
         //send lelvel won to server
         StartCoroutine(_sendGameWonToServer());
+
+        _playWinAnimation();
 
         //start coroutine to next window, congratulations
         StartCoroutine(_showCongratulation());
@@ -705,6 +707,28 @@ public class DifferencesManager : MonoBehaviour
             GotStarsFromLevel = 0; // Set the number of stars collected
         }
         return GotStarsFromLevel;
+    }
+
+    private void _playWinAnimation()
+    {
+        StartCoroutine(PlayWinAnimationsSequentially());
+    }
+    // Local coroutine to play animations with delay
+    IEnumerator PlayWinAnimationsSequentially()
+    {
+        float totalDuration = 2f;
+        int count = _bottomCircles.Length;
+        float delay = totalDuration / count;
+
+        for (int i = 0; i < count; i++)
+        {
+            var animator = _bottomCircles[i].transform.parent.parent.GetComponent<Animator>();
+            if (animator != null)
+            {
+                animator.SetTrigger("LevelWon");
+            }
+            yield return new WaitForSeconds(delay);
+        }
     }
 
     IEnumerator _showCongratulation()

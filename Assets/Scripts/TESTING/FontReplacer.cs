@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
 using TMPro;
@@ -83,3 +84,4 @@ public class FontReplacer : MonoBehaviour
         Debug.Log($"Updated {count} TMP text components.");
     }
 }
+#endif
