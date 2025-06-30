@@ -109,6 +109,9 @@ public class DifferencesManager : MonoBehaviour
     [SerializeField] private GameObject _congratulationWindow;
     [SerializeField] private GameObject _youLoseWindow;
     [SerializeField] private GameObject _youLosePopUpWindow;
+    [SerializeField] private GameObject _quitWindow;
+
+
 
     [Header("Testing")]
     [SerializeField] private TextMeshProUGUI _levelIDText; // UI Text to display the level ID
@@ -332,12 +335,9 @@ public class DifferencesManager : MonoBehaviour
 
     void Update()
     {
-        if (_isLoaded == false)
-        {
-            return;
-        }
-        if (_isGameOver)
-            return;
+        if (_isLoaded == false) return;
+        if (_isGameOver) return;
+        if (_isPaused) return;
 
         _timeTick();
 
@@ -430,6 +430,18 @@ public class DifferencesManager : MonoBehaviour
         }
     }
 
+    public void OpenQuitLevelWindow()
+    {
+        if (_quitWindow.activeSelf)
+        {
+            // If the quit window is already open, close it
+            return;
+        }
+        _quitWindow.SetActive(true);
+        _quitWindow.GetComponent<Animator>()?.Update(Time.unscaledDeltaTime);
+        TogglePause();
+    }
+
     public void TogglePause()
     {
         if (_isPaused)
@@ -441,10 +453,16 @@ public class DifferencesManager : MonoBehaviour
             _pauseGame();
         }
     }
+    private void _resumeGame()
+    {
+        // Time.timeScale = 1;  // Resume time
+        _isPaused = false;
+        DebugLogger.Log("Game Resumed");
+    }
 
     private void _pauseGame()
     {
-        Time.timeScale = 0;  // Pause time
+        // Time.timeScale = 0;  // Pause time
         _isPaused = true;
         DebugLogger.Log("Game Paused");
     }
@@ -463,12 +481,7 @@ public class DifferencesManager : MonoBehaviour
         _isGameOver = false;
     }
 
-    private void _resumeGame()
-    {
-        Time.timeScale = 1;  // Resume time
-        _isPaused = false;
-        DebugLogger.Log("Game Resumed");
-    }
+
 
     private void _adjustCircles()
     {
