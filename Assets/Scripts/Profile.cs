@@ -11,6 +11,8 @@ public class Profile : MonoBehaviour
     [SerializeField] private GameObject _connectAccount;
     [SerializeField] private GameObject _accountConnected;
     [SerializeField] private Image _avatarImage;
+    [SerializeField] private Image _avatarBackgroundImage;
+
     [SerializeField] private TextMeshProUGUI _userLevelText;
     [SerializeField] private TextMeshProUGUI _userNameText;
     [SerializeField] private TextMeshProUGUI _userProgressSliderText;
@@ -60,7 +62,7 @@ public class Profile : MonoBehaviour
     {
         // Set the avatar image
         _avatarImage.sprite = GameManager.Instance.GetCurrentProfileAvatarSprite();
-
+        _avatarBackgroundImage.sprite = GameManager.Instance.GetProfileBackgroundSprite(GameManager.Instance.GetSelectedPFP());
         // Set the user level text
         _userLevelText.text = $"LVL {GameManager.Instance.GetProfileLevel()}";
 
@@ -92,15 +94,15 @@ public class Profile : MonoBehaviour
         int length = GameManager.Instance.GetAvatarSpritesLength();
         avatars = new ProfileOneAvatarImage[length];
         List<int> unlockedPFP = GameManager.Instance.GetUnlockedPFP();
-
+        int? coinPrice = null; // Flag to determine if the avatar can be bought with coins
         // Create avatar GameObjects and assign sprites
         for (int i = 0; i < length; i++)
         {
             ProfileOneAvatarImage avatar = Instantiate(_oneAvatarPrefab, _contentTransform);
             // avatar.GetComponent<SpriteRenderer>().sprite = avatarSprites[i];
             avatar.SetAvatarImage(GameManager.Instance.GetAvatarSprite(i)); // Set the first avatar as selected and with coins and AD
-
-
+            avatar.SetAvatarBackgroundImage(GameManager.Instance.GetProfileBackgroundSprite(i)); // Set the background image for the avatar
+            avatar.SetAvatarIndex(i + 1); // Set the index of the avatar (1-based index)
             if (unlockedPFP.Contains(i + 1))
             {
                 // If the avatar is unlocked, set it as owned
@@ -119,7 +121,9 @@ public class Profile : MonoBehaviour
                 if (buyWithCoins)
                 {
                     // If the avatar is not unlocked, set it as not selected and with coins
-                    avatar.SetAvatarBuyWCoins(69);
+
+                    coinPrice = 69; // Set the price for the avatar
+                    avatar.SetAvatarBuyWCoins(coinPrice.Value); // Set the avatar to be bought with coins
 
                 }
                 else
@@ -129,7 +133,97 @@ public class Profile : MonoBehaviour
                 }
                 // If the avatar is not unlocked, set it as not selected and without coins and AD
             }
+            //add listener to the avatar image button
+            avatar.GetComponentInChildren<Button>().onClick.AddListener(() => ClickOnAvatarImage(avatar, coinPrice.HasValue ? coinPrice.Value : -1));
             avatars[i] = avatar;
+
+        }
+    }
+
+    //update all avatars
+    // public void UpdateAvatars()
+    // {
+    //     // Clear the content transform
+    //     foreach (ProfileOneAvatarImage avatar in avatars)
+    //     {
+    //         Destroy(child.gameObject);
+    //     }
+    //     // Reinitialize avatars
+    //     _setUpAvatarImages();
+    // }
+
+    public void ClickOnAvatarImage(ProfileOneAvatarImage avatar, int price = -1)
+    {
+        if (avatar == null)
+        {
+            DebugLogger.LogError("Avatar is null");
+            return;
+        }
+        if (avatar.IsSelected())
+        {
+            DebugLogger.Log("Avatar already selected: " + avatar.gameObject.name + "ID: " + avatar.GetAvatarIndex());
+        }
+        else if (avatar.IsOwned())
+        {
+            avatar.SetAvatarToBeSelected();
+            GameManager.Instance.SetSelectedPFP(avatar.GetAvatarIndex());
+            DebugLogger.Log("Avatar selected with index: " + avatar.GetAvatarIndex());
+            _unselectOtherAvatars(avatar);
+            // _setUpDisplayDataAboutAvatar();
+        }
+        else if (avatar.IsBuyWithCoins())
+        {
+            if (price < 0)
+            {
+                DebugLogger.LogError("Price is not set for the avatar: " + avatar.gameObject.name + "ID: " + avatar.GetAvatarIndex());
+                return;
+            }
+            if (GameManager.Instance.HasEnoughCoins(price))
+            {
+                GameManager.Instance.AddCoins(-price); // Deduct the coins from the player's balance
+                GameManager.Instance.SetSelectedPFP(avatar.GetAvatarIndex());
+                avatar.SetAvatarToOwned(); // Set the avatar to owned state
+                avatar.SetAvatarToBeSelected(); // Set the avatar to selected state
+                DebugLogger.Log("Avatar bought with coins: " + avatar.gameObject.name + "ID: " + avatar.GetAvatarIndex());
+                _unselectOtherAvatars(avatar); // Unselect other avatars
+            }
+            else
+            {
+                DebugLogger.Log("Not enough coins to buy the avatar: " + avatar.gameObject.name + "ID: " + avatar.GetAvatarIndex());
+                //play animation
+                // GameManager.Instance.PlayNotEnoughCoinsAnimation();
+            }
+            //TODO BUY WITH COINS
+            // If the avatar is not owned, buy with coins
+        }
+        else if (avatar.IsBuyWithAD())
+        {
+            //TODO BUY WITH AD
+            // GameManager.Instance.BuyAvatarWithAD(gameObject.name);
+        }
+        else
+        {
+            DebugLogger.LogError("Avatar is not owned, not buyable with coins or AD: " + avatar.gameObject.name + "ID: " + avatar.GetAvatarIndex());
+        }
+
+
+        //UPDATE UI
+        _setUpDisplayDataAboutAvatar();
+        StartCoroutine(UI_Manager.Instance.InitializeUI());
+    }
+
+    private void _unselectOtherAvatars(ProfileOneAvatarImage selectedAvatar)
+    {
+        // Unselect all other avatars except the selected one
+        foreach (ProfileOneAvatarImage avatar in avatars)
+        {
+            if (avatar != selectedAvatar && avatar.IsSelected())
+            {
+                if (avatar.IsSelected())
+                {
+                    avatar.SetAvatarToOwned(); // Reset the other avatars to owned state
+                }
+            }
         }
     }
 

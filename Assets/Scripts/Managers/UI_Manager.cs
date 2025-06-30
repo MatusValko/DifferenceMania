@@ -184,7 +184,7 @@ public class UI_Manager : MonoBehaviour
     //     // Return the current profile avatar sprite
     //     return _currentProfileAvatarSprite;
     // }
-    private IEnumerator InitializeUI()
+    public IEnumerator InitializeUI()
     {
         // Wait for GameManager to be ready
         yield return new WaitUntil(() => GameManager.Instance.GetToken() != null && GameManager.Instance.GetToken() != "");

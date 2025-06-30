@@ -220,7 +220,7 @@ public class Login : MonoBehaviour
     public void ChangeNicknameForCoins()
     {
         //najskor pozri na clientovi ci ma 50 coins
-        if (GameManager.Instance.GetCoins() < 50)
+        if (!GameManager.Instance.HasEnoughCoins(50))
         {
             _errorWindow.SetActive(true);
             _errorResponseText.text = $"Not Enough Coins! ({GameManager.Instance.GetCoins()})";

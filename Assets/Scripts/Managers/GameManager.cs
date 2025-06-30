@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -72,8 +73,17 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
 
     [Header("Avatars Data")]
     [SerializeField] private Sprite[] _avatarSprites; // Array to hold avatar sprites
+    [SerializeField] private Sprite[] _avatarBackgroundSprites; // Array to hold avatar sprites
+
     [SerializeField] private List<int> _unlockedPFP;
     [SerializeField] private Sprite _currentProfileAvatarSprite;
+    [SerializeField] private Sprite _currentProfileBackgroundSprite;
+
+    // [SerializeField] private int[] _grayBackgroundIndexes = new int[] { 1, 2, 3, 4, 5,7,8,9,11, }; // Array to hold indexes of gray background sprites
+    [SerializeField] private int[] _greenBackgroundIndexes = new int[] { 6, 10, 13, 17, 22 }; // Array to hold indexes of gray background sprites
+    [SerializeField] private int[] _purpleBackgroundIndexes = new int[] { 14, 23, 20, 25, 24 }; // Array to hold indexes of gray background sprites
+
+
 
 
     private void Awake()
@@ -168,6 +178,32 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
     {
         _coins += coin;
         UI_Manager.Instance.UpdateCoinsUI();
+    }
+    //check if has enough coins to buy something
+    public bool HasEnoughCoins(int price)
+    {
+        if (_coins >= price)
+        {
+            return true;
+        }
+        //play animation
+        if (UI_Manager.Instance == null)
+        {
+            DebugLogger.LogError("UI_Manager is null. Cannot play not enough coins animation.");
+            return false;
+        }
+        //get animator from tag 
+        GameObject animatorObj = GameObject.FindGameObjectWithTag("TopUI");
+        if (animatorObj == null) return false;
+        Animator animator = animatorObj.GetComponent<Animator>();
+        if (animator == null)
+        {
+            DebugLogger.LogError("Animator is null. Cannot play not enough coins animation.");
+            return false;
+        }
+        animator.SetTrigger("NotEnoughCoins");
+        //play animation
+        return false;
     }
     //get hints and time
     public int GetBoostAddTimeCount()
@@ -294,6 +330,7 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
         {
             DebugLogger.LogError("Current profile avatar sprite is not set. Setting Default Avatar.");
             _currentProfileAvatarSprite = _avatarSprites[0]; // Set to default avatar if not set
+            _currentProfileBackgroundSprite = _avatarBackgroundSprites[0]; // Set to default background if not set
             return _currentProfileAvatarSprite;
         }
         // Return the current profile avatar sprite
@@ -383,10 +420,36 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
         if (i >= 0 && i < _avatarSprites.Length)
         {
             _currentProfileAvatarSprite = _avatarSprites[i];
+            // _currentProfileBackgroundSprite = SetCurrentProfileBackgroundSprite(i + 1);
         }
         else
         {
             DebugLogger.LogError("Selected PFP index is out of bounds.");
+        }
+    }
+    public Sprite GetProfileBackgroundSprite(int index)
+    {
+        //0 SELECTED, 1 GRAY, 2 GREEN, 3 PURPLE
+        if (index < 0 || index >= _avatarSprites.Length)
+        {
+            DebugLogger.LogError("Avatar background sprite index is out of bounds.");
+            return null;
+        }
+        if (_greenBackgroundIndexes.Contains(index))
+        {
+            // _currentProfileBackgroundSprite = _avatarBackgroundSprites[1];
+            return _avatarBackgroundSprites[2]; // Set to green background if in green indexes
+        }
+        else if (_purpleBackgroundIndexes.Contains(index))
+        {
+            // _currentProfileBackgroundSprite = _avatarBackgroundSprites[2];
+            return _avatarBackgroundSprites[3]; // Set to purple background if in purple indexes
+        }
+        else
+        {
+            // Default to gray background if not in green or purple indexes
+            // _currentProfileBackgroundSprite = _avatarBackgroundSprites[0];
+            return _avatarBackgroundSprites[1]; // Set to gray background if not in green or purple indexes
         }
     }
     //get avatar sprites length
