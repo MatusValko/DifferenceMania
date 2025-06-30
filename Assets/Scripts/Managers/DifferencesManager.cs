@@ -360,7 +360,7 @@ public class DifferencesManager : MonoBehaviour
             // Clicked outside of a difference
             if (hitCollider == null)
             {
-                DebugLogger.Log("CLICKED OUTSIDE!");
+                // DebugLogger.Log("CLICKED OUTSIDE!");
                 return;
             }
 
@@ -369,7 +369,7 @@ public class DifferencesManager : MonoBehaviour
                 Difference difference = hitCollider.gameObject.GetComponent<Difference>();  // Get the Difference component of the clicked object
                 if (difference != null)
                 {
-                    DebugLogger.Log("CLICKED ON DIFFERENCE!");
+                    // DebugLogger.Log("CLICKED ON DIFFERENCE!");
                     Clicked(difference.id);
                     //play correct click sound
                     SoundManager.PlaySound(SoundType.GAME_CORRECT_CLICK);
@@ -378,7 +378,7 @@ public class DifferencesManager : MonoBehaviour
             }
             else if (hitCollider.gameObject.CompareTag("Image"))
             {
-                DebugLogger.LogWarning("NO DIFFERENCE CLICKED!");
+                // DebugLogger.LogWarning("NO DIFFERENCE CLICKED!");
                 _takeTime();
 
                 // Instantiate the "X" image at the clicked position
@@ -386,13 +386,7 @@ public class DifferencesManager : MonoBehaviour
                 Instantiate(_xImage, position, Quaternion.identity, _secondImage.transform);
                 //play incorrect click sound with 50% lower volume
                 SoundManager.PlaySound(SoundType.GAME_INCORRECT_CLICK, volume: 0.6f);
-                //vibrate the phone
-                if (Application.isMobilePlatform)
-                {
-                    Handheld.Vibrate();
-                }
-
-
+                //TODO vibrate the phone
 
             }
         }

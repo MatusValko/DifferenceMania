@@ -26,6 +26,10 @@ public class OnAnimationEnd : StateMachineBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         // Debug.Log("EXITED");
+        if (GetMoreSlots == null)
+        {
+            return;
+        }
         GetMoreSlots.SetActive(false);
     }
 

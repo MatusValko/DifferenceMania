@@ -10,11 +10,9 @@ public class Level : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI _levelNumberText; // Level number
     //list of stars gameobjects
-    [SerializeField]
-    private GameObject[] _stars; // Stars for the level
+    [SerializeField] private GameObject[] _stars; // Stars for the level
     // Level Button
-    [SerializeField]
-    private Button _levelButton; // Level button
+    [SerializeField] private Button _levelButton; // Level button
 
     //set level number
     public void SetLevelNumber(int levelNumber)
@@ -42,6 +40,24 @@ public class Level : MonoBehaviour
     public void SetOnClickEvent(int levelId)
     {
         _levelButton.onClick.AddListener(() => ClickLevelButton(levelId));
+    }
+
+    public void SetLockedLevelEvent()
+    {
+        _levelButton.onClick.AddListener(() => _showLockedText());
+    }
+
+    private void _showLockedText()
+    {
+        //get level select component
+        UI_Manager UI_Manager = FindFirstObjectByType<UI_Manager>();
+        if (UI_Manager == null)
+        {
+            DebugLogger.LogWarning("UI_Manager NOT found");
+            return;
+        }
+
+        UI_Manager.ShowLockedLevelText();
     }
 
     private void ClickLevelButton(int levelId)

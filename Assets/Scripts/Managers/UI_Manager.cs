@@ -15,6 +15,8 @@ public class UI_Manager : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI _profileLevelText;
     [SerializeField] private Image _profileAvatarImage;
+    [SerializeField] private GameObject _lockedLevelText;
+
 
     // [Header("Avatars Data")]
     // public ProfileOneAvatarImage[] avatars; // Array to hold avatar GameObjects
@@ -85,6 +87,8 @@ public class UI_Manager : MonoBehaviour
                     else
                     {
                         GameObject lockedLevelGO = Instantiate(LockedLevelPrefab);
+                        Level level = lockedLevelGO.GetComponent<Level>();
+                        level.SetLockedLevelEvent();
                         episode.AddLevel(lockedLevelGO);
                     }
 
@@ -100,12 +104,31 @@ public class UI_Manager : MonoBehaviour
                 foreach (LevelData levelData in episodeData.levels)
                 {
                     // Create a new button for the level
-                    GameObject levelGO = Instantiate(LockedLevelPrefab);
-                    episode.AddLevel(levelGO);
+                    GameObject lockedLevelGO = Instantiate(LockedLevelPrefab);
+                    Level level = lockedLevelGO.GetComponent<Level>();
+                    level.SetLockedLevelEvent();
+                    episode.AddLevel(lockedLevelGO);
                 }
             }
         }
 
+    }
+
+    public void ShowLockedLevelText()
+    {
+        // Debug.Log("Showing locked level text");
+        if (_lockedLevelText != null)
+        {
+            // Debug.Log("Locked level text is not null");
+            if (_lockedLevelText.activeSelf)
+            {
+                // Debug.Log("Locked level text is already active");
+                return; // If the text is already active, do nothing
+            }
+            _lockedLevelText.SetActive(true);
+            //set off after 2 seconds
+            // StartCoroutine(HideLockedLevelTextAfterDelay(2.5f));
+        }
     }
 
     public void UpdateRefillLivesUI()

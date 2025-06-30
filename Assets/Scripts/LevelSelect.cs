@@ -9,14 +9,38 @@ public class LevelSelect : MonoBehaviour
     public GameObject LevelSelectWindow;
     public GameObject Content;
 
-    public GameObject EpisodePrefab; // Prefab for the level button
-    public GameObject LevelPrefab; // Prefab for the level button
-    public GameObject LockedLevelPrefab; // Prefab for the level button
+    // [SerializeField] private GameObject _lockedLevelText;
+
+    // public GameObject EpisodePrefab; // Prefab for the level button
+    // public GameObject LevelPrefab; // Prefab for the level button
+    // public GameObject LockedLevelPrefab; // Prefab for the level button
 
     void Awake()
     {
         // StartCoroutine(GenerateLevelsAsync());
     }
+
+    // public void ShowLockedLevelText()
+    // {
+    //     if (_lockedLevelText != null)
+    //     {
+    //         if (_lockedLevelText.activeSelf)
+    //         {
+    //             return; // If the text is already active, do nothing
+    //         }
+    //         _lockedLevelText.SetActive(true);
+    //         //set off after 2 seconds
+    //         StartCoroutine(HideLockedLevelTextAfterDelay(2f));
+    //     }
+    // }
+    // private IEnumerator HideLockedLevelTextAfterDelay(float delay)
+    // {
+    //     yield return new WaitForSeconds(delay);
+    //     if (_lockedLevelText != null)
+    //     {
+    //         _lockedLevelText.SetActive(false);
+    //     }
+    // }
 
 
     //BUTTON CLICK FROM INSPECTOR

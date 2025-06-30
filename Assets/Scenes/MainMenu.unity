@@ -4918,78 +4918,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6457081037072559662, guid: ad7d9f9b1d8ff4643a100ee4bd32bcf3, type: 3}
   m_PrefabInstance: {fileID: 3950987138789453658}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1303488983 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 9152830290809969666, guid: 43081adc715fc624a882ee34b2559395, type: 3}
-  m_PrefabInstance: {fileID: 6300845457089425663}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1303488986 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7887111187156590311, guid: 43081adc715fc624a882ee34b2559395, type: 3}
-  m_PrefabInstance: {fileID: 6300845457089425663}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1303488983}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1303488988
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1303488983}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 623d2d308411ce8459b231587950d654, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Navigation:
-    m_Mode: 3
-    m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_SelectedTrigger: Selected
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 1303488986}
-  m_OnClick:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1916539666}
-        m_TargetAssemblyTypeName: LevelSelect, Assembly-CSharp
-        m_MethodName: ShowHideWindow
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!1 &1398386123
 GameObject:
   m_ObjectHideFlags: 0
@@ -5456,6 +5384,11 @@ MonoBehaviour:
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1770406567015976935, guid: 57a5607dcf08d1a4f849597476444de7, type: 3}
   m_PrefabInstance: {fileID: 5724100552692723884}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1691151493 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3440837724580556753, guid: 43081adc715fc624a882ee34b2559395, type: 3}
+  m_PrefabInstance: {fileID: 6300845457089425663}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1709601171
 GameObject:
@@ -7439,6 +7372,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1937484647}
     - target: {fileID: 6892510075596699173, guid: ffc95f2ba7329654686ae9db39644838, type: 3}
+      propertyPath: _lockedLevelText
+      value: 
+      objectReference: {fileID: 1691151493}
+    - target: {fileID: 6892510075596699173, guid: ffc95f2ba7329654686ae9db39644838, type: 3}
       propertyPath: _refillLivesText
       value: 
       objectReference: {fileID: 2772954311858426737}
@@ -8614,21 +8551,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1558487385181029690, guid: 43081adc715fc624a882ee34b2559395, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3199431882140650774, guid: 43081adc715fc624a882ee34b2559395, type: 3}
-      propertyPath: m_ScreenMatchMode
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3596966563218818336, guid: 43081adc715fc624a882ee34b2559395, type: 3}
       propertyPath: m_Name
       value: LevelSelectWindow
-      objectReference: {fileID: 0}
-    - target: {fileID: 3596966563218818336, guid: 43081adc715fc624a882ee34b2559395, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4827676818545557461, guid: 43081adc715fc624a882ee34b2559395, type: 3}
       propertyPath: m_Pivot.x
@@ -8714,14 +8639,10 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 519420031}
-    m_RemovedComponents:
-    - {fileID: 4727624519599500786, guid: 43081adc715fc624a882ee34b2559395, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 9152830290809969666, guid: 43081adc715fc624a882ee34b2559395, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1303488988}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 43081adc715fc624a882ee34b2559395, type: 3}
 --- !u!1001 &6303322943522326993
 PrefabInstance:

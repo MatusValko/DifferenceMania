@@ -151,6 +151,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _levelNumberText: {fileID: 0}
+  _stars: []
+  _levelButton: {fileID: 4546535040241576571}
 --- !u!1 &9029001776915711233
 GameObject:
   m_ObjectHideFlags: 0
