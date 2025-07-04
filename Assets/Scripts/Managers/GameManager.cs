@@ -67,9 +67,10 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
     // private string _password;
 
     [Header("Level data")]
-    [SerializeField]
-    private List<EpisodeData> _episodes;
+    [SerializeField] private List<EpisodeData> _episodes;
     [SerializeField] private int _levelID = 1;
+    [SerializeField] private bool _showLevelsAfterPlaying = false;
+
 
     [Header("Avatars Data")]
     [SerializeField] private Sprite[] _avatarSprites; // Array to hold avatar sprites
@@ -523,6 +524,20 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
         SetToken(null);
         SetNickname(null);
     }
+    public void SetShowLevelsAfterPlaying(bool showLevels)
+    {
+        _showLevelsAfterPlaying = showLevels;
+    }
+
+    public bool ShowLevelsAfterPlaying()
+    {
+        if (_showLevelsAfterPlaying)
+        {
+            _showLevelsAfterPlaying = false;
+            return true;
+        }
+        return false;
+    }
 
     public void LoadData(GameData gameData)
     {
@@ -591,22 +606,6 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
     public void LoadLevel(int levelID)
     {
         Instance.SetLevelID(levelID);
-        // // Find ScreenFader in the scene even if it is not active
-        // ScreenFader[] faders = Resources.FindObjectsOfTypeAll<ScreenFader>();
-        // ScreenFader faderObj = null;
-        // foreach (var f in faders)
-        // {
-        //     if (f.gameObject.hideFlags == HideFlags.None)
-        //     {
-        //         faderObj = f;
-        //         break;
-        //     }
-        // }
-        // if (faderObj != null && !faderObj.gameObject.activeInHierarchy)
-        // {
-        //     faderObj.gameObject.SetActive(true);
-        // }
-
         ScreenFader fader = FindFirstObjectByType<ScreenFader>();
         if (fader == null)
         {
@@ -630,6 +629,17 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
     {
         ScreenFader fader = FindFirstObjectByType<ScreenFader>();
         fader.FadeOut(1);
+    }
+
+    public void SetFadeToActive()
+    {
+        ScreenFader fader = FindFirstObjectByType<ScreenFader>();
+        if (fader == null)
+        {
+            Debug.LogError("ScreenFader not found in the scene.");
+            return;
+        }
+        fader.SetToBlackScreen();
     }
 
 }

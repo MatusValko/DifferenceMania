@@ -237,6 +237,7 @@ public class Congratulation : MonoBehaviour
     {
         // Load main menu scene asynchronously and fetch level data, when done, load main menu
         StartCoroutine(_fetchLevelData());
+        GameManager.Instance.SetShowLevelsAfterPlaying(true); // Reset level ID to 1 when going back to main menu
         SceneManager.LoadSceneAsync("MainMenu");
     }
 

@@ -28,6 +28,7 @@ public class Profile : MonoBehaviour
 
     [SerializeField] private ProfileOneAvatarImage _oneAvatarPrefab; // Index of the currently selected avatar
     [SerializeField] private Transform _contentTransform; // Transform for the content area where avatars will be instantiated
+    [SerializeField] private Canvas _coinsCanvas; // Button to open the avatar selection window
 
     void OnEnable()
     {
@@ -234,5 +235,15 @@ public class Profile : MonoBehaviour
     {
         _selectAvatarWindow.SetActive(true);
         _contentTransform.position = new Vector3(transform.position.x, 0f, transform.position.z);
+        //set sorting layer ID for the coins canvas to POPUP WINDOW
+        _coinsCanvas.sortingLayerName = "PopUpWindow"; // Set the sorting layer of
+        _coinsCanvas.sortingOrder = 1; // Set the order in layer of the
+    }
+    //BUTTON CLICK TO CLOSE THE AVATAR SELECT WINDOW
+    public void HideAvatarSelectWindow()
+    {
+        _selectAvatarWindow.SetActive(false);
+        _coinsCanvas.sortingLayerName = "TopBar"; // Reset the sorting layer of the coins canvas
+        _coinsCanvas.sortingOrder = 0; // Reset the order in layer of the coins canvas
     }
 }

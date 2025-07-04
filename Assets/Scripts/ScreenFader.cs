@@ -50,4 +50,9 @@ public class ScreenFader : MonoBehaviour
         fadeGroup.alpha = 1;
         SceneManager.LoadScene(scene);
     }
+
+    public void SetToBlackScreen()
+    {
+        fadeGroup.alpha = 1;
+    }
 }

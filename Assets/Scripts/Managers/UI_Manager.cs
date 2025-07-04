@@ -16,6 +16,7 @@ public class UI_Manager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _profileLevelText;
     [SerializeField] private Image _profileAvatarImage;
     [SerializeField] private GameObject _lockedLevelText;
+    [SerializeField] private GameObject _levelSelectWindow;
 
 
     // [Header("Avatars Data")]
@@ -210,16 +211,24 @@ public class UI_Manager : MonoBehaviour
 
     void Start()
     {
+        GameManager.Instance.SetFadeToActive(); // Reset level ID to 1 when going back to main menu
+        if (GameManager.Instance.ShowLevelsAfterPlaying()) _levelSelectWindow.SetActive(true);
         StartCoroutine(InitializeUI());
-        StartCoroutine(GenerateLevelsAsync());
+        //wait until levels are generated through GenerateLevelsAsync()
+        StartCoroutine(WaitForLevelsGenerated());
+        // StartCoroutine(GenerateLevelsAsync());
+        // SoundManager.PlayThemeSound(SoundType.MAIN_MENU_THEME, 0.7f); //IF QUICKLY LOADED THIS WILL MAKE SURE THE MUSIC IS PLAYING
+    }
+
+    private IEnumerator WaitForLevelsGenerated()
+    {
+        yield return StartCoroutine(GenerateLevelsAsync());
         GameManager.Instance.FadeInLevel();
-        SoundManager.PlayThemeSound(SoundType.MAIN_MENU_THEME, 0.7f); //IF QUICKLY LOADED THIS WILL MAKE SURE THE MUSIC IS PLAYING
     }
 
     //on enable
     private void OnEnable()
     {
         InitializeUI();
-
     }
 }
