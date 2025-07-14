@@ -8,6 +8,7 @@ TagManager:
   - Image
   - Difference
   - TopUI
+  - NoAnimation
   layers:
   - Default
   - TransparentFX

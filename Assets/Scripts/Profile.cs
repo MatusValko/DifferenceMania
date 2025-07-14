@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -35,6 +36,47 @@ public class Profile : MonoBehaviour
         _showAccountConnectedOrConnectAccount();
         _setUpAvatarImages();
         _setUpDisplayDataAboutAvatar();
+        // _resetAnimationOnButtons();
+        // StartCoroutine(_resetAnimationOnButtons());
+        // ForceRefreshButtonStates();
+    }
+
+
+
+    // private void _resetAnimationOnButtons()
+    // {
+    //     foreach (var animator in GetComponentsInChildren<Animator>())
+    //     {
+    //         animator.keepAnimatorStateOnDisable = true;
+    //         animator.Rebind();
+    //         animator.Update(0f);
+    //         DebugLogger.Log(animator.name);
+    //     }
+    // }
+
+    // private IEnumerator _resetAnimationOnButtons()
+    // {
+    //     yield return null; // Wait one frame
+
+    //     foreach (var animator in GetComponentsInChildren<Animator>(true))
+    //     {
+    //         // animator.Rebind();
+    //         // animator.Update(0f);
+    //         //enabling keepAnimatorControllerStateOnDisable
+    //         animator.keepAnimatorStateOnDisable = true;
+    //         DebugLogger.Log(animator.name);
+
+    //     }
+    // }
+
+    public void ForceRefreshButtonStates()
+    {
+        foreach (var button in GetComponentsInChildren<UIButtonWithSound>(true))
+        {
+            // ExecuteEvents.Execute<IPointerExitHandler>(button.gameObject, new PointerEventData(EventSystem.current), ExecuteEvents.pointerExitHandler);
+            // ExecuteEvents.Execute<IPointerEnterHandler>(button.gameObject, new PointerEventData(EventSystem.current), ExecuteEvents.pointerEnterHandler);
+            DebugLogger.Log(button.name);
+        }
     }
 
     private void _showAccountConnectedOrConnectAccount()

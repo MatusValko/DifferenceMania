@@ -58,7 +58,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -415,15 +415,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 976810966875324719, guid: da610e37c728d964f9bf9d9e546a87e6, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 130.49
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 976810966875324719, guid: da610e37c728d964f9bf9d9e546a87e6, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 106.1625
+      value: 111.412506
       objectReference: {fileID: 0}
     - target: {fileID: 976810966875324719, guid: da610e37c728d964f9bf9d9e546a87e6, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -11.940001
+      value: -3.4049988
       objectReference: {fileID: 0}
     - target: {fileID: 2955656943831882936, guid: da610e37c728d964f9bf9d9e546a87e6, type: 3}
       propertyPath: m_SizeDelta.x
@@ -504,6 +504,14 @@ PrefabInstance:
     - target: {fileID: 6590115787520999016, guid: da610e37c728d964f9bf9d9e546a87e6, type: 3}
       propertyPath: m_SizeDelta.y
       value: 418
+      objectReference: {fileID: 0}
+    - target: {fileID: 6590115787520999016, guid: da610e37c728d964f9bf9d9e546a87e6, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6590115787520999016, guid: da610e37c728d964f9bf9d9e546a87e6, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 6590115787520999016, guid: da610e37c728d964f9bf9d9e546a87e6, type: 3}
       propertyPath: m_LocalPosition.x

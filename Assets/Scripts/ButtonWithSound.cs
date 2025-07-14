@@ -18,6 +18,27 @@ public class UIButtonWithSound : Button
         SoundManager.PlaySound(SoundType.BUTTON_CLICK);
         // DebugLogger.Log("UIButtonWithSound: Button clicked: " + name);
     }
+
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+        // DebugLogger.Log("ONenable");
+        Animator animator = GetComponent<Animator>();
+        if (animator != null)
+        {
+            // if (CompareTag("NoAnimation"))
+            // {
+            //     DebugLogger.Log("NoAnimation");
+            //     return;
+            // }
+            animator.keepAnimatorStateOnDisable = true;
+            animator.Rebind();
+            animator.Update(0f);
+        }
+    }
+
+
+
     // protected override void Start()
     // {
     //     base.Start();

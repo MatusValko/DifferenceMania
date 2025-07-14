@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 3793721002357212503}
   - component: {fileID: 6991254679110212525}
   - component: {fileID: 6588049040962879775}
-  - component: {fileID: 4706763379848177586}
+  - component: {fileID: 6854581807725354503}
+  - component: {fileID: 1139427862750071486}
   m_Layer: 5
   m_Name: QuitButton
   m_TagString: Untagged
@@ -76,7 +77,29 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4706763379848177586
+--- !u!95 &6854581807725354503
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 144541043491318666}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: fb32d159bfd756244902900c3fd7927a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1139427862750071486
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -95,7 +118,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 3
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -331,7 +354,7 @@ GameObject:
   - component: {fileID: 5872985378546251048}
   - component: {fileID: 568777696951515833}
   - component: {fileID: 2298483785616300722}
-  - component: {fileID: 744501668641801177}
+  - component: {fileID: 638439537617454456}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -397,7 +420,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &744501668641801177
+--- !u!114 &638439537617454456
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1140,7 +1163,7 @@ GameObject:
   - component: {fileID: 8928670093766059876}
   - component: {fileID: 1591463014149250807}
   - component: {fileID: 6647903490304240299}
-  - component: {fileID: 8696013860788739416}
+  - component: {fileID: 2669421271164583397}
   m_Layer: 5
   m_Name: Icon
   m_TagString: Untagged
@@ -1205,7 +1228,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &8696013860788739416
+--- !u!114 &2669421271164583397
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2704,7 +2727,7 @@ GameObject:
   - component: {fileID: 1726175581275314503}
   - component: {fileID: 8058157918071638156}
   - component: {fileID: 698819430799495297}
-  - component: {fileID: 5129264384948991805}
+  - component: {fileID: 6456434922283914880}
   m_Layer: 5
   m_Name: Icon
   m_TagString: Untagged
@@ -2769,7 +2792,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &5129264384948991805
+--- !u!114 &6456434922283914880
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2916,7 +2939,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2885293676624231817
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3060,7 +3083,7 @@ GameObject:
   - component: {fileID: 5376406159693974276}
   - component: {fileID: 2104149534727763831}
   - component: {fileID: 3447461952437319348}
-  - component: {fileID: 8077362467724793944}
+  - component: {fileID: 4378058137373274886}
   m_Layer: 5
   m_Name: Icon
   m_TagString: Untagged
@@ -3125,7 +3148,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &8077362467724793944
+--- !u!114 &4378058137373274886
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3180,7 +3203,7 @@ GameObject:
   - component: {fileID: 4369113637675095102}
   - component: {fileID: 4113450098741945655}
   - component: {fileID: 1003663969288343336}
-  - component: {fileID: 6901281387469965697}
+  - component: {fileID: 2902170041547414296}
   m_Layer: 5
   m_Name: Icon
   m_TagString: Untagged
@@ -3245,7 +3268,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &6901281387469965697
+--- !u!114 &2902170041547414296
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3591,7 +3614,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4659151179538719135, guid: bc66cce4b792a4640b9e0c73f4bd4d52, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5541900586433010499, guid: bc66cce4b792a4640b9e0c73f4bd4d52, type: 3}
       propertyPath: m_Pivot.x
@@ -3904,7 +3927,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4543119410728397787, guid: 1acc3a65665b44644be8b78148c7a890, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5095172841089168525, guid: 1acc3a65665b44644be8b78148c7a890, type: 3}
       propertyPath: m_FillRect
