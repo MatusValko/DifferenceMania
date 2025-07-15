@@ -1,13 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class LevelSelect : MonoBehaviour
 {
     public GameObject LevelSelectWindow;
     public GameObject Content;
+    public UI_Manager UI_Manager;
 
     // [SerializeField] private GameObject _lockedLevelText;
 
@@ -15,33 +12,10 @@ public class LevelSelect : MonoBehaviour
     // public GameObject LevelPrefab; // Prefab for the level button
     // public GameObject LockedLevelPrefab; // Prefab for the level button
 
-    void Awake()
+    public void OnEnable()
     {
-        // StartCoroutine(GenerateLevelsAsync());
+        UI_Manager.ResetLockedLevelText();
     }
-
-    // public void ShowLockedLevelText()
-    // {
-    //     if (_lockedLevelText != null)
-    //     {
-    //         if (_lockedLevelText.activeSelf)
-    //         {
-    //             return; // If the text is already active, do nothing
-    //         }
-    //         _lockedLevelText.SetActive(true);
-    //         //set off after 2 seconds
-    //         StartCoroutine(HideLockedLevelTextAfterDelay(2f));
-    //     }
-    // }
-    // private IEnumerator HideLockedLevelTextAfterDelay(float delay)
-    // {
-    //     yield return new WaitForSeconds(delay);
-    //     if (_lockedLevelText != null)
-    //     {
-    //         _lockedLevelText.SetActive(false);
-    //     }
-    // }
-
 
     //BUTTON CLICK FROM INSPECTOR
     public void ShowHideWindow()

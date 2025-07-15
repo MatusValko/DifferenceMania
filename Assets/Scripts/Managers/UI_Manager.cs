@@ -132,6 +132,16 @@ public class UI_Manager : MonoBehaviour
         }
     }
 
+    public void ResetLockedLevelText()
+    {
+        if (!_lockedLevelText.activeSelf)
+        {
+            return;
+        }
+        _lockedLevelText.GetComponent<Animator>().Play("Default");
+        _lockedLevelText.SetActive(false);
+    }
+
     public void UpdateRefillLivesUI()
     {
         if (_refillLivesText != null)

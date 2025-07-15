@@ -53,7 +53,7 @@ public class Level : MonoBehaviour
         UI_Manager UI_Manager = FindFirstObjectByType<UI_Manager>();
         if (UI_Manager == null)
         {
-            DebugLogger.LogWarning("UI_Manager NOT found");
+            DebugLogger.LogError("UI_Manager NOT found");
             return;
         }
 
