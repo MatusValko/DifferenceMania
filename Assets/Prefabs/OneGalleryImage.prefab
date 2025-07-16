@@ -170,6 +170,7 @@ MonoBehaviour:
   material_06f: {fileID: 2100000, guid: eece336b5073566489d7ca9eeb90273a, type: 2}
   material_1f: {fileID: 2100000, guid: 191f2877a04ab02408e409c44b2f1d17, type: 2}
   _unlockedImage: {fileID: 8866573817393558063}
+  _lockedImage: {fileID: 5348884460555498366}
 --- !u!1 &6855746564710379604
 GameObject:
   m_ObjectHideFlags: 0

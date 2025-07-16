@@ -84,6 +84,10 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
     [SerializeField] private int[] _greenBackgroundIndexes = new int[] { 6, 10, 13, 17, 22 }; // Array to hold indexes of gray background sprites
     [SerializeField] private int[] _purpleBackgroundIndexes = new int[] { 14, 23, 20, 25, 24 }; // Array to hold indexes of gray background sprites
 
+    [Header("Collection Data")]
+    [SerializeField] private Sprite[] _collectionItemSprites;
+    [SerializeField] private Sprite[] _collectionItemSpritesBLACKnWHITE;
+
 
 
 
@@ -226,6 +230,14 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
         _episodes = episodes;
     }
 
+    public Sprite[] GetCollectionItemSprites()
+    {
+        return _collectionItemSprites;
+    }
+    public Sprite[] GetCollectionItemSpritesBlacknWhite()
+    {
+        return _collectionItemSpritesBLACKnWHITE;
+    }
     //set level id
     public void SetLevelID(int levelID)
     {

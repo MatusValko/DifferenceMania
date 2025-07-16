@@ -15,17 +15,13 @@ public class IndependentImageReveal : MonoBehaviour
     [SerializeField] private Material material_06f;
     [SerializeField] private Material material_1f;
     [SerializeField] private Image _unlockedImage;
+    [SerializeField] private Image _lockedImage;
+
 
     void OnEnable()
     {
         _pickRandomMaterial();
     }
-
-    void Awake()
-    {
-
-    }
-
     private void _pickRandomMaterial()
     {
         // Pick a random material for the shader
@@ -49,12 +45,10 @@ public class IndependentImageReveal : MonoBehaviour
         _unlockedImage.material = materialInstance;
     }
 
-    void Update()
+    public void SetImage(Sprite unlocked, Sprite locked)
     {
-        // Set the progress value for this object
-        // propertyBlock.SetFloat("_Progress", progress);
-        // materialInstance.SetFloat("_Progress", progress);
-        // Apply the property block to the object's renderer
-        // objectRenderer.SetPropertyBlock(propertyBlock);
+        _lockedImage.sprite = locked;
+        _unlockedImage.sprite = unlocked;
+        _lockedImage.SetNativeSize();
     }
 }

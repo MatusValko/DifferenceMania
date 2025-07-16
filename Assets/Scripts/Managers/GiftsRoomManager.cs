@@ -33,7 +33,7 @@ public class GiftsRoomManager : MonoBehaviour
     //(array)list for all gift animators
     [SerializeField] private List<Animator> _giftAnimators = new List<Animator>();
 
-    [SerializeField] private Sprite[] _collectionItemSprites;
+    private Sprite[] _collectionItemSprites; // GET FROM GAMEMANAGER
 
     void Start()
     {
@@ -60,6 +60,7 @@ public class GiftsRoomManager : MonoBehaviour
             return;
         }
 
+        _collectionItemSprites = GameManager.Instance.GetCollectionItemSprites();
         //Select random sprite from collection item sprites
         CollectionBestRewardIndex = Random.Range(0, _collectionItemSprites.Length);
         Sprite bestRewardSprite = _collectionItemSprites[CollectionBestRewardIndex];
