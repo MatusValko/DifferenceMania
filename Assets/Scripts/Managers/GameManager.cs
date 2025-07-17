@@ -622,6 +622,7 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
         if (fader == null)
         {
             Debug.LogError("ScreenFader not found in the scene.");
+            return;
         }
         fader.FadeOut(3);
     }
