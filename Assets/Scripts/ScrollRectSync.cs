@@ -1,13 +1,17 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class BidirectionalScrollSync : MonoBehaviour
+public class SmartBidirectionalScrollSync : MonoBehaviour
 {
     public ScrollRect scrollRectA;
     public ScrollRect scrollRectB;
 
-    private bool isSyncingA = false;
-    private bool isSyncingB = false;
+    private bool syncing = false;
+    private bool userIsDraggingA = false;
+    private bool userIsDraggingB = false;
+
+    private bool _isZooming = false;
 
     void Start()
     {
@@ -15,21 +19,37 @@ public class BidirectionalScrollSync : MonoBehaviour
         scrollRectB.onValueChanged.AddListener(OnScrollB);
     }
 
+    void Update()
+    {
+        userIsDraggingA = IsDragging(scrollRectA);
+        userIsDraggingB = IsDragging(scrollRectB);
+    }
+
+    bool IsDragging(ScrollRect scrollRect)
+    {
+        return scrollRect != null &&
+               scrollRect.IsActive() &&
+                  scrollRect.velocity != Vector2.zero &&
+               Input.GetMouseButton(0); // works for both mouse & touch
+    }
+
     void OnScrollA(Vector2 pos)
     {
-        if (isSyncingA) return;
+        _isZooming = DifferencesManager.Instance.IsZooming;
+        if (_isZooming || syncing || !userIsDraggingA) return;
 
-        isSyncingB = true;
+        syncing = true;
         scrollRectB.normalizedPosition = pos;
-        isSyncingB = false;
+        syncing = false;
     }
 
     void OnScrollB(Vector2 pos)
     {
-        if (isSyncingB) return;
+        _isZooming = DifferencesManager.Instance.IsZooming;
+        if (_isZooming || syncing || !userIsDraggingB) return;
 
-        isSyncingA = true;
+        syncing = true;
         scrollRectA.normalizedPosition = pos;
-        isSyncingA = false;
+        syncing = false;
     }
 }

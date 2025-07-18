@@ -9,6 +9,8 @@ TagManager:
   - Difference
   - TopUI
   - NoAnimation
+  - Image1Border
+  - Image2Border
   layers:
   - Default
   - TransparentFX

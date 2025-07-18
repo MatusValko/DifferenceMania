@@ -92,17 +92,6 @@ public class DifferencesManager : MonoBehaviour
     [SerializeField] private GameObject _secondImage;
 
     [SerializeField] private GameObject _foundCircle;
-
-    [SerializeField] private float zoomSpeed = 0.0001f;
-
-    [SerializeField] private float maxZoom = 8;
-    [SerializeField] private float minZoom = 1;
-
-    // [SerializeField] private float _timePerDifference = 20f; // Time allocated per difference (in seconds)
-
-
-
-
     [SerializeField] private float _totalTime; // Total countdown time
     [SerializeField] private bool _isPaused = false;
     private bool _isGameOver = false;
@@ -149,8 +138,23 @@ public class DifferencesManager : MonoBehaviour
     [SerializeField] private GameObject _errorWindow;
     [SerializeField] private TextMeshProUGUI _errorText;
 
+    [Header("Scroll Rect")]
+    [SerializeField] private ScrollRect _scrollRect1;
+    [SerializeField] private ScrollRect _scrollRect2;
 
 
+    [Header("Mobile Input")]
+    private Vector2 _startPos;
+    private float _startTime;
+    private bool _isDragging = false;
+
+    [SerializeField] private float _clickTimeThreshold = 0.2f; // seconds
+    [SerializeField] private float _moveThreshold = 10f; // pixels
+    [SerializeField] private float _smoothSpeed = 0.1f; // Higher = faster zooming, lower = smoother
+    [SerializeField] private float zoomSpeed = 0.02f;
+
+    [SerializeField] private float maxZoom = 8;
+    [SerializeField] private float minZoom = 1;
 
     private void Awake()
     {
@@ -216,9 +220,6 @@ public class DifferencesManager : MonoBehaviour
 
     IEnumerator SetUpGame(int levelId)
     {
-        //for zooming on mobile
-        targetScale = transform.localScale;
-
         string url = GameManager.Instance.GetLevelDataURL(levelId);
 
         UnityWebRequest request = UnityWebRequest.Get(url);
@@ -350,8 +351,8 @@ public class DifferencesManager : MonoBehaviour
 
         _timeTick();
 
-        // Detect background clicks
         _mobileInput();
+        // _handleScrollRects();
         // _click();
     }
 
@@ -361,82 +362,202 @@ public class DifferencesManager : MonoBehaviour
         {
             return;
         }
-        // if (Input.GetMouseButtonDown(0))
-        // {
-        // Vector2 mousePosition = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
-        Collider2D hitCollider = Physics2D.OverlapPoint(mousePosition);
-
-        // Clicked outside of a difference
+        Collider2D[] hitCollider = Physics2D.OverlapPointAll(mousePosition);
         if (hitCollider == null)
         {
             DebugLogger.Log("CLICKED OUTSIDE!");
             return;
         }
+        bool inImage1Border = false;
+        bool inImage2Border = false;
+        Difference difference = null;
 
-        if (hitCollider.gameObject.CompareTag("Difference"))
+        bool clickedOnDifference = false;
+        foreach (Collider2D hit in hitCollider)
         {
-            Difference difference = hitCollider.gameObject.GetComponent<Difference>();  // Get the Difference component of the clicked object
-            if (difference != null)
+            if (hit.CompareTag("Image1Border"))
             {
-                // DebugLogger.Log("CLICKED ON DIFFERENCE!");
+                inImage1Border = true;
+                DebugLogger.Log("inImage1Border = true");
+            }
+            else if (hit.CompareTag("Image2Border"))
+            {
+                inImage2Border = true;
+                DebugLogger.Log("inImage2Border = true");
+
+            }
+            else if (hit.CompareTag("Difference"))
+            {
+                clickedOnDifference = true;
+                difference = hit.GetComponent<Difference>();  // Get the Difference component of the clicked object
+                DebugLogger.Log("clickedOnDifference = true");
+
+            }
+
+        }
+        if (!inImage1Border && !inImage2Border)
+        {
+            DebugLogger.Log("CLICKED OUTSIDE!");
+            return;
+        }
+        else if (!clickedOnDifference)
+        {
+            if (inImage1Border) _incorrectClick(mousePosition, true);
+            else if (inImage2Border) _incorrectClick(mousePosition, false);
+            return; // Exit if no difference was clicked
+        }
+        else if (clickedOnDifference)
+        {
+            //ak difference ma parent 1 a klikol som aj na border 1 tak 
+            if (difference == null)
+            {
+                DebugLogger.LogError("Difference component is null!");
+                return;
+            }
+            if (inImage1Border && difference.transform.parent.name == "Image1")
+            {
+                DebugLogger.Log("CLICKED ON DIFFERENCE IN IMAGE 1!");
                 Clicked(difference.id);
                 //play correct click sound
                 SoundManager.PlaySound(SoundType.GAME_CORRECT_CLICK);
-
             }
-        }
-        else if (hitCollider.gameObject.CompareTag("Image"))
-        {
-            // DebugLogger.LogWarning("NO DIFFERENCE CLICKED!");
-            _takeTime();
-
-            // Instantiate the "X" image at the clicked position
-            Vector3 position = new Vector3(mousePosition.x, mousePosition.y, 0);
-            // Quaternion rotation = Quaternion.identity; //OLD
-            Quaternion rotation = Quaternion.Euler(0f, 0f, 0f);
-            if (hitCollider.gameObject.name == "Image1")
+            else if (inImage2Border && difference.transform.parent.name == "Image2")
             {
-                Instantiate(_xImage, position, rotation, _firstImage.transform);
+                DebugLogger.Log("CLICKED ON DIFFERENCE IN IMAGE 2!");
+                Clicked(difference.id);
+                //play correct click sound
+                SoundManager.PlaySound(SoundType.GAME_CORRECT_CLICK);
             }
             else
             {
-                Instantiate(_xImage, position, rotation, _secondImage.transform);
-            }
-            //play incorrect click sound with 50% lower volume
-            SoundManager.PlaySound(SoundType.GAME_INCORRECT_CLICK, volume: 0.6f);
-            //TODO vibrate the phone
+                DebugLogger.LogWarning("Clicked on difference but not in the correct image border!");
+                if (inImage1Border)
+                {
+                    _incorrectClick(mousePosition, true);
 
+                }
+                else if (inImage2Border)
+                {
+                    _incorrectClick(mousePosition, false);
+
+                }
+            }
+
+
+
+
+
+            // bool firstImageIntesected = false;
+            // bool secondImageIntesected = false;
+
+            // Collider2D[] hitAllColliders = Physics2D.OverlapPointAll(mousePosition);
+            // foreach (Collider2D hit in hitAllColliders)
+            // {
+            //     DebugLogger.Log("Overlapping: " + hit.name);
+            //     if (hit.CompareTag("Image1Border"))
+            //     {
+            //         firstImageIntesected = true;
+            //         DebugLogger.Log("Intersected 1 Image Border");
+            //     }
+            //     else if (hit.CompareTag("Image2Border"))
+            //     {
+            //         secondImageIntesected = true;
+            //         DebugLogger.Log("Intersected 2 Image Border");
+            //     }
+
+
+            // }
+
+
+            // Difference difference = hitCollider.gameObject.GetComponent<Difference>();  // Get the Difference component of the clicked object
+            // if (difference != null)
+            // {
+            //     // DebugLogger.Log("CLICKED ON DIFFERENCE!");
+            //     Clicked(difference.id);
+            //     //play correct click sound
+            //     SoundManager.PlaySound(SoundType.GAME_CORRECT_CLICK);
+
+            // }
         }
+        // else if (hitCollider.gameObject.CompareTag("Image"))
+        // {
+        //     // DebugLogger.LogWarning("NO DIFFERENCE CLICKED!");
+        //     _takeTime();
+
+        //     // Instantiate the "X" image at the clicked position
+        //     Vector3 position = new Vector3(mousePosition.x, mousePosition.y, 0);
+        //     // Quaternion rotation = Quaternion.identity; //OLD
+        //     Quaternion rotation = Quaternion.Euler(0f, 0f, 0f);
+        //     if (hitCollider.gameObject.name == "Image1")
+        //     {
+        //         Instantiate(_xImage, position, rotation, _firstImage.transform);
+        //     }
+        //     else
+        //     {
+        //         Instantiate(_xImage, position, rotation, _secondImage.transform);
+        //     }
+        //     //play incorrect click sound with 50% lower volume
+        //     SoundManager.PlaySound(SoundType.GAME_INCORRECT_CLICK, volume: 0.6f);
+        //     //TODO vibrate the phone
+
+        // }
         // }
     }
 
-    private Vector2 _startPos;
-    private float _startTime;
-    private bool _isDragging = false;
-    private Vector3 targetScale;
-
-    [SerializeField] private float clickTimeThreshold = 0.2f; // seconds
-    [SerializeField] private float moveThreshold = 10f; // pixels
-    public float smoothSpeed = 30f; // Higher = faster zooming, lower = smoother
-    private Vector3 ClampScale(Vector3 scale, float min, float max)
+    private void _incorrectClick(Vector2 mousePosition, bool inImage1Border)
     {
-        float clampedX = Mathf.Clamp(scale.x, min, max);
-        float clampedY = Mathf.Clamp(scale.y, min, max);
-        return new Vector3(clampedX, clampedY, 1f);
-    }
-    private Vector2 NormalizedPivot(Vector2 localPos, RectTransform rect)
-    {
-        return new Vector2(
-            (localPos.x + rect.rect.width * 0.5f) / rect.rect.width,
-            (localPos.y + rect.rect.height * 0.5f) / rect.rect.height
-        );
+        DebugLogger.Log("NO DIFFERENCE CLICKED!");
+        _takeTime();
+
+        // Instantiate the "X" image at the clicked position
+        Vector3 position = new Vector3(mousePosition.x, mousePosition.y, 0);
+        // Quaternion rotation = Quaternion.identity; //OLD
+        Quaternion rotation = Quaternion.Euler(0f, 0f, 0f);
+        if (inImage1Border)
+        {
+            Instantiate(_xImage, position, rotation, _firstImage.transform);
+        }
+        else
+        {
+            Instantiate(_xImage, position, rotation, _secondImage.transform);
+        }
+        //play incorrect click sound with 50% lower volume
+        SoundManager.PlaySound(SoundType.GAME_INCORRECT_CLICK, volume: 0.6f);
+
+
+        // Take time from the total time
+        _totalTime -= 5f; // Decrease time by 5 seconds for incorrect clicks
+        if (_totalTime < 0)
+        {
+            _totalTime = 0;
+        }
+        _updateTimerUI();
     }
 
+    private void _handleScrollRects()
+    {
+        if (_isDragging)
+        {
+            // Disable scroll rects while dragging
+            _scrollRect1.enabled = true;
+            _scrollRect2.enabled = true;
+        }
+        else
+        {
+            // Enable scroll rects when not dragging
+            _scrollRect1.enabled = false;
+            _scrollRect2.enabled = false;
+        }
+    }
+
+    public bool IsZooming = false;
     private void _mobileInput()
     {
         // Handle mobile touch
         if (Input.touchCount == 1)
         {
+            IsZooming = false;
+
             Touch touch = Input.GetTouch(0);
 
             switch (touch.phase)
@@ -448,13 +569,13 @@ public class DifferencesManager : MonoBehaviour
                     break;
 
                 case TouchPhase.Moved:
-                    if (Vector2.Distance(touch.position, _startPos) > moveThreshold)
+                    if (Vector2.Distance(touch.position, _startPos) > _moveThreshold)
                         _isDragging = true;
                     break;
 
                 case TouchPhase.Ended:
                     float duration = Time.time - _startTime;
-                    if (!_isDragging && duration < clickTimeThreshold)
+                    if (!_isDragging && duration < _clickTimeThreshold)
                     {
                         Vector2 worldPos = _mainCamera.ScreenToWorldPoint(touch.position);
                         _click(worldPos);
@@ -462,9 +583,16 @@ public class DifferencesManager : MonoBehaviour
                     break;
             }
         }
-        else if (Input.touchCount == 2)
+        else if (Input.touchCount == 2) //before was == 2
         {
+            IsZooming = true;
+
+            _scrollRect1.enabled = false;
+            _scrollRect2.enabled = false;
+            _scrollRect2.normalizedPosition = _scrollRect1.normalizedPosition;//THIS MAKES SURE THAT THEY ARE T HE SAME EVEN WHEN BUGGING
+
             Touch touchZero = Input.GetTouch(0);
+            // _startPos = touchZero.position; // ONLY FOR TESTING, ZOOMING SOMETIMES JUMP SOMEWHERE
             Touch touchOne = Input.GetTouch(1);
             Vector2 touchZeroPrevPos = touchZero.position - touchZero.deltaPosition;
             Vector2 touchOnePrevPos = touchOne.position - touchOne.deltaPosition;
@@ -476,45 +604,32 @@ public class DifferencesManager : MonoBehaviour
             // float scaleFactor = 1 + (difference * zoomSpeed);
             // scaleFactor = Mathf.Clamp(scaleFactor, 0.8f, 1.2f); // Prevent extreme scaling per frame
 
-            float scaleFactor = deltaMagnitudeDiff * zoomSpeed;
-            Vector3 newTargetScale = targetScale + Vector3.one * scaleFactor;
-            float clamped = Mathf.Clamp(newTargetScale.x, minZoom, maxZoom);
-            newTargetScale = new Vector3(clamped, clamped, 1f);
-            Vector2 screenMid = (touchZero.position + touchOne.position) / 2f;
 
-            Vector2 localPoint;
-            RectTransform rectTransform = _firstImage.GetComponent<RectTransform>();
-            if (rectTransform == null)
+            // zoom(deltaMagnitudeDiff * 0.01f);
+            if (Mathf.Abs(deltaMagnitudeDiff) > 1f) // Threshold in pixels
             {
-                DebugLogger.LogError("DID NOT FOUND RECT TRANSFORM ON FIRST IMAGE");
-                return;
+                zoom(deltaMagnitudeDiff * zoomSpeed);
             }
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                rectTransform, screenMid, null, out localPoint
-            );
-            // Calculate pivot shift
-            Vector2 pivotDelta = (Vector2)rectTransform.pivot - NormalizedPivot(localPoint, rectTransform);
-            rectTransform.anchoredPosition += new Vector2(
-              pivotDelta.x * rectTransform.rect.width * (newTargetScale.x - rectTransform.localScale.x),
-              pivotDelta.y * rectTransform.rect.height * (newTargetScale.y - rectTransform.localScale.y)
-          );
-            targetScale = newTargetScale;
-
-
-            // Clamp the scale to minZoom and maxZoom
-            // targetScale += Vector3.one * scaleFactor;
-            // targetScale = ClampScale(targetScale, minZoom, maxZoom);
-
-            // newScale = ClampScale(newScale, minZoom, maxZoom);
-
-            // _firstImage.transform.localScale = newScale;
-            // _secondImage.transform.localScale = newScale;
-
-            // Optional: handle zooming logic here if you want
+            _scrollRect1.enabled = true;
+            _scrollRect2.enabled = true;
+        }
+        else if (Input.touchCount == 0 && IsZooming)
+        {
+            IsZooming = false;
+            _scrollRect1.enabled = true;
+            _scrollRect2.enabled = true;
         }
 
         // Handle mouse input (desktop/web)
-        else if (Input.GetMouseButtonDown(0))
+#if UNITY_EDITOR || UNITY_STANDALONE || UNITY_WEBGL
+        else if (Input.GetMouseButtonDown(0) && !Input.touchSupported)
+        {
+            DebugLogger.Log("BUTTON DOWN");
+            _startPos = Input.mousePosition;
+            _startTime = Time.time;
+            _isDragging = false;
+        }
+        if (Input.GetMouseButtonDown(0))
         {
             DebugLogger.Log("BUTTON DOWN");
             _startPos = Input.mousePosition;
@@ -523,7 +638,7 @@ public class DifferencesManager : MonoBehaviour
         }
         else if (Input.GetMouseButton(0))
         {
-            if (Vector2.Distance((Vector2)Input.mousePosition, _startPos) > moveThreshold)
+            if (Vector2.Distance((Vector2)Input.mousePosition, _startPos) > _moveThreshold)
             {
                 _isDragging = true;
                 DebugLogger.Log("DRAGGING");
@@ -534,18 +649,32 @@ public class DifferencesManager : MonoBehaviour
             DebugLogger.Log("BUTTON UP");
 
             float duration = Time.time - _startTime;
-            if (!_isDragging && duration < clickTimeThreshold)
+            if (!_isDragging && duration < _clickTimeThreshold)
             {
                 DebugLogger.Log("CLICK");
                 Vector2 worldPos = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
                 _click(worldPos);
             }
         }
-#if !UNITY_EDITOR
-        _firstImage.transform.localScale = Vector3.Lerp(_firstImage.transform.localScale, targetScale, Time.deltaTime * smoothSpeed);
-        _secondImage.transform.localScale = Vector3.Lerp(_secondImage.transform.localScale, targetScale, Time.deltaTime * smoothSpeed);
 #endif
     }
+    private float zoomVelocity = 0f;
+    void zoom(float increment)
+    {
+        // _scrollRect1.enabled = false;
+        // _scrollRect2.enabled = false;
+        float currentScale = _firstImage.transform.parent.localScale.x;
+        float targetScale = Mathf.Clamp(currentScale + increment, minZoom, maxZoom);
+        float smoothScale = Mathf.SmoothDamp(currentScale, targetScale, ref zoomVelocity, _smoothSpeed);
+
+
+        // float factor = Mathf.Clamp(gameObject.transform.localScale.x + increment, minZoom, maxZoom);
+        _firstImage.transform.parent.localScale = new Vector3(smoothScale, smoothScale, 0);
+        _secondImage.transform.parent.localScale = new Vector3(smoothScale, smoothScale, 0);
+        // _scrollRect1.enabled = true;
+        // _scrollRect2.enabled = true;
+    }
+
 
     private void _timeTick()
     {

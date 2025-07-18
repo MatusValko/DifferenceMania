@@ -53,7 +53,8 @@ public class ProfileOneAvatarImage : MonoBehaviour
     public void SetAvatarToBeSelected()
     {
         _selectedText.SetActive(true);
-        _backgroundImage.color = _selectedColor;
+        SetAvatarBackgroundImage(GameManager.Instance.GetProfileBackgroundSprite(-1)); // Set the background image to the selected sprite
+        // _backgroundImage.color = _selectedColor;
         // _selected = true;
         _setState(0); // Set the state to selected
     }
@@ -63,8 +64,8 @@ public class ProfileOneAvatarImage : MonoBehaviour
         _ribbonCoins.SetActive(false);
         _ribbonAD.SetActive(false);
         _selectedText.SetActive(false);
-        _backgroundImage.color = Color.white; // Reset the background color to default
         _setState(1); // Set the state to owned
+        SetAvatarBackgroundImage(GameManager.Instance.GetProfileBackgroundSprite(_avatarIndex - 1));
     }
 
     public void SetAvatarBuyWCoins(int price)

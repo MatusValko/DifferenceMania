@@ -442,10 +442,16 @@ public class GameManager : MonoBehaviour, IDataPersistenceManager
     }
     public Sprite GetProfileBackgroundSprite(int index)
     {
-        //0 SELECTED, 1 GRAY, 2 GREEN, 3 PURPLE
-        if (index < 0 || index >= _avatarSprites.Length)
+        if (index == -1)
         {
-            DebugLogger.LogError("Avatar background sprite index is out of bounds.");
+            //Set avatar background sprite to Selected
+            return _avatarBackgroundSprites[0];
+        }
+
+        //0 SELECTED, 1 GRAY, 2 GREEN, 3 PURPLE
+        if (index < 0 || index > _avatarSprites.Length)
+        {
+            DebugLogger.LogError("Avatar background sprite index is out of bounds. Index: " + index);
             return null;
         }
         if (_greenBackgroundIndexes.Contains(index))
