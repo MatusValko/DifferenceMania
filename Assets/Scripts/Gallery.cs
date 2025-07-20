@@ -9,18 +9,12 @@ public class Gallery : MonoBehaviour
     [SerializeField] private Animator _collectionAnimator;
     [SerializeField] private IndependentImageReveal[] _collectionImages;
 
+    [SerializeField] private Material material_0f;
+    [SerializeField] private Material material_25f;
+    [SerializeField] private Material material_5f;
+    [SerializeField] private Material material_75f;
+    [SerializeField] private Material material_1f;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
     void OnEnable()
     {
         Content.transform.position = new Vector3(transform.position.x, 0f, transform.position.z);
@@ -28,8 +22,6 @@ public class Gallery : MonoBehaviour
         _collectionAnimator.SetTrigger("OpenCurtains");
         //play curtain sound
         _adjustImages();
-
-
     }
 
     private void _adjustImages()
@@ -51,7 +43,38 @@ public class Gallery : MonoBehaviour
         for (int i = 0; i < spriteLength; i++)
         {
             _collectionImages[i].SetImage(_collectionItemSprites[i], _collectionItemSpritesBlacknWhite[i]);
+
+            //ASIGN RANDOM PARTS TO COLLECTION IMAGES, TODO REDO FROM BACKEND
+            int modResult = i % 5;
+            _collectionImages[i].AddPart(modResult);
+            _setMaterialBasedOnParts(_collectionImages[i]);
             // _collectionImages[i].gameObject.name = $"OneGalleryImage_{i}";
+        }
+    }
+
+    private void _setMaterialBasedOnParts(IndependentImageReveal image)
+    {
+        int parts = image.GetParts();
+        switch (parts)
+        {
+            case 0:
+                image.SetMaterial(material_0f);
+                break;
+            case 1:
+                image.SetMaterial(material_25f);
+                break;
+            case 2:
+                image.SetMaterial(material_5f);
+                break;
+            case 3:
+                image.SetMaterial(material_75f);
+                break;
+            case 4:
+                image.SetMaterial(material_1f);
+                break;
+            default:
+                DebugLogger.LogError("Invalid parts value: " + parts);
+                break;
         }
     }
 }

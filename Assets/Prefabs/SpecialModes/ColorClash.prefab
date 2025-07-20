@@ -16,6 +16,10 @@ PrefabInstance:
       propertyPath: m_text
       value: "Colors vs. Monochrome: \r\nSpot the Differences!"
       objectReference: {fileID: 0}
+    - target: {fileID: 2093505492885081404, guid: 24f1597709d140f499691fde1863e80d, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 1ac58d31a016d6343b969516f7ab544a, type: 3}
     - target: {fileID: 4646782880814078008, guid: 24f1597709d140f499691fde1863e80d, type: 3}
       propertyPath: m_Sprite
       value: 

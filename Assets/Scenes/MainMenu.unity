@@ -3097,6 +3097,33 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 163506032291557013, guid: a344b71a88e5bdd49959764996d586a1, type: 3}
   m_PrefabInstance: {fileID: 773135160543152730}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &919968969 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 573620258050081697, guid: 9a1e735324d111e429aa20d90093a6e8, type: 3}
+  m_PrefabInstance: {fileID: 8428404587016676913}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &919968971
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919968969}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0653bc9d8835cea488974fcd83cd3652, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &920289822
 GameObject:
   m_ObjectHideFlags: 0
@@ -8562,6 +8589,10 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 519420031}
+    - target: {fileID: 7887111187156590311, guid: 43081adc715fc624a882ee34b2559395, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: ee6603a544de6ec46875cac40c48739f, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -9127,10 +9158,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -250
       objectReference: {fileID: 0}
-    - target: {fileID: 859777093034787142, guid: 9a1e735324d111e429aa20d90093a6e8, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 1584
-      objectReference: {fileID: 0}
     - target: {fileID: 984387891658997804, guid: 9a1e735324d111e429aa20d90093a6e8, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -9395,18 +9422,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -250
       objectReference: {fileID: 0}
-    - target: {fileID: 6040985131961292370, guid: 9a1e735324d111e429aa20d90093a6e8, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 2175.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6040985131961292370, guid: 9a1e735324d111e429aa20d90093a6e8, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -255.69995
-      objectReference: {fileID: 0}
-    - target: {fileID: 6408874427002241819, guid: 9a1e735324d111e429aa20d90093a6e8, type: 3}
-      propertyPath: m_ScreenMatchMode
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7109910773332397863, guid: 9a1e735324d111e429aa20d90093a6e8, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -9494,14 +9509,6 @@ PrefabInstance:
     - target: {fileID: 7169614881753073455, guid: 9a1e735324d111e429aa20d90093a6e8, type: 3}
       propertyPath: m_IsActive
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7225787948625088748, guid: 9a1e735324d111e429aa20d90093a6e8, type: 3}
-      propertyPath: gameManager
-      value: 
-      objectReference: {fileID: 1551585564}
-    - target: {fileID: 7274960311850993305, guid: 9a1e735324d111e429aa20d90093a6e8, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7395557668482166013, guid: 9a1e735324d111e429aa20d90093a6e8, type: 3}
       propertyPath: m_AnchorMax.y
@@ -9615,14 +9622,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -3269
       objectReference: {fileID: 0}
-    - target: {fileID: 8125979736867679565, guid: 9a1e735324d111e429aa20d90093a6e8, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 2171.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8125979736867679565, guid: 9a1e735324d111e429aa20d90093a6e8, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -253.80005
-      objectReference: {fileID: 0}
     - target: {fileID: 8180471582891948801, guid: 9a1e735324d111e429aa20d90093a6e8, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -9638,10 +9637,6 @@ PrefabInstance:
     - target: {fileID: 8180471582891948801, guid: 9a1e735324d111e429aa20d90093a6e8, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -250
-      objectReference: {fileID: 0}
-    - target: {fileID: 8704703687192330280, guid: 9a1e735324d111e429aa20d90093a6e8, type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9109354006496841607, guid: 9a1e735324d111e429aa20d90093a6e8, type: 3}
       propertyPath: m_AnchorMax.y
@@ -9662,7 +9657,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 573620258050081697, guid: 9a1e735324d111e429aa20d90093a6e8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 919968971}
   m_SourcePrefab: {fileID: 100100000, guid: 9a1e735324d111e429aa20d90093a6e8, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

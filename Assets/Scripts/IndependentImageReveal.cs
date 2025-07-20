@@ -1,3 +1,4 @@
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -5,18 +6,27 @@ using UnityEngine.UI;
 public class IndependentImageReveal : MonoBehaviour
 {
     private Material materialInstance;
-
-    // [Range(0f, 1f)]
-    // public float progress = 0f; // Progress (0 = none, 1 = full)
-
-    //three material variables for the shader
-    [SerializeField] private Material material_0f;
-    [SerializeField] private Material material_03f;
-    [SerializeField] private Material material_06f;
-    [SerializeField] private Material material_1f;
+    [SerializeField] private const int MAXPARTSINCOLLECTION = 4; // Number of materials to choose from
+    [SerializeField] private int obtainedParts = 0; // Number of parts obtained
     [SerializeField] private Image _unlockedImage;
     [SerializeField] private Image _lockedImage;
+    [SerializeField] private GameObject _showHowManyParts;
+    [SerializeField] private Button _showHowManyPartsButton;
 
+    //start
+    private void Awake()
+    {
+        _showHowManyPartsButton.onClick.AddListener(() => _showHowManyPartsFunction());
+    }
+
+    private void _showHowManyPartsFunction()
+    {
+        if (_showHowManyParts.activeSelf)
+        {
+            return;
+        }
+        _showHowManyParts.SetActive(true);
+    }
 
     void OnEnable()
     {
@@ -26,23 +36,35 @@ public class IndependentImageReveal : MonoBehaviour
     {
         // Pick a random material for the shader
         int randomMaterialIndex = Random.Range(0, 4);
-        switch (randomMaterialIndex)
-        {
-            case 0:
-                materialInstance = new Material(material_0f);
-                break;
-            case 1:
-                materialInstance = new Material(material_03f);
-                break;
-            case 2:
-                materialInstance = new Material(material_06f);
-                break;
-            case 3:
-                materialInstance = new Material(material_1f);
-                break;
-        }
-
         _unlockedImage.material = materialInstance;
+    }
+
+
+
+    public void AddPart(int parts)
+    {
+        obtainedParts += parts;
+        if (obtainedParts > MAXPARTSINCOLLECTION)
+        {
+            obtainedParts = MAXPARTSINCOLLECTION; // Cap at max parts
+        }
+        UpdateText(); // Update the text display
+        // Update the material based on the number of parts obtained
+    }
+
+    //set material for the image
+    public void SetMaterial(Material material)
+    {
+        materialInstance = material;
+    }
+    public void UpdateText()
+    {
+        string icon = "<sprite=\"puzzle\" index=0>";
+        _showHowManyParts.GetComponentInChildren<TextMeshProUGUI>().text = $"{obtainedParts}/{MAXPARTSINCOLLECTION}{icon}";
+    }
+    public int GetParts()
+    {
+        return obtainedParts;
     }
 
     public void SetImage(Sprite unlocked, Sprite locked)

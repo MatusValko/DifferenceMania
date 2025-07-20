@@ -35,7 +35,7 @@ public class SmartBidirectionalScrollSync : MonoBehaviour
 
     void OnScrollA(Vector2 pos)
     {
-        _isZooming = DifferencesManager.Instance.IsZooming;
+        _isZooming = DifferencesManager.Instance._isZooming;
         if (_isZooming || syncing || !userIsDraggingA) return;
 
         syncing = true;
@@ -45,7 +45,7 @@ public class SmartBidirectionalScrollSync : MonoBehaviour
 
     void OnScrollB(Vector2 pos)
     {
-        _isZooming = DifferencesManager.Instance.IsZooming;
+        _isZooming = DifferencesManager.Instance._isZooming;
         if (_isZooming || syncing || !userIsDraggingB) return;
 
         syncing = true;

@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: CollectionReveal_0.3
+  m_Name: CollectionReveal_0.5
   m_Shader: {fileID: 4800000, guid: ec4fed9761ef4294d825f5d793e4ed6a, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -30,7 +30,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _ColorMask: 15
-    - _Progress: 0.33
+    - _Progress: 0.5
     - _Stencil: 0
     - _StencilComp: 8
     - _StencilOp: 0

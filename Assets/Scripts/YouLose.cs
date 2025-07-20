@@ -13,6 +13,10 @@ public class YouLose : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _winsNeededToGiftText;
     [SerializeField] private TextMeshProUGUI _completedXoutOfMaxText;
     [SerializeField] private Animator _animator;
+    [SerializeField] private TextMeshProUGUI _levelText;
+    [SerializeField] private GameObject[] _timeToGetStars;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,6 +34,8 @@ public class YouLose : MonoBehaviour
     }
     private IEnumerator _setUpWindow()
     {
+        _levelText.text = $"<size=100>Level <color=#FAE729>{GameManager.Instance.GetLevelID()}</color></size>\n<size=72> Not Completed</size>";
+
         // //play sound confetti
         // SoundManager.PlaySound(SoundType.CONGRATULATION_CONFETTI);
         // //play sound confetti
@@ -43,7 +49,22 @@ public class YouLose : MonoBehaviour
         _animator.SetTrigger("GiftGlow");
         _animator.SetTrigger("CongratulationsText");
 
+        _showTimeToGetStars();
+
         yield return null;
+    }
+
+    private void _showTimeToGetStars()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            int time = DifferencesManager.Instance.GetTimeForStar(i + 1);
+            //convert int time to minutes and seconds
+            int minutes = time / 60;
+            int seconds = time % 60;
+            _timeToGetStars[i].GetComponent<TextMeshProUGUI>().text = $"{minutes:D2}:{seconds:D2}";
+            _timeToGetStars[i].SetActive(true);
+        }
     }
 
     private void _adjustSliderAndTexts()

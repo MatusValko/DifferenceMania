@@ -13,7 +13,7 @@ public class DifferencesManager : MonoBehaviour
 {
     public static DifferencesManager Instance { get; private set; }
 
-    [SerializeField] private Camera _mainCamera;
+    [SerializeField] private Camera _camera;
 
 
     [SerializeField]
@@ -208,9 +208,26 @@ public class DifferencesManager : MonoBehaviour
     }
 
     //get game data
-    public LevelDataGame GetLevelData()
+    // public LevelDataGame GetLevelData()
+    // {
+    //     return _levelData;
+    // }
+
+    public int GetTimeForStar(int starIndex)
     {
-        return _levelData;
+        switch (starIndex)
+        {
+            case 1:
+                return _levelData.oneStar;
+            case 2:
+                return _levelData.twoStar;
+            case 3:
+                return _levelData.threeStar;
+            default:
+                DebugLogger.LogError("Invalid star index: " + starIndex);
+                return -1; // Invalid index
+        }
+
     }
     //get time, convert to int
     public int GetTime()
@@ -550,13 +567,13 @@ public class DifferencesManager : MonoBehaviour
         }
     }
 
-    public bool IsZooming = false;
+    public bool _isZooming = false;
     private void _mobileInput()
     {
         // Handle mobile touch
         if (Input.touchCount == 1)
         {
-            IsZooming = false;
+            _isZooming = false;
 
             Touch touch = Input.GetTouch(0);
 
@@ -566,18 +583,31 @@ public class DifferencesManager : MonoBehaviour
                     _startPos = touch.position;
                     _startTime = Time.time;
                     _isDragging = false;
+                    // _dragOrigin = _camera.ScreenToWorldPoint(touch.position);
+
                     break;
 
                 case TouchPhase.Moved:
+                    if (_isZooming)
+                    {
+                        _isZooming = false;
+                        // _scrollRect1.enabled = true;
+                        // _scrollRect2.enabled = true;
+                        _startPos = touch.position;
+                    }
                     if (Vector2.Distance(touch.position, _startPos) > _moveThreshold)
+                    {
                         _isDragging = true;
+                        _scrollRect1.enabled = true;
+                        _scrollRect2.enabled = true;
+                    }
                     break;
 
                 case TouchPhase.Ended:
                     float duration = Time.time - _startTime;
                     if (!_isDragging && duration < _clickTimeThreshold)
                     {
-                        Vector2 worldPos = _mainCamera.ScreenToWorldPoint(touch.position);
+                        Vector2 worldPos = _camera.ScreenToWorldPoint(touch.position);
                         _click(worldPos);
                     }
                     break;
@@ -585,14 +615,13 @@ public class DifferencesManager : MonoBehaviour
         }
         else if (Input.touchCount == 2) //before was == 2
         {
-            IsZooming = true;
+            _isZooming = true;
 
             _scrollRect1.enabled = false;
             _scrollRect2.enabled = false;
-            _scrollRect2.normalizedPosition = _scrollRect1.normalizedPosition;//THIS MAKES SURE THAT THEY ARE T HE SAME EVEN WHEN BUGGING
+            // _scrollRect2.normalizedPosition = _scrollRect1.normalizedPosition;//THIS MAKES SURE THAT THEY ARE T HE SAME EVEN WHEN BUGGING
 
             Touch touchZero = Input.GetTouch(0);
-            // _startPos = touchZero.position; // ONLY FOR TESTING, ZOOMING SOMETIMES JUMP SOMEWHERE
             Touch touchOne = Input.GetTouch(1);
             Vector2 touchZeroPrevPos = touchZero.position - touchZero.deltaPosition;
             Vector2 touchOnePrevPos = touchOne.position - touchOne.deltaPosition;
@@ -600,12 +629,7 @@ public class DifferencesManager : MonoBehaviour
             float prevMagnitude = (touchZeroPrevPos - touchOnePrevPos).magnitude;
             float currentMagnitude = (touchZero.position - touchOne.position).magnitude;
             float deltaMagnitudeDiff = currentMagnitude - prevMagnitude;
-            // Calculate new scale based on pinch difference
-            // float scaleFactor = 1 + (difference * zoomSpeed);
-            // scaleFactor = Mathf.Clamp(scaleFactor, 0.8f, 1.2f); // Prevent extreme scaling per frame
 
-
-            // zoom(deltaMagnitudeDiff * 0.01f);
             if (Mathf.Abs(deltaMagnitudeDiff) > 1f) // Threshold in pixels
             {
                 zoom(deltaMagnitudeDiff * zoomSpeed);
@@ -613,22 +637,15 @@ public class DifferencesManager : MonoBehaviour
             _scrollRect1.enabled = true;
             _scrollRect2.enabled = true;
         }
-        else if (Input.touchCount == 0 && IsZooming)
+        else if (Input.touchCount == 0)
         {
-            IsZooming = false;
+            _isZooming = false;
             _scrollRect1.enabled = true;
             _scrollRect2.enabled = true;
         }
 
         // Handle mouse input (desktop/web)
 #if UNITY_EDITOR || UNITY_STANDALONE || UNITY_WEBGL
-        else if (Input.GetMouseButtonDown(0) && !Input.touchSupported)
-        {
-            DebugLogger.Log("BUTTON DOWN");
-            _startPos = Input.mousePosition;
-            _startTime = Time.time;
-            _isDragging = false;
-        }
         if (Input.GetMouseButtonDown(0))
         {
             DebugLogger.Log("BUTTON DOWN");
@@ -652,7 +669,7 @@ public class DifferencesManager : MonoBehaviour
             if (!_isDragging && duration < _clickTimeThreshold)
             {
                 DebugLogger.Log("CLICK");
-                Vector2 worldPos = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
+                Vector2 worldPos = _camera.ScreenToWorldPoint(Input.mousePosition);
                 _click(worldPos);
             }
         }
@@ -661,18 +678,12 @@ public class DifferencesManager : MonoBehaviour
     private float zoomVelocity = 0f;
     void zoom(float increment)
     {
-        // _scrollRect1.enabled = false;
-        // _scrollRect2.enabled = false;
         float currentScale = _firstImage.transform.parent.localScale.x;
         float targetScale = Mathf.Clamp(currentScale + increment, minZoom, maxZoom);
         float smoothScale = Mathf.SmoothDamp(currentScale, targetScale, ref zoomVelocity, _smoothSpeed);
 
-
-        // float factor = Mathf.Clamp(gameObject.transform.localScale.x + increment, minZoom, maxZoom);
         _firstImage.transform.parent.localScale = new Vector3(smoothScale, smoothScale, 0);
         _secondImage.transform.parent.localScale = new Vector3(smoothScale, smoothScale, 0);
-        // _scrollRect1.enabled = true;
-        // _scrollRect2.enabled = true;
     }
 
 

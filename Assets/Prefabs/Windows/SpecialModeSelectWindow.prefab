@@ -456,7 +456,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 5dc10be583c1dfb48ae22c7df0182195, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ee6603a544de6ec46875cac40c48739f, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1255,6 +1255,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3171281516101048967}
     m_Modifications:
+    - target: {fileID: 247144891742013055, guid: 7661d312bf0aee04e93ce4a72d5fbdec, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 1ac58d31a016d6343b969516f7ab544a, type: 3}
     - target: {fileID: 1300302660959018428, guid: 7661d312bf0aee04e93ce4a72d5fbdec, type: 3}
       propertyPath: m_Name
       value: UpsideDown
@@ -1731,6 +1735,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3171281516101048967}
     m_Modifications:
+    - target: {fileID: 909476559593746386, guid: cb8317c626b4fa8439ca61c9dbb03338, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 1ac58d31a016d6343b969516f7ab544a, type: 3}
     - target: {fileID: 1139285358394689201, guid: cb8317c626b4fa8439ca61c9dbb03338, type: 3}
       propertyPath: m_KeepAnimatorStateOnDisable
       value: 1

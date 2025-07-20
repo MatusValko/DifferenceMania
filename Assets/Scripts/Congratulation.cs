@@ -21,6 +21,8 @@ public class Congratulation : MonoBehaviour
     [SerializeField] private Animator _animator; // Animator for the gift animation
     //array of stars
     [SerializeField] private GameObject[] _stars;
+    [SerializeField] private GameObject[] _timeToGetStars;
+
 
     [SerializeField] private Color32 _normalColor = new Color32(255, 255, 255, 255);
     [SerializeField] private Color32 _disabledColor = new Color32(200, 200, 200, 128);
@@ -141,25 +143,41 @@ public class Congratulation : MonoBehaviour
         {
             DebugLogger.Log("ZERO STARS, but completed level...");
             SoundManager.PlaySound(SoundType.CONGRATULATION_1STAR);
+            StartCoroutine(_activateStars(0));
             //TODO add sound for 0 stars 
         }
     }
 
     //activate stars according, take int as argument
     //wait for 0.5 seconds and then activate next star
-    private IEnumerator _activateStars(int stars)
+    private IEnumerator _activateStars(int gotStars)
     {
-        // DebugLogger.Log("TU SOMM: " + stars);
-        for (int i = 0; i < stars; i++)
-        {
-            _stars[i].SetActive(true);
-            //play particle system
-            ParticleSystem myParticle = _stars[i].GetComponentInChildren<ParticleSystem>();
-            if (myParticle != null)
-            {
-                myParticle.Emit(5);
 
+        // DebugLogger.Log("TU SOMM: " + stars);
+        for (int i = 0; i < 3; i++)
+        {
+            if (i < gotStars)
+            {
+                _stars[i].SetActive(true);
+                ParticleSystem myParticle = _stars[i].GetComponentInChildren<ParticleSystem>();
+                if (myParticle != null)
+                {
+                    myParticle.Emit(5);
+
+                }
             }
+            else
+            {
+                int time = DifferencesManager.Instance.GetTimeForStar(i + 1);
+                //convert int time to minutes and seconds
+                int minutes = time / 60;
+                int seconds = time % 60;
+                _timeToGetStars[i].GetComponent<TextMeshProUGUI>().text = $"{minutes:D2}:{seconds:D2}";
+                _timeToGetStars[i].SetActive(true);
+            }
+            // _stars[i].SetActive(true);
+            //play particle system
+
             yield return new WaitForSeconds(0.5f); // Wait for 0.5 seconds before activating the next star
             //get particle system from star and play it
         }
