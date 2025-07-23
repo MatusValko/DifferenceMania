@@ -30,7 +30,7 @@ public class IndependentImageReveal : MonoBehaviour
 
     void OnEnable()
     {
-        _pickRandomMaterial();
+        // _pickRandomMaterial();
     }
     private void _pickRandomMaterial()
     {
@@ -55,7 +55,7 @@ public class IndependentImageReveal : MonoBehaviour
     //set material for the image
     public void SetMaterial(Material material)
     {
-        materialInstance = material;
+        _unlockedImage.material = material;
     }
     public void UpdateText()
     {

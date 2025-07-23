@@ -55,6 +55,7 @@ public class Gallery : MonoBehaviour
     private void _setMaterialBasedOnParts(IndependentImageReveal image)
     {
         int parts = image.GetParts();
+        DebugLogger.Log($"Setting material for image with parts: {parts}");
         switch (parts)
         {
             case 0:

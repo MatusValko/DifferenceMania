@@ -1263,7 +1263,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _mainCamera: {fileID: 1972560644}
-  maxZoom: 3
+  maxZoom: 6
   minZoom: 1
   _transformImage1: {fileID: 974770699}
   _transformImage2: {fileID: 356670793}
@@ -2787,7 +2787,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _mainCamera: {fileID: 1972560644}
-  maxZoom: 3
+  maxZoom: 6
   minZoom: 1
   _transformImage1: {fileID: 974770699}
   _transformImage2: {fileID: 356670793}
@@ -4259,7 +4259,7 @@ MonoBehaviour:
   _moveThreshold: 10
   _smoothSpeed: 0.3
   zoomSpeed: 0.1
-  maxZoom: 8
+  maxZoom: 6
   minZoom: 1
   _isZooming: 0
 --- !u!4 &1517913386
