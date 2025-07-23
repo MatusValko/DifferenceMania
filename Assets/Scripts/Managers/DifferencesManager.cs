@@ -373,7 +373,8 @@ public class DifferencesManager : MonoBehaviour
 
         _timeTick();
 
-        _mobileInput();
+        // _mobileInput();
+        _handleInput();
         // _handleScrollRects();
         // _click();
     }
@@ -556,11 +557,381 @@ public class DifferencesManager : MonoBehaviour
         _updateTimerUI();
     }
     public bool _isZooming = false;
+
+    [Header("Custom Scroll Setup - Dual Images")]
+    public RectTransform maskRect1; // First mask/viewport area
+    public RectTransform maskRect2; // Second mask/viewport area
+    public RectTransform contentRect1; // Parent of first image
+    public RectTransform contentRect2; // Parent of second image
+    public float dragSensitivity = 2f; // Increased from 1f to 2f for faster dragging
+    public float mouseZoomSpeed = 1000f;
+
+    private Vector2 _lastMousePos;
+    private bool _mousePressed = false;
+
+    // Combined mobile and mouse input
+    private void _handleInput()
+    {
+        // Mobile input
+        if (Input.touchCount == 1)
+        {
+            _handleSingleTouch();
+        }
+        else if (Input.touchCount == 2)
+        {
+            _handlePinchZoom();
+        }
+        else if (Input.touchCount < 2 && _isZooming)
+        {
+            _handleZoomToTouchTransition();
+        }
+
+        // Mouse input (for testing on PC)
+        if (Input.touchCount == 0) // Only use mouse when no touches
+        {
+            _handleMouseInput();
+        }
+    }
+
+    private void _handleSingleTouch()
+    {
+        Touch touch = Input.GetTouch(0);
+
+        switch (touch.phase)
+        {
+            case TouchPhase.Began:
+                _startPos = touch.position;
+                _startTime = Time.time;
+                _isDragging = false;
+                break;
+
+            case TouchPhase.Moved:
+                if (_isZooming)
+                {
+                    _isZooming = false;
+                    _startPos = touch.position; // Reset start position for dragging
+                }
+                if (Vector2.Distance(touch.position, _startPos) > _moveThreshold || _isDragging)
+                {
+                    Vector2 dragDelta = (touch.position - _startPos) * dragSensitivity;
+                    _applyDrag(dragDelta * 0.5f); //ADDED 0.1F IT WAS TOO FAST
+                    _startPos = touch.position;
+                    _isDragging = true;
+                }
+                break;
+
+            case TouchPhase.Ended:
+                float duration = Time.time - _startTime;
+                if (!_isDragging && duration < _clickTimeThreshold)
+                {
+                    Vector2 worldPos = _camera.ScreenToWorldPoint(touch.position);
+                    _click(worldPos);
+                }
+                _isDragging = false;
+                _isZooming = false;
+                break;
+        }
+    }
+
+    private void _handlePinchZoom()
+    {
+        _isDragging = false;
+
+        Touch touch0 = Input.GetTouch(0);
+        Touch touch1 = Input.GetTouch(1);
+        float currentDistance = Vector2.Distance(touch0.position, touch1.position);
+
+        if (!_isZooming)
+        {
+            _isZooming = true;
+            lastPinchDistance = currentDistance;
+        }
+        else
+        {
+            float deltaDistance = currentDistance - lastPinchDistance;
+            lastPinchDistance = currentDistance;
+
+            if (Mathf.Abs(deltaDistance) > 2f)
+            {
+                _applyZoom(deltaDistance * 1.5f); //ADDED 1.5F FOR FASTER ZOOM
+            }
+        }
+    }
+    // Add this field to your class (alongside other private fields like _isDragging, _isZooming, etc.)
+    // private Vector2 _initialPinchCenter;
+
+    // private void _handlePinchZoom()
+    // {
+    //     _isDragging = false;
+
+    //     Touch touch0 = Input.GetTouch(0);
+    //     Touch touch1 = Input.GetTouch(1);
+    //     float currentDistance = Vector2.Distance(touch0.position, touch1.position);
+
+    //     // Calculate the midpoint between the two fingers
+    //     Vector2 pinchCenter = (touch0.position + touch1.position) * 0.5f;
+
+    //     if (!_isZooming)
+    //     {
+    //         _isZooming = true;
+    //         lastPinchDistance = currentDistance;
+    //         // Store the initial pinch center for consistent zooming
+    //         _initialPinchCenter = pinchCenter;
+    //     }
+    //     else
+    //     {
+    //         float deltaDistance = currentDistance - lastPinchDistance;
+    //         lastPinchDistance = currentDistance;
+
+    //         if (Mathf.Abs(deltaDistance) > 2f)
+    //         {
+    //             _applyZoomToPoint(deltaDistance * 1.5f, pinchCenter);
+    //         }
+    //     }
+    // }
+
+    // private void _applyZoomToPoint(float zoomDelta, Vector2 screenPoint)
+    // {
+    //     // Get the mask (parent of the zoom objects) - this is our reference frame
+    //     RectTransform maskRect = contentRect1.parent as RectTransform; // This should be UpperImage or LowerImage
+
+    //     // Convert screen point to local coordinates in the mask space
+    //     Vector2 localPointInMask;
+    //     RectTransformUtility.ScreenPointToLocalPointInRectangle(
+    //         maskRect, screenPoint, null, out localPointInMask);
+
+    //     // Store current values
+    //     float currentScale = contentRect1.localScale.x;
+    //     Vector2 currentPos1 = contentRect1.anchoredPosition;
+    //     Vector2 currentPos2 = contentRect2.anchoredPosition;
+
+    //     // Calculate new scale using your existing logic
+    //     float scaleMultiplier = currentScale * 0.5f;
+    //     float scaleChange = zoomDelta * zoomSpeed * 0.01f * scaleMultiplier;
+    //     float newScale = Mathf.Clamp(currentScale + scaleChange, minZoom, maxZoom);
+
+    //     // Only proceed if scale actually changed
+    //     if (Mathf.Abs(newScale - currentScale) < 0.001f) return;
+
+    //     // Calculate where the zoom point is in the unscaled content space
+    //     // This accounts for the current position and scale of each zoom object
+    //     Vector2 zoomPointInContent1 = (localPointInMask - currentPos1) / currentScale;
+    //     Vector2 zoomPointInContent2 = (localPointInMask - currentPos2) / currentScale;
+
+    //     // Apply the new scale to both zoom objects
+    //     contentRect1.localScale = new Vector3(newScale, newScale, 1);
+    //     contentRect2.localScale = new Vector3(newScale, newScale, 1);
+
+    //     // Calculate new positions so the zoom point stays at the same location in mask space
+    //     Vector2 newPos1 = localPointInMask - (zoomPointInContent1 * newScale);
+    //     Vector2 newPos2 = localPointInMask - (zoomPointInContent2 * newScale);
+
+    //     // Apply new positions
+    //     contentRect1.anchoredPosition = newPos1;
+    //     contentRect2.anchoredPosition = newPos2;
+
+    //     // Ensure content stays within proper bounds
+    //     _ensureContentInBounds();
+    // }
+
+    // private void _applyZoomToPoint(float zoomDelta, Vector2 screenPoint)
+    // {
+    //     // Convert screen point to world coordinates before zoom
+    //     Vector3 worldPointBeforeZoom = Camera.main.ScreenToWorldPoint(new Vector3(screenPoint.x, screenPoint.y, Camera.main.nearClipPlane));
+
+    //     // Apply the zoom (modify your existing zoom logic here)
+    //     float zoomFactor = zoomDelta > 0 ? 1.1f : 0.9f; // Adjust as needed
+    //     Camera.main.orthographicSize = Mathf.Clamp(
+    //         Camera.main.orthographicSize / zoomFactor,
+    //         minZoom,
+    //         maxZoom
+    //     );
+
+    //     // Convert the same screen point to world coordinates after zoom
+    //     Vector3 worldPointAfterZoom = Camera.main.ScreenToWorldPoint(new Vector3(screenPoint.x, screenPoint.y, Camera.main.nearClipPlane));
+
+    //     // Calculate the difference and adjust camera position
+    //     Vector3 offset = worldPointBeforeZoom - worldPointAfterZoom;
+    //     Camera.main.transform.position += offset;
+    // }
+
+
+    private void _handleZoomToTouchTransition()
+    {
+        if (Input.touchCount == 1)
+        {
+            Touch touch = Input.GetTouch(0);
+            _startPos = touch.position;
+            _isDragging = true;
+        }
+
+        _isZooming = false;
+        lastPinchDistance = 0f;
+    }
+
+    private void _handleMouseInput()
+    {
+        // Mouse dragging
+        if (Input.GetMouseButtonDown(0))
+        {
+            _lastMousePos = Input.mousePosition;
+            _mousePressed = true;
+            _isDragging = false;
+            _startTime = Time.time;
+        }
+        else if (Input.GetMouseButton(0) && _mousePressed)
+        {
+            Vector2 currentMousePos = Input.mousePosition;
+            Vector2 mouseDelta = (currentMousePos - _lastMousePos) * dragSensitivity;
+
+            if (mouseDelta.magnitude > _moveThreshold || _isDragging)
+            {
+                _applyDrag(mouseDelta);
+                _isDragging = true;
+            }
+
+            _lastMousePos = currentMousePos;
+        }
+        else if (Input.GetMouseButtonUp(0))
+        {
+            if (_mousePressed && !_isDragging && (Time.time - _startTime) < _clickTimeThreshold)
+            {
+                Vector2 worldPos = _camera.ScreenToWorldPoint(Input.mousePosition);
+                _click(worldPos);
+            }
+            _mousePressed = false;
+            _isDragging = false;
+        }
+
+        // Mouse scroll wheel zoom
+        float scroll = Input.GetAxis("Mouse ScrollWheel");
+        if (Mathf.Abs(scroll) > 0.01f)
+        {
+            // Convert scroll to distance delta (simulate pinch) - MUCH FASTER
+            float zoomDelta = scroll * mouseZoomSpeed; // Use the public field
+            _applyZoom(zoomDelta);
+        }
+    }
+
+    // Shared methods for both touch and mouse
+    private void _applyDrag(Vector2 dragDelta)
+    {
+        Vector2 newPosition1 = contentRect1.anchoredPosition + dragDelta;
+        Vector2 newPosition2 = contentRect2.anchoredPosition + dragDelta;
+
+        newPosition1 = ClampToBounds(newPosition1, maskRect1, contentRect1);
+        newPosition2 = ClampToBounds(newPosition2, maskRect2, contentRect2);
+
+        contentRect1.anchoredPosition = newPosition1;
+        contentRect2.anchoredPosition = newPosition2;
+    }
+
+    private void _applyZoom(float deltaDistance)
+    {
+        float currentScale = contentRect1.localScale.x;
+        float scaleMultiplier = currentScale * 0.5f;
+        float scaleChange = deltaDistance * zoomSpeed * 0.01f * scaleMultiplier;
+        float newScale = Mathf.Clamp(currentScale + scaleChange, minZoom, maxZoom);
+
+        contentRect1.localScale = new Vector3(newScale, newScale, 1);
+        contentRect2.localScale = new Vector3(newScale, newScale, 1);
+
+        // After scaling, ensure content stays within proper bounds
+        _ensureContentInBounds();
+    }
+
+    // New method to ensure content is always properly positioned and visible
+    private void _ensureContentInBounds()
+    {
+        // Fix content 1
+        Vector2 pos1 = _getClampedPosition(contentRect1, maskRect1);
+        contentRect1.anchoredPosition = pos1;
+
+        // Fix content 2
+        Vector2 pos2 = _getClampedPosition(contentRect2, maskRect2);
+        contentRect2.anchoredPosition = pos2;
+    }
+
+    private Vector2 _getClampedPosition(RectTransform content, RectTransform mask)
+    {
+        Vector2 contentSize = content.sizeDelta * content.localScale.x;
+        Vector2 maskSize = mask.sizeDelta;
+        Vector2 currentPos = content.anchoredPosition;
+
+        // If content is smaller than mask, center it
+        if (contentSize.x <= maskSize.x)
+        {
+            currentPos.x = 0; // Center horizontally
+        }
+        else
+        {
+            // Content is larger, clamp to bounds
+            float maxX = (contentSize.x - maskSize.x) * 0.5f;
+            currentPos.x = Mathf.Clamp(currentPos.x, -maxX, maxX);
+        }
+
+        if (contentSize.y <= maskSize.y)
+        {
+            currentPos.y = 0; // Center vertically
+        }
+        else
+        {
+            // Content is larger, clamp to bounds
+            float maxY = (contentSize.y - maskSize.y) * 0.5f;
+            currentPos.y = Mathf.Clamp(currentPos.y, -maxY, maxY);
+        }
+
+        return currentPos;
+    }
+
+    // Updated ClampToBounds to use the new logic
+    private Vector2 ClampToBounds(Vector2 position, RectTransform mask, RectTransform content)
+    {
+        Vector2 contentSize = content.sizeDelta * content.localScale.x;
+        Vector2 maskSize = mask.sizeDelta;
+
+        // If content is smaller than mask, center it
+        if (contentSize.x <= maskSize.x)
+        {
+            position.x = 0;
+        }
+        else
+        {
+            float maxX = (contentSize.x - maskSize.x) * 0.5f;
+            position.x = Mathf.Clamp(position.x, -maxX, maxX);
+        }
+
+        if (contentSize.y <= maskSize.y)
+        {
+            position.y = 0;
+        }
+        else
+        {
+            float maxY = (contentSize.y - maskSize.y) * 0.5f;
+            position.y = Mathf.Clamp(position.y, -maxY, maxY);
+        }
+
+        return position;
+    }
+
+    [Header("OLD Scroll Rect")]
+    private float zoomVelocity = 0f;
+    void zoom(float increment)
+    {
+        float currentScale = _firstImage.transform.parent.localScale.x;
+        float targetScale = Mathf.Clamp(currentScale + increment, minZoom, maxZoom);
+        float smoothScale = Mathf.SmoothDamp(currentScale, targetScale, ref zoomVelocity, _smoothSpeed);
+
+        _firstImage.transform.parent.localScale = new Vector3(smoothScale, smoothScale, 0);
+        _secondImage.transform.parent.localScale = new Vector3(smoothScale, smoothScale, 0);
+    }
     private void _mobileInput()
     {
         // Handle mobile touch
         if (Input.touchCount == 1)
         {
+            _isZooming = false;
+
             Touch touch = Input.GetTouch(0);
 
             switch (touch.phase)
@@ -569,16 +940,20 @@ public class DifferencesManager : MonoBehaviour
                     _startPos = touch.position;
                     _startTime = Time.time;
                     _isDragging = false;
-                    _dragOrigin = _camera.ScreenToWorldPoint(touch.position);
+                    // _dragOrigin = _camera.ScreenToWorldPoint(touch.position);
+
                     break;
 
                 case TouchPhase.Moved:
-                    if (Vector2.Distance(touch.position, _startPos) > _moveThreshold || _isDragging)
+                    if (_isZooming)
                     {
-                        Vector3 currentWorldPos = _camera.ScreenToWorldPoint(touch.position);
-                        Vector3 difference = _dragOrigin - currentWorldPos;
-                        _camera.transform.position += difference;
-                        _dragOrigin = currentWorldPos;
+                        _isZooming = false;
+                        // _scrollRect1.enabled = true;
+                        // _scrollRect2.enabled = true;
+                        _startPos = touch.position;
+                    }
+                    if (Vector2.Distance(touch.position, _startPos) > _moveThreshold)
+                    {
                         _isDragging = true;
                         _scrollRect1.enabled = true;
                         _scrollRect2.enabled = true;
@@ -592,143 +967,39 @@ public class DifferencesManager : MonoBehaviour
                         Vector2 worldPos = _camera.ScreenToWorldPoint(touch.position);
                         _click(worldPos);
                     }
-                    _isDragging = false;
-                    _isZooming = false;
                     break;
             }
         }
-        else if (Input.touchCount == 2)
+        else if (Input.touchCount == 2) //before was == 2
         {
-            _isDragging = false;
+            _isZooming = true;
+
             _scrollRect1.enabled = false;
             _scrollRect2.enabled = false;
+            // _scrollRect2.normalizedPosition = _scrollRect1.normalizedPosition;//THIS MAKES SURE THAT THEY ARE T HE SAME EVEN WHEN BUGGING
 
-            Touch touch0 = Input.GetTouch(0);
-            Touch touch1 = Input.GetTouch(1);
-            float currentDistance = Vector2.Distance(touch0.position, touch1.position);
+            Touch touchZero = Input.GetTouch(0);
+            Touch touchOne = Input.GetTouch(1);
+            Vector2 touchZeroPrevPos = touchZero.position - touchZero.deltaPosition;
+            Vector2 touchOnePrevPos = touchOne.position - touchOne.deltaPosition;
 
-            if (!_isZooming)
+            float prevMagnitude = (touchZeroPrevPos - touchOnePrevPos).magnitude;
+            float currentMagnitude = (touchZero.position - touchOne.position).magnitude;
+            float deltaMagnitudeDiff = currentMagnitude - prevMagnitude;
+
+            if (Mathf.Abs(deltaMagnitudeDiff) > 1f) // Threshold in pixels
             {
-                _isZooming = true;
-                lastPinchDistance = currentDistance;
-                DebugLogger.Log($"Pinch started - distance: {currentDistance}");
+                zoom(deltaMagnitudeDiff * zoomSpeed);
             }
-            else
-            {
-                float deltaDistance = currentDistance - lastPinchDistance;
-                lastPinchDistance = currentDistance;
-
-                DebugLogger.Log($"Delta: {deltaDistance}, Current: {currentDistance}");
-
-                if (Mathf.Abs(deltaDistance) > 2f)
-                {
-                    float currentScale = _firstImage.transform.parent.localScale.x;
-                    float scaleMultiplier = currentScale * 0.5f;
-                    float scaleChange = deltaDistance * zoomSpeed * 0.01f * scaleMultiplier;
-                    float newScale = Mathf.Clamp(currentScale + scaleChange, minZoom, maxZoom);
-
-                    DebugLogger.Log($"Scaling from {currentScale} to {newScale}");
-
-                    _firstImage.transform.parent.localScale = new Vector3(newScale, newScale, 1);
-                    _secondImage.transform.parent.localScale = new Vector3(newScale, newScale, 1);
-                }
-
-                _scrollRect1.enabled = true;
-                _scrollRect2.enabled = true;
-            }
+            _scrollRect1.enabled = true;
+            _scrollRect2.enabled = true;
         }
-        else if (Input.touchCount < 2 && _isZooming)
+        else if (Input.touchCount == 0)
         {
-            // This is the key: handle transition from zoom to drag
-            if (Input.touchCount == 1)
-            {
-                Touch touch = Input.GetTouch(0);
-                // Set up drag origin at the remaining finger position
-                _dragOrigin = _camera.ScreenToWorldPoint(touch.position);
-                _isDragging = true; // Enable immediate dragging
-                _startPos = touch.position; // Reset start position
-                DebugLogger.Log("Transitioning from zoom to drag");
-            }
-
             _isZooming = false;
-            lastPinchDistance = 0f;
-            DebugLogger.Log("Pinch ended");
+            _scrollRect1.enabled = true;
+            _scrollRect2.enabled = true;
         }
-
-
-        // Handle mobile touch
-        // if (Input.touchCount == 1)
-        // {
-        //     _isZooming = false;
-
-        //     Touch touch = Input.GetTouch(0);
-
-        //     switch (touch.phase)
-        //     {
-        //         case TouchPhase.Began:
-        //             _startPos = touch.position;
-        //             _startTime = Time.time;
-        //             _isDragging = false;
-        //             // _dragOrigin = _camera.ScreenToWorldPoint(touch.position);
-
-        //             break;
-
-        //         case TouchPhase.Moved:
-        //             if (_isZooming)
-        //             {
-        //                 _isZooming = false;
-        //                 // _scrollRect1.enabled = true;
-        //                 // _scrollRect2.enabled = true;
-        //                 _startPos = touch.position;
-        //             }
-        //             if (Vector2.Distance(touch.position, _startPos) > _moveThreshold)
-        //             {
-        //                 _isDragging = true;
-        //                 _scrollRect1.enabled = true;
-        //                 _scrollRect2.enabled = true;
-        //             }
-        //             break;
-
-        //         case TouchPhase.Ended:
-        //             float duration = Time.time - _startTime;
-        //             if (!_isDragging && duration < _clickTimeThreshold)
-        //             {
-        //                 Vector2 worldPos = _camera.ScreenToWorldPoint(touch.position);
-        //                 _click(worldPos);
-        //             }
-        //             break;
-        //     }
-        // }
-        // else if (Input.touchCount == 2) //before was == 2
-        // {
-        //     _isZooming = true;
-
-        //     _scrollRect1.enabled = false;
-        //     _scrollRect2.enabled = false;
-        //     // _scrollRect2.normalizedPosition = _scrollRect1.normalizedPosition;//THIS MAKES SURE THAT THEY ARE T HE SAME EVEN WHEN BUGGING
-
-        //     Touch touchZero = Input.GetTouch(0);
-        //     Touch touchOne = Input.GetTouch(1);
-        //     Vector2 touchZeroPrevPos = touchZero.position - touchZero.deltaPosition;
-        //     Vector2 touchOnePrevPos = touchOne.position - touchOne.deltaPosition;
-
-        //     float prevMagnitude = (touchZeroPrevPos - touchOnePrevPos).magnitude;
-        //     float currentMagnitude = (touchZero.position - touchOne.position).magnitude;
-        //     float deltaMagnitudeDiff = currentMagnitude - prevMagnitude;
-
-        //     if (Mathf.Abs(deltaMagnitudeDiff) > 1f) // Threshold in pixels
-        //     {
-        //         zoom(deltaMagnitudeDiff * zoomSpeed);
-        //     }
-        //     _scrollRect1.enabled = true;
-        //     _scrollRect2.enabled = true;
-        // }
-        // else if (Input.touchCount == 0)
-        // {
-        //     _isZooming = false;
-        //     _scrollRect1.enabled = true;
-        //     _scrollRect2.enabled = true;
-        // }
 
         // Handle mouse input (desktop/web)
 #if UNITY_EDITOR || UNITY_STANDALONE || UNITY_WEBGL
@@ -761,16 +1032,7 @@ public class DifferencesManager : MonoBehaviour
         }
 #endif
     }
-    private float zoomVelocity = 0f;
-    void zoom(float increment)
-    {
-        float currentScale = _firstImage.transform.parent.localScale.x;
-        float targetScale = Mathf.Clamp(currentScale + increment, minZoom, maxZoom);
-        float smoothScale = Mathf.SmoothDamp(currentScale, targetScale, ref zoomVelocity, _smoothSpeed);
 
-        _firstImage.transform.parent.localScale = new Vector3(smoothScale, smoothScale, 0);
-        _secondImage.transform.parent.localScale = new Vector3(smoothScale, smoothScale, 0);
-    }
     // void zoom(float increment)
     // {
     //     float currentScale = _firstImage.transform.parent.localScale.x;

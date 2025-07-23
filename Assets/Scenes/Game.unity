@@ -131,7 +131,6 @@ GameObject:
   - component: {fileID: 4932022}
   - component: {fileID: 4932021}
   - component: {fileID: 4932020}
-  - component: {fileID: 4932024}
   m_Layer: 3
   m_Name: GameCanvas
   m_TagString: Untagged
@@ -222,20 +221,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &4932024
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4932019}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53fd67429703a9849a8ec5603c9d1136, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scrollRectA: {fileID: 95641305}
-  scrollRectB: {fileID: 968545367}
 --- !u!1 &34113107 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3685151717814417456, guid: 78023efcd79f0d14bac8888b8a1c7d52, type: 3}
@@ -297,7 +282,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 95641300}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1aa08ab6e0800fa44ae55d278d1423e3, type: 3}
   m_Name: 
@@ -1257,7 +1242,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 356670792}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e9f6b41bf48de9c45910d580357faaca, type: 3}
   m_Name: 
@@ -2625,7 +2610,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 968545363}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1aa08ab6e0800fa44ae55d278d1423e3, type: 3}
   m_Name: 
@@ -2781,7 +2766,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 974770698}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e9f6b41bf48de9c45910d580357faaca, type: 3}
   m_Name: 
@@ -4259,9 +4244,15 @@ MonoBehaviour:
   _moveThreshold: 10
   _smoothSpeed: 0.3
   zoomSpeed: 0.1
-  maxZoom: 6
+  maxZoom: 4.5
   minZoom: 1
   _isZooming: 0
+  maskRect1: {fileID: 95641301}
+  maskRect2: {fileID: 968545364}
+  contentRect1: {fileID: 974770699}
+  contentRect2: {fileID: 356670793}
+  dragSensitivity: 2
+  mouseZoomSpeed: 1000
 --- !u!4 &1517913386
 Transform:
   m_ObjectHideFlags: 0
